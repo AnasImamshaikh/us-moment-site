@@ -168,6 +168,12 @@ Tokens live in `css/base.css` `:root`. Always reuse these instead of hard-coding
   (boxes with a link open the reel), reel links, next case. Copy from the client's
   "UM Web Archive Page" doc, lightly copy-edited; Ritika and Rhythm Labs left out.
 
+- ✅ **About page crew updated to the client's team list** (23 people, doc order). New photos from
+  the client cropped to 480×480 squares in `assets/team/`; Jyoti, Mansi Pandey and Aditi keep their
+  existing photos; Ananya Ahuja and Zaheen show initials until photos arrive. Removed (not on the
+  new list): Mansi R, Aniket, Mariya, Joanna, Mahima, Atharva. Existing quips kept; new people have
+  none. Crew grid is 2-up on phones instead of 1-up.
+
 ## 9. Open items / decisions pending
 - ✅ ~~Duplicate stats~~ — resolved. The standalone stats section is gone; `#statsGrid` now lives
   in the hero only (verified: `class="section stats"` no longer exists in `index.html`).
