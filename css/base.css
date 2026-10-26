@@ -45,7 +45,6 @@
 .lm-logo img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;transition:opacity .35s var(--ease-out)}
 .lm-mono{opacity:.62}
 .lm-col{opacity:0}
-.lm-tile{width:auto;height:auto;border-radius:8px;box-shadow:0 10px 24px -14px var(--ink-a60)}
 .lm-text{font-family:var(--f-display);font-style:italic;font-weight:500;font-size:1.75em;line-height:1;white-space:nowrap;color:var(--ink);opacity:.62;transition:opacity .35s var(--ease-out),transform .45s var(--ease-out)}
 .lm-item:hover .lm-logo,.lm-item:hover .lm-text{transform:scale(1.08)}
 .lm-item:hover .lm-mono{opacity:0}
@@ -53,14 +52,15 @@
 .lm-item:hover .lm-text{opacity:1}
 .lm-item:nth-child(4n+1):hover .lm-text{color:var(--signal)}.lm-item:nth-child(4n+3):hover .lm-text{color:var(--gold)}
 .lm-star{font-size:.85em;line-height:1;flex:none}
-.lm-s1{color:var(--gold)}.lm-s2{color:var(--signal)}.lm-s3{color:var(--ink-a30)}
+.lm-s1{color:var(--gold)}.lm-s2{color:var(--signal)}.lm-s3{color:var(--flash);text-shadow:0 0 1px var(--ink),0 0 1px var(--ink)}
 @keyframes lmLoop{to{transform:translateX(-50%)}}
 /* dark sections: flip the ink silhouettes to paper */
 .logo-wall.on-dark{border-top-color:var(--paper-a12)}
 .on-dark .lm-row{border-bottom-color:var(--paper-a12)}
 .on-dark .lm-mono{filter:brightness(0) invert(1);opacity:.55}
-/* on dark sections the colour logo sits on a paper chip so dark logos stay visible */
-.on-dark .lm-col:not(.lm-tile){background:var(--paper);border-radius:8px;outline:.5em solid var(--paper)}
+/* on dark sections many brand colours (black, navy) would vanish, so hover brightens the paper silhouette instead */
+.on-dark .lm-col{display:none}
+.on-dark .lm-item:hover .lm-mono{opacity:1}
 .on-dark .lm-text{color:var(--paper);opacity:.55}
 .on-dark .lm-s3{color:var(--flash)}
 @media (max-width:600px){.lm-item{padding:0 1.6em}.lm-row{padding:1.1em 0}}
