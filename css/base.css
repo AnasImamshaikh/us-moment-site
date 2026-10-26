@@ -55,3 +55,6 @@
 .on-dark .lm-s3{color:var(--flash)}
 @media (max-width:600px){.lm-item{padding:0 1.6em}.lm-row{padding:1.1em 0}}
 @media (prefers-reduced-motion:reduce){.lm-row{overflow-x:auto}.lm-track{animation:none}}
+/* logo wall used as a full-bleed band right under the home hero (replaces the old services ticker) */
+.logo-band{position:relative;z-index:2;padding:0;background:var(--paper)}
+.logo-band .logo-wall{margin:0;border-top:0}
