@@ -3,6 +3,9 @@
    - logo: file in assets/clients/logos/ (transparent PNG silhouette). Leave it out and the
      brand name is set in type instead, until a logo file is supplied.
    - ar:   logo width ÷ height, used to size every logo to the same visual weight.
+   - Every logo has an ink version (assets/clients/logos/) and a real-colour version
+     (assets/clients/logos/color/) that fades in on hover. tile = the colour version has its own
+     background tile (light or boxed logos), sized relative to the logo.
    - Each array in BRAND_ROWS is one scrolling row; order inside a row is the display order. */
 const BRANDS={
   "netflix":{n:"Netflix",logo:"netflix.png",ar:3.73},
@@ -20,27 +23,27 @@ const BRANDS={
   "wamiqa-gabbi":{n:"Wamiqa Gabbi"},
   "tbf":{n:"TBF (To Be Frank)",logo:"tbf.png",ar:1.47},
   "bhuvan-bam":{n:"Bhuvan Bam"},
-  "the-croffle-guys":{n:"The Croffle Guys",logo:"the-croffle-guys.png",ar:2.14},
+  "the-croffle-guys":{n:"The Croffle Guys",logo:"the-croffle-guys.png",ar:2.14,tile:[0.141,0.141,0,0]},
   "terractive":{n:"Terractive",logo:"terractive.png",ar:6.02},
   "isl":{n:"ISL",logo:"isl.png",ar:.76},
   "bar-bank":{n:"Bar Bank"},
   "vinyl-pop":{n:"Vinyl Pop"},
-  "walters":{n:"Walters",logo:"walters.png",ar:4},
+  "walters":{n:"Walters",logo:"walters.png",ar:4,tile:[0.088,0.137,0.088,0.137]},
   "paper-boat-zero":{n:"Paper Boat Zero"},
   "pop-upi":{n:"POP UPI"},
   "gong":{n:"Gong",logo:"gong.png",ar:.63},
   "house-of-govinda":{n:"House of Govinda",logo:"house-of-govinda.png",ar:4.15},
-  "so-positive":{n:"So Positive",logo:"so-positive.png",ar:1.18},
+  "so-positive":{n:"So Positive",logo:"so-positive.png",ar:1.18,tile:[0.141,0.14,0.141,0.14]},
   "edit":{n:"Edit"},
   "gush":{n:"Gush",logo:"gush.png",ar:3.09},
   "la-shield":{n:"La Shield",logo:"la-shield.png",ar:5.96},
   "comart":{n:"Comart",logo:"comart.png",ar:3.78},
   "brooklyn-bread":{n:"Brooklyn Bread",logo:"brooklyn-bread.png",ar:1.36},
-  "antimattr":{n:"Antimattr",logo:"antimattr.png",ar:5.44},
+  "antimattr":{n:"Antimattr",logo:"antimattr.png",ar:5.44,tile:[0.14,0.14,0.14,0.14]},
   "fossae":{n:"Fossae",logo:"fossae.png",ar:3.52},
   "sarkar":{n:"Sarkar"},
   "gurume":{n:"Gurume",logo:"gurume.png",ar:1},
-  "pho-table":{n:"Pho Table",logo:"pho-table.png",ar:2.73},
+  "pho-table":{n:"Pho Table",logo:"pho-table.png",ar:2.73,tile:[0.068,0.14,0.066,0.14]},
   "qreativs":{n:"Qreativs"},
   "olly-fest":{n:"Olly Fest"},
   "yara":{n:"Yara"},
@@ -62,8 +65,10 @@ const BRAND_ROWS=[
     var star='<span class="lm-star '+stars[i%3]+'" aria-hidden="true">✦</span>';
     if(!b.logo)return'<span class="lm-item"><span class="lm-text">'+b.n+'</span></span>'+star;
     var ar=b.ar||3,h=Math.min(3,Math.sqrt(20/ar)),w=h*ar;
-    // logos are pre-coloured ink (#131a5e) silhouettes, so they work even when the site is opened as a local file
-    return'<span class="lm-item"><img class="lm-logo" src="assets/clients/logos/'+b.logo+'" alt="'+b.n+'" decoding="async" style="width:'+w.toFixed(2)+'em;height:'+h.toFixed(2)+'em"></span>'+star;
+    // two layers: an ink silhouette (default) and the real-colour logo (shown on hover).
+    // Both are plain images, so they work even when the site is opened as a local file.
+    var t=b.tile,pos=t?' style="left:-'+t[0]*100+'%;top:-'+t[1]*100+'%;right:-'+t[2]*100+'%;bottom:-'+t[3]*100+'%"':'';
+    return'<span class="lm-item"><span class="lm-logo" style="width:'+w.toFixed(2)+'em;height:'+h.toFixed(2)+'em"><img class="lm-mono" src="assets/clients/logos/'+b.logo+'" alt="'+b.n+'" decoding="async"><img class="lm-col'+(t?" lm-tile":"")+'" src="assets/clients/logos/color/'+b.logo+'" alt="" aria-hidden="true" decoding="async"'+pos+'></span></span>'+star;
   }
   holders.forEach(function(el){
     el.innerHTML=BRAND_ROWS.map(function(row,r){
