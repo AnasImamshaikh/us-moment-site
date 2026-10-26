@@ -58,3 +58,9 @@
 /* logo wall used as a full-bleed band right under the home hero (replaces the old services ticker) */
 .logo-band{position:relative;z-index:2;padding:0;background:var(--paper)}
 .logo-band .logo-wall{margin:0;border-top:0}
+.lb-head{display:flex;align-items:baseline;justify-content:space-between;gap:.6rem 2rem;flex-wrap:wrap;padding:clamp(1.6rem,1.2rem + 1.2vw,2.4rem) var(--gutter) clamp(1rem,.8rem + .8vw,1.5rem);border-bottom:1.5px solid var(--ink-a10)}
+.lb-title{display:flex;align-items:baseline;flex-wrap:wrap;gap:.3rem 1.2rem;font-family:var(--f-display);font-weight:500;font-size:var(--step-2);line-height:1.1;letter-spacing:-.01em;color:var(--ink);margin:0}
+.lb-title .eyebrow{margin:0;font-size:var(--step--1);line-height:1;letter-spacing:.14em;transform:translateY(-.2em)}
+.lb-link{flex:none;font-size:.85rem;font-weight:500;color:var(--ink);border-bottom:1.5px solid var(--ink-a30);padding-bottom:2px;transition:color .25s,border-color .25s}
+.lb-link:hover{color:var(--signal);border-color:var(--signal)}
+@media (max-width:600px){.lb-title{flex-direction:column;gap:.7rem;font-size:var(--step-1)}.lb-title .eyebrow{transform:none}}
