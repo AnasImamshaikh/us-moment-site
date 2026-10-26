@@ -1,0 +1,75 @@
+/* ===== Case study page (case.html) ===== */
+.cs-head{padding:9rem var(--gutter) 3.2rem}
+.cs-head-in{max-width:980px;margin:0 auto}
+.cs-crumbs{margin-bottom:2.2rem}
+.cs-crumbs a{font-size:.85rem;color:var(--paper-a70);border-bottom:1px solid var(--paper-a40);padding-bottom:2px;transition:color .25s,border-color .25s}
+.cs-crumbs a:hover{color:var(--flash);border-color:var(--flash)}
+.cs-head .eyebrow{flex-wrap:wrap}
+.cs-dot{opacity:.6}
+.cs-head h1{font-size:var(--step-4);line-height:1.03;letter-spacing:-.02em;max-width:20ch;margin:.2rem 0 1.3rem}
+.cs-intro{color:var(--paper-a70);font-size:var(--step-1);line-height:1.5;max-width:46ch;margin:0}
+/* media band */
+.cs-band{position:relative;margin:0 var(--gutter);border-radius:20px;overflow:hidden;background:var(--ink-soft);border:1px solid var(--paper-a12);isolation:isolate}
+.cs-band-bg{position:absolute;inset:-40px;z-index:-1;background:center/cover no-repeat;filter:blur(40px) saturate(1.2);opacity:.5}
+.cs-band:after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(70% 90% at 30% 50%,transparent,#131a5ecc)}
+.cs-band-in{display:flex;align-items:center;justify-content:center;gap:clamp(2rem,1rem + 5vw,7rem);padding:clamp(2rem,1.4rem + 3vw,4.5rem) 1.5rem;flex-wrap:wrap}
+.cs-phone{position:relative;width:min(70vw,320px);aspect-ratio:9/16;border-radius:22px;overflow:hidden;background:var(--ink);box-shadow:var(--shadow-soft),0 0 0 8px #f3f1e80d}
+.cs-phone>img,.cs-phone>video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cs-phone .wk-phone-bar{z-index:2}
+.cs-mark{display:flex;align-items:center;justify-content:center;min-height:clamp(140px,10vw + 80px,240px)}
+.cs-mark-logo{max-width:min(60vw,340px);max-height:150px;object-fit:contain;filter:brightness(0) invert(1)}
+.cs-mark-name{font-family:var(--f-display);font-style:italic;font-size:clamp(2.6rem,1.6rem + 4vw,5.4rem);line-height:1}
+.cs-band-stat{display:flex;flex-direction:column;gap:.6rem;max-width:22ch}
+.cs-band-stat b{font-family:var(--f-display);font-weight:600;font-size:clamp(3.4rem,2.2rem + 5vw,7rem);line-height:.95;letter-spacing:-.02em;color:var(--flash)}
+.cs-band-stat span{font-family:var(--f-mono);font-size:var(--step--1);text-transform:uppercase;letter-spacing:.1em;color:var(--paper-a70)}
+.cs-band-stat .btn{align-self:flex-start;margin-top:1rem}
+.cs-band-stat .btn:hover{background:var(--flash);border-color:var(--flash);color:var(--ink)}
+/* article body (paper) */
+.cs-body{background:var(--paper);color:var(--ink);margin-top:-12rem;padding:15rem var(--gutter) 4rem}
+.cs-sec{max-width:980px;margin:0 auto}
+.cs-col{max-width:760px}
+.cs-sec+.cs-sec{margin-top:clamp(2.6rem,2rem + 2vw,4rem)}
+.cs-sec h2{font-family:var(--f-display);font-weight:600;font-size:var(--step-2);line-height:1.1;margin-bottom:.9rem}
+.cs-sec p{margin:0;font-size:var(--step-0);line-height:1.7;color:var(--ink-a60);color:#131a5ebf}
+.cs-meta{border-top:1.5px solid var(--ink-a10);border-bottom:1.5px solid var(--ink-a10);padding:2rem 0}
+.cs-facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1.5rem;margin:0}
+.cs-facts dt{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-a60);margin-bottom:.4rem}
+.cs-facts dd{margin:0;font-weight:500;line-height:1.4}
+/* results */
+.cs-results .eyebrow{color:var(--signal);margin-bottom:.8rem}.cs-results .eyebrow:before{background:var(--signal)}
+.cs-results{padding-top:clamp(1rem,.5rem + 2vw,2.5rem)}
+.cs-plat{font-family:var(--f-body);font-weight:600;font-size:1.05rem;margin:2rem 0 .8rem}
+.cs-boxes{display:grid;gap:0;border:1.5px solid var(--ink-a10);border-radius:12px;overflow:hidden;background:#fff}
+.cs-boxes.n1{grid-template-columns:1fr}.cs-boxes.n2{grid-template-columns:repeat(2,1fr)}.cs-boxes.n3{grid-template-columns:repeat(3,1fr)}
+.cs-box{display:flex;flex-direction:column;gap:.45rem;padding:1.2rem 1.3rem;border-right:1.5px solid var(--ink-a10);border-bottom:1.5px solid var(--ink-a10);margin:0 -1.5px -1.5px 0}
+.cs-box-l{font-size:.85rem;color:var(--ink-a60);line-height:1.35}
+.cs-box-v{font-family:var(--f-display);font-weight:600;font-size:var(--step-2);line-height:1.05;letter-spacing:-.01em}
+.cs-box-go{font-size:.78rem;font-weight:600;color:var(--signal);margin-top:auto}
+/* stretch the last box so a short final row never leaves an empty cell */
+.cs-boxes.n3.r2>:last-child{grid-column:span 2}.cs-boxes.n3.r1>:last-child{grid-column:span 3}
+.cs-box.is-link{transition:background .25s var(--ease-out)}
+.cs-box.is-link:hover{background:var(--paper)}
+.cs-links{display:flex;flex-wrap:wrap;gap:.6rem}
+.cs-link{display:inline-flex;align-items:center;gap:.55rem;padding:.6em 1.1em;border-radius:var(--radius-full);border:1.5px solid var(--ink-a30);font-size:.85rem;font-weight:500;transition:background .25s,color .25s,border-color .25s}
+.cs-link-n{font-family:var(--f-mono);font-size:.72rem;color:var(--signal)}
+.cs-link:hover{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.cs-link:hover .cs-link-n{color:var(--flash)}
+/* next case */
+.cs-next{display:grid;gap:.4rem;max-width:980px;margin:clamp(3.5rem,2.5rem + 3vw,6rem) auto 0;padding:2rem 0 0;border-top:1.5px solid var(--ink-a10)}
+.cs-next-l{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-a60)}
+.cs-next-n{font-family:var(--f-display);font-weight:600;font-size:var(--step-3);line-height:1.05;transition:color .25s}
+.cs-next-n span{display:inline-block;transition:transform .35s var(--ease-out)}
+.cs-next-h{color:var(--ink-a60);max-width:56ch}
+.cs-next:hover .cs-next-n{color:var(--signal)}
+.cs-next:hover .cs-next-n span{transform:translateX(8px)}
+@media (max-width:800px){
+  .cs-head{padding-top:7rem}
+  .cs-head h1{font-size:var(--step-3)}
+  .cs-facts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cs-boxes.n3{grid-template-columns:repeat(2,1fr)}
+  .cs-boxes.n3.r1>:last-child,.cs-boxes.n3.r2>:last-child{grid-column:auto}
+  .cs-boxes.n3>:last-child:nth-child(odd){grid-column:span 2}
+  .cs-band-stat{max-width:none;align-items:center;text-align:center}
+  .cs-band-stat .btn{align-self:center}
+}
+@media (max-width:480px){.cs-boxes.n2,.cs-boxes.n3{grid-template-columns:1fr}.cs-boxes.n3>:last-child:nth-child(odd){grid-column:auto}.cs-head h1{font-size:var(--step-2)}.cs-intro{font-size:var(--step-0)}}

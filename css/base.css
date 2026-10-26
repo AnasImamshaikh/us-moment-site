@@ -32,3 +32,26 @@
 .sw-acc-tag{margin:1rem 0 0;font-family:var(--f-mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-a60);border-top:1.5px dashed var(--ink-a30);padding-top:.85rem}
 .sw-acc-btn{margin-top:1.3rem;background:var(--ink);border-color:var(--ink);color:var(--paper);font-weight:600}
 }
+
+/* ---- Logo wall: scrolling brand rows (index #clients, work .clients) — data in js/brands.js ---- */
+.logo-wall{margin:0 calc(var(--gutter)*-1);border-top:1.5px solid var(--ink-a10);font-size:clamp(12px,.55rem + .45vw,16px)}
+.lm-row{overflow:hidden;border-bottom:1.5px solid var(--ink-a10);padding:1.35em 0}
+.lm-track{display:flex;width:max-content;animation:lmLoop var(--dur,46s) linear infinite}
+.lm-rev .lm-track{animation-direction:reverse}
+.lm-row:hover .lm-track{animation-play-state:paused}
+.lm-set{display:flex;align-items:center;flex:none}
+.lm-item{display:flex;align-items:center;justify-content:center;padding:0 2.4em;height:3.2em}
+.lm-logo{display:block;object-fit:contain;opacity:.62;transition:opacity .35s var(--ease-out),transform .45s var(--ease-out)}
+.lm-text{font-family:var(--f-display);font-style:italic;font-weight:500;font-size:1.75em;line-height:1;white-space:nowrap;color:var(--ink);opacity:.62;transition:opacity .35s var(--ease-out),transform .45s var(--ease-out)}
+.lm-item:hover .lm-logo,.lm-item:hover .lm-text{opacity:1;transform:scale(1.08)}
+.lm-star{font-size:.85em;line-height:1;flex:none}
+.lm-s1{color:var(--gold)}.lm-s2{color:var(--signal)}.lm-s3{color:var(--ink-a30)}
+@keyframes lmLoop{to{transform:translateX(-50%)}}
+/* dark sections: flip the ink silhouettes to paper */
+.logo-wall.on-dark{border-top-color:var(--paper-a12)}
+.on-dark .lm-row{border-bottom-color:var(--paper-a12)}
+.on-dark .lm-logo{filter:brightness(0) invert(1);opacity:.55}
+.on-dark .lm-text{color:var(--paper);opacity:.55}
+.on-dark .lm-s3{color:var(--flash)}
+@media (max-width:600px){.lm-item{padding:0 1.6em}.lm-row{padding:1.1em 0}}
+@media (prefers-reduced-motion:reduce){.lm-row{overflow-x:auto}.lm-track{animation:none}}

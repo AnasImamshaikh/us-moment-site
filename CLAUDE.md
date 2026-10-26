@@ -31,6 +31,12 @@ Each page loads shared `css/base.css` + `js/base.js`, plus its own CSS/JS:
 | `work.html`     | `js/work.js`   | `css/work.css`   |
 | `services.html` | `js/services.js`| `css/services.css`|
 | `portfolio.html`| `js/portfolio.js`| `css/portfolio.css`|
+| `case.html`     | `js/case.js`   | `css/work.css` + `css/case.css` |
+
+- **Shared data files (edit these, not the HTML):** `js/brands.js` = client logo wall
+  (index `#clients` + work page), `js/work-data.js` = every case study (Work page grid,
+  hero carousel and `case.html?b=<slug>`). Array order = display order; `featured:true`
+  puts a case in the Work hero carousel (keep it to 5).
 
 - **Libraries:** GSAP 3.12.5 + ScrollTrigger (cdnjs). Google Fonts: Fraunces, Inter,
   JetBrains Mono, Poppins, Black Han Sans.
@@ -147,6 +153,20 @@ Tokens live in `css/base.css` `:root`. Always reuse these instead of hard-coding
   selector that wipes open via clip-path. Deliberately skipped: the switchboard (already has a
   container-level `.reveal`), the viral marquee (continuous track), the hero stats (own count-up
   animation), and the contact form.
+
+- ✅ **Our Clients → scrolling logo wall (SoCheers-style), 42 brands.** Three bordered rows that
+  scroll in alternating directions with ✦ separators, pause on hover, static under reduced motion.
+  Logos are ink (#131a5e) transparent silhouettes in `assets/clients/logos/` (made from the
+  client's files); on dark sections CSS flips them to paper. Brands without a usable logo file
+  are set in Fraunces italic until one is supplied. Same wall replaces the pill rows on work.html.
+- ✅ **Work page rebuilt.** Hero = featured carousel of 5 (autoplay 7s, thumbnails, arrows,
+  keyboard), then "Selected work" = Instagram-post-style cards with filter chips; cards without a
+  cover image show a branded poster (logo + big number). "Client Work — The full roster" removed.
+  Campaign archive images moved out of base64 into `assets/work/archive/` (work.js 644 KB → ~10 KB).
+- ✅ **Case study pages** (`case.html?b=<slug>`), Atomik-style up to "Results by platform":
+  header, media band, facts row, The challenge / The solution / What happened, results boxes
+  (boxes with a link open the reel), reel links, next case. Copy from the client's
+  "UM Web Archive Page" doc, lightly copy-edited; Ritika and Rhythm Labs left out.
 
 ## 9. Open items / decisions pending
 - ✅ ~~Duplicate stats~~ — resolved. The standalone stats section is gone; `#statsGrid` now lives
