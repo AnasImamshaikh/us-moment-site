@@ -12,5 +12,3 @@ node_modules/
 .env
 .env.*
 
-# full-quality reel originals (kept locally, too big for git)
-_media/
