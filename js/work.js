@@ -1,5 +1,5 @@
-/* Work page: featured carousel, Instagram-style work grid, campaign archive.
-   Content lives in js/work-data.js (cases) and js/brands.js (logo wall). */
+/* Work page: featured carousel + reel wall.
+   Content lives in js/work-data.js (cases), js/reels-data.js (every reel) and js/brands.js (logo wall). */
 (function(){
   var reducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var esc=function(t){return String(t==null?"":t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")};
@@ -59,57 +59,107 @@
     go(0);
   }
 
-  /* ---------- Instagram-style work grid ---------- */
-  var grid=document.getElementById("wkGrid"),chips=document.getElementById("wkChips");
-  var heart='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.1A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 7.5 2.8c0 5.5-7.5 10.1-7.5 10.1z"/></svg>',
-      bubble='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.5a8.5 8.5 0 0 1-12.6 7.4L3.5 20.5l1.6-4.2A8.5 8.5 0 1 1 20.5 11.5z"/></svg>',
-      plane='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 3.5 10 14.5M21.5 3.5l-7 18-4.5-7-7-4.5z"/></svg>';
-  function card(c,i){
-    var img=c.cover||c.poster;
-    var m=img?'<img src="'+img+'" alt="'+esc(c.name)+' work" loading="lazy" decoding="async">':poster(c,i);
-    var vid=c.video?'<video data-src="'+c.video+'" muted playsinline loop preload="none"></video><span class="ig-play" aria-hidden="true">▶</span>':'';
-    var st=c.stat&&img?'<span class="ig-stat"><b>'+esc(c.stat.v)+'</b>'+esc(c.stat.l)+'</span>':'';
-    return'<a class="ig-card" href="'+caseUrl(c)+'" data-f="'+c.filters.join(" ")+'">'+
-      '<span class="ig-top"><span class="ig-ava">'+(c.logo?'<img src="assets/clients/logos/'+c.logo+'" alt="">':esc(c.name.charAt(0)))+'</span><span class="ig-who"><b>'+esc(c.name)+'</b><small>'+esc(c.category)+'</small></span><span class="ig-more" aria-hidden="true">•••</span></span>'+
-      '<span class="ig-media">'+m+vid+st+'</span>'+
-      '<span class="ig-foot"><span class="ig-icons">'+heart+bubble+plane+'</span><span class="ig-cta">View case ↗</span></span>'+
-      '<span class="ig-cap"><b>'+esc(c.name)+'</b> '+esc(c.headline)+'</span></a>';
-  }
-  if(grid){
-    grid.innerHTML=CASES.map(card).join("");
+
+  /* ---------- Selected work: reel wall (data in js/reels-data.js) ----------
+     Shows 3 rows to start (5 cards per row on desktop, fewer on smaller screens).
+     "More work" adds 3 rows at a time; "View all" opens everything. */
+  var grid=document.getElementById("wkGrid"),chips=document.getElementById("wkChips"),more=document.getElementById("wkMore");
+  if(grid&&typeof REELS!=="undefined"){
+    var bySlug={};CASES.forEach(function(c,i){c._i=i;bySlug[c.slug]=c});
+    // numbers we know for specific reels (case stats/results that link to a reel)
+    var known={};
+    CASES.forEach(function(c){
+      [c.stat].concat((c.results||[]).reduce(function(a,r){return a.concat(r.s)},[])).forEach(function(s){
+        if(!s||!s.link)return;var m=s.link.match(/\/(?:reel|p)\/([^/?#]+)/);if(m&&!known[m[1]])known[m[1]]={v:s.v,l:s.l};
+      });
+    });
+    // order: one reel per brand at a time, following the CASES order, so the first rows show the biggest brands
+    var pools=CASES.map(function(c){return REELS.filter(function(r){return r.brand===c.slug})});
+    var ordered=[],k=0,left=true;
+    while(left){left=false;pools.forEach(function(p){if(p[k]){ordered.push(p[k]);left=true}});k++}
+    var play='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>';
+    function card(r,i){
+      var c=bySlug[r.brand],st=known[r.code];
+      var ava=c.logo?'<img src="assets/clients/logos/'+c.logo+'" alt="">':esc(c.name.charAt(0));
+      var media=r.poster?'<img class="rc-img" src="'+r.poster+'" alt="" loading="lazy" decoding="async">':poster(c,c._i);
+      var vid=r.video?'<video data-src="'+r.video+'" muted playsinline loop preload="none"></video>':'';
+      var meta=st?'<span class="rc-stat"><b>'+esc(st.v)+'</b>'+esc(st.l)+'</span>':(r.likes?'<span class="rc-stat"><b>'+esc(r.likes)+'</b>likes</span>':'');
+      return'<a class="rc" href="case.html?b='+encodeURIComponent(c.slug)+'" data-f="'+c.filters.join(" ")+'" aria-label="'+esc(c.name)+': '+esc(c.headline)+'">'+
+        '<span class="rc-media">'+media+vid+'<span class="rc-shade"></span>'+(r.kind==="reel"?'<span class="rc-play">'+play+'</span>':'')+'</span>'+
+        '<span class="rc-top"><span class="ig-ava">'+ava+'</span><span class="rc-name">'+esc(c.name)+'</span></span>'+
+        '<span class="rc-foot">'+meta+'<span class="rc-cat">'+esc(c.category)+'</span><span class="rc-cta">Read the story ↗</span></span></a>';
+    }
+    grid.innerHTML=ordered.map(card).join("");
+    var cards=[].slice.call(grid.children),filter="all",limit=0,showAll=false;
+    function cols(){return getComputedStyle(grid).gridTemplateColumns.split(" ").filter(Boolean).length||1}
+    function step(){return cols()*3}
+    function matching(){return cards.filter(function(cd){return filter==="all"||cd.dataset.f.split(" ").indexOf(filter)>-1})}
+    function render(animateFrom){
+      var list=matching(),n=showAll?list.length:Math.min(limit,list.length);
+      cards.forEach(function(cd){cd.hidden=true});
+      list.forEach(function(cd,i){cd.hidden=i>=n});
+      var fresh=list.slice(animateFrom||n,n);
+      if(fresh.length&&window.gsap&&!reducedMotion){
+        gsap.fromTo(fresh,{opacity:0,y:40,scale:.96},{opacity:1,y:0,scale:1,duration:.6,ease:"power3.out",stagger:{each:.035,grid:"auto",from:"start"},clearProps:"transform"});
+      }
+      // controls
+      var rest=list.length-n;
+      if(!rest&&list.length<=step()){more.innerHTML="";}
+      else if(!rest){more.innerHTML='<button class="wk-btn" data-act="less"><span class="wk-ico up">↓</span>Show less</button>';}
+      else{
+        more.innerHTML='<button class="wk-btn solid" data-act="more"><span class="wk-ico">↓</span>More work <small>'+Math.min(rest,step())+' more</small></button>'+
+          (n>step()||rest>step()?'<button class="wk-btn" data-act="all"><span class="wk-ico">⇣</span>View all <small>'+list.length+'</small></button>':'');
+      }
+      var cnt=document.getElementById("wkCount");if(cnt)cnt.textContent=Math.min(n,list.length)+" of "+list.length;
+      if(window.ScrollTrigger)ScrollTrigger.refresh();
+    }
+    function reset(){limit=step();showAll=false;render(0)}
+    more.addEventListener("click",function(e){
+      var b=e.target.closest(".wk-btn");if(!b)return;var before=showAll?matching().length:Math.min(limit,matching().length);
+      if(b.dataset.act==="more"){limit+=step();render(before)}
+      else if(b.dataset.act==="all"){showAll=true;render(before)}
+      else{reset();var top=document.getElementById("work");if(top)top.scrollIntoView({behavior:reducedMotion?"auto":"smooth"})}
+    });
     var keys=["all"].concat(Object.keys(WORK_FILTERS).filter(function(k){return CASES.some(function(c){return c.filters.indexOf(k)>-1})}));
     chips.innerHTML=keys.map(function(k,i){return'<button class="wk-chip'+(i?"":" on")+'" data-k="'+k+'" aria-pressed="'+(i?"false":"true")+'">'+(k==="all"?"All":WORK_FILTERS[k])+'</button>'}).join("");
     chips.addEventListener("click",function(e){
-      var b=e.target.closest(".wk-chip");if(!b)return;var k=b.dataset.k;
+      var b=e.target.closest(".wk-chip");if(!b)return;filter=b.dataset.k;
       [].forEach.call(chips.children,function(x){x.classList.toggle("on",x===b);x.setAttribute("aria-pressed",x===b)});
-      [].forEach.call(grid.children,function(cd){cd.hidden=!(k==="all"||cd.dataset.f.split(" ").indexOf(k)>-1)});
-      if(window.ScrollTrigger)ScrollTrigger.refresh();
+      limit=step();showAll=false;render(0);
     });
-    // hover-to-play for cards that have a clip (mouse only)
+    // keep the visible amount to whole rows when the column count changes
+    var lastCols=cols();window.addEventListener("resize",function(){var c=cols();if(c!==lastCols){lastCols=c;if(!showAll){limit=Math.max(c*3,Math.round(limit/c)*c)}render(limit)}});
+    reset();
+    // hover to play (mouse only); the clip loads only when hovered
     if(window.matchMedia("(hover:hover)").matches&&!reducedMotion){
-      grid.querySelectorAll(".ig-card").forEach(function(cd){
+      cards.forEach(function(cd){
         var v=cd.querySelector("video");if(!v)return;
-        cd.addEventListener("mouseenter",function(){if(!v.src)v.src=v.dataset.src;cd.classList.add("playing");v.play().catch(function(){})});
+        cd.addEventListener("mouseenter",function(){if(!v.src)v.src=v.dataset.src;cd.classList.add("playing");var p=v.play();p&&p.catch(function(){})});
         cd.addEventListener("mouseleave",function(){cd.classList.remove("playing");v.pause()});
       });
     }
-    if(window.gsap&&window.ScrollTrigger&&!reducedMotion){
-      gsap.set(grid.children,{opacity:0,y:30});
-      ScrollTrigger.batch(grid.children,{start:"top 92%",onEnter:function(b){gsap.to(b,{opacity:1,y:0,duration:.6,stagger:.06,ease:"power3.out",overwrite:true})}});
-    }
   }
-
-  /* ---------- campaign archive (unchanged copy; images now real files) ---------- */
-  var campaigns=[
-    {t:"Uber",d:"A 4-city campaign showing the real art behind Indian festivals — and the best testimonial we’ve gotten yet.",img:"assets/work/archive/uber.jpg"},
-    {t:"Nykaa",d:"A Raksha Bandhan digital billboard campaign, live across the city.",img:"assets/work/archive/nykaa.jpg"},
-    {t:"The Croffle Guys",d:"Festival pop-ups to 21K organic followers, multiple stores and a Shark Tank endorsement.",img:"assets/work/archive/the-croffle-guys.jpg"},
-    {t:"Wamiqa Gabbi",d:"Personality-packed reels and release launches for a rising Bollywood star.",img:"assets/work/archive/wamiqa-gabbi.jpg"},
-    {t:"Fresh Take by Licious",d:"An original IP built around unfiltered conversations on fitness, health and diet.",img:"assets/work/archive/fresh-take-by-licious.jpg"},
-    {t:"Mood Banana",d:"A street-interview format that hit 443K organic views on its very first outing.",img:"assets/work/archive/mood-banana.jpg"},
-    {t:"Walters",d:"Craveable food storytelling for a burger chain built on the power of duos.",img:"assets/work/archive/walters.jpg"},
-    {t:"MUBI",d:"Launching a David Lynch original to India’s most niche cinephile creators.",img:"assets/work/archive/mubi.jpg"}
+})();
+/* "How a moment gets made" — four stages; each card cycles through a few frames of real work. */
+(function(){
+  var el=document.getElementById("flow");if(!el)return;
+  var reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var S=[
+    {n:"01",t:"Strategy",d:"Know what to make, and why.",items:["Brand positioning & tone of voice","Content strategy","Monthly calendars","Platform & audience planning"],img:["assets/campaigns/nykaa.jpg","assets/switchboard/sw-creative-direction.jpg","assets/campaigns/edit.jpg"]},
+    {n:"02",t:"Creative",d:"Ideas built for the feed.",items:["Original IPs & formats","Creative direction","Scripts & hooks","Creator collabs"],img:["assets/campaigns/mood-banana.jpg","assets/campaigns/elra.jpg","assets/switchboard/sw-creator-collabs.jpg"]},
+    {n:"03",t:"Production",d:"Shot and edited under one roof.",items:["Casting & locations","Shoot days","Editing & motion","Product & food shoots"],img:["assets/switchboard/sw-video-production.jpg","assets/campaigns/terractive.jpg","assets/campaigns/croffle-guys.jpg"]},
+    {n:"04",t:"Growth",d:"Posted, boosted and measured.",items:["Posting & community management","Meta ads","YouTube management","Reporting you can act on"],img:["assets/switchboard/sw-social-media.jpg","assets/switchboard/sw-youtube-mgmt.jpg","assets/campaigns/walters.jpg"]}
   ];
-  var ct=document.getElementById("campTrack");
-  if(ct)ct.innerHTML=campaigns.map(function(A,a){return'<div class="camp-card"><div class="img" style="background-image:url(\''+A.img+'\')"><div class="ring">0'+(a+1)+'</div></div><div class="body"><div class="eyebrow">Campaign</div><h3>'+A.t+'</h3><p>'+A.d+'</p></div></div>'}).join("");
+  el.innerHTML=S.map(function(s,i){
+    return'<article class="flow-card f'+i+'" tabindex="0"><div class="flow-img">'+s.img.map(function(src,k){return'<img src="'+src+'" alt="" loading="lazy" decoding="async"'+(k?'':' class="on"')+'>'}).join("")+'</div>'+
+      '<div class="flow-body"><span class="flow-n">'+s.n+'</span><h3>'+s.t+'</h3><p>'+s.d+'</p><ul>'+s.items.map(function(x){return"<li>"+x+"</li>"}).join("")+'</ul></div>'+
+      (i<S.length-1?'<span class="flow-arrow" aria-hidden="true">→</span>':'')+'</article>';
+  }).join("");
+  if(reduced)return;
+  // cycle the frames inside each card, offset so they don't all change at once
+  [].forEach.call(el.querySelectorAll(".flow-img"),function(box,i){
+    var imgs=box.querySelectorAll("img"),k=0;
+    setTimeout(function(){setInterval(function(){imgs[k].classList.remove("on");k=(k+1)%imgs.length;imgs[k].classList.add("on")},3200)},i*800);
+  });
+  if(window.gsap&&window.ScrollTrigger)gsap.fromTo(el.children,{opacity:0,y:40},{opacity:1,y:0,duration:.7,stagger:.1,ease:"power3.out",scrollTrigger:{trigger:el,start:"top 85%"}});
 })();
