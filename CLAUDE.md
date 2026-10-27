@@ -174,6 +174,13 @@ Tokens live in `css/base.css` `:root`. Always reuse these instead of hard-coding
   new list): Mansi R, Aniket, Mariya, Joanna, Mahima, Atharva. Existing quips kept; new people have
   none. Crew grid is 2-up on phones instead of 1-up.
 
+- ✅ **Work page v2.** Reel wall of all 78 reels from the archive doc (`js/reels-data.js`):
+  3 rows (5 across on desktop, 2 on phones), "More work" (+3 rows), "View all", "Show less",
+  filter chips, hover-to-play previews; each card opens its brand's case page. "Every campaign,
+  in detail" removed; "How engagements work" replaced by "How a moment gets made" (4 stages).
+  Web media in `assets/reels/` (540px poster + 8s muted 360px preview per reel; index in
+  `assets/reels/REELS.md`). Full-quality originals in `_media/reels/<brand>/` (git-ignored).
+
 ## 9. Open items / decisions pending
 - ✅ ~~Duplicate stats~~ — resolved. The standalone stats section is gone; `#statsGrid` now lives
   in the hero only (verified: `class="section stats"` no longer exists in `index.html`).

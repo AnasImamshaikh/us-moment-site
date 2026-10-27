@@ -11,3 +11,6 @@ node_modules/
 # Local secrets
 .env
 .env.*
+
+# full-quality reel originals (kept locally, too big for git)
+_media/
