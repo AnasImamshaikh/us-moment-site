@@ -24,7 +24,7 @@
     var mid=Math.floor((reels.length-1)/2);
     work='<div class="cs-reels n'+reels.length+'">'+reels.map(function(r,i){
       return'<figure class="cs-reel s'+i+(i===mid?' big':'')+'"><div class="cs-reel-media"><img src="'+r.poster+'" alt="'+esc(c.name)+' '+(r.kind==="reel"?"reel":"post")+'" loading="lazy" decoding="async">'+
-        (r.video?'<video data-src="'+r.video+'" muted playsinline loop preload="none"></video><span class="cs-reel-play">'+play+'</span>':'')+
+        (r.video?'<video data-src="'+r.video+'" muted playsinline loop preload="none"></video>':'')+
         '<span class="cs-reel-top"><span class="ig-ava">'+ava+'</span>'+esc(c.name)+'</span>'+
         '<a class="cs-reel-ig" href="'+r.url+'"'+ext+'>Watch on Instagram ↗</a></div></figure>';
     }).join("")+'</div>';
@@ -85,11 +85,13 @@
   var hover=window.matchMedia("(hover:hover)").matches;
   var stage=root.querySelector(".cs-reels"),midFig=root.querySelector(".cs-reel.big");
   function grow(f){figs.forEach(function(x){x.classList.toggle("big",x===f)})}
-  if(stage&&midFig&&hover)stage.addEventListener("mouseleave",function(){grow(midFig);stopAll()});
+  if(stage&&midFig&&hover)stage.addEventListener("mouseleave",function(){grow(midFig);start(midFig)});
+  // the middle reel plays as soon as the page loads
+  if(midFig)start(midFig);
   figs.forEach(function(f){
     var m=f.querySelector(".cs-reel-media");
-    if(hover){m.addEventListener("mouseenter",function(){grow(f);if(!reducedMotion)start(f)})}
-    m.addEventListener("click",function(e){if(e.target.closest(".cs-reel-ig"))return;if(!f.classList.contains("big")){grow(f);start(f);return}if(f.classList.contains("playing"))stopAll();else start(f)});
+    if(hover){m.addEventListener("mouseenter",function(){grow(f);start(f)})}
+    m.addEventListener("click",function(e){if(e.target.closest(".cs-reel-ig"))return;grow(f);start(f)});
   });
 
   if(window.gsap&&!reducedMotion){
