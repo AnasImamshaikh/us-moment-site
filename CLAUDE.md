@@ -200,9 +200,10 @@ Tokens live in `css/base.css` `:root`. Always reuse these instead of hard-coding
   list of services; one card is active (lime border, clear image), others greyed; hover/tap to
   switch (`#wwdFlow`, `.wwd-*`). **Logo wall**: real colours, bigger logos (tall logos get extra
   height), playful tilt on hover; only logos that contain the brand name are used — Gurume and the
-  ISL crest are set as type; brands with no findable logo (Bar Bank, Vinyl Pop, Paper Boat Zero,
+  ISL crest and brands with no findable logo (Bar Bank, Vinyl Pop, Paper Boat Zero,
   POP UPI, Edit, Sarkar, Qreativs, Olly Fest, Yara, Not Rocket Science, Scalpe Pro, Paulie Gee's)
-  stay as type until the client sends files. Testimonials heading → "The receipts."
+  are **removed from the rows** (client request; still defined in BRANDS for when files arrive) —
+  26 logos in 3 rows of 9/9/8. Hover tilt is 2.5°. Testimonials heading → "The receipts."
 
 ## 9. Open items / decisions pending
 - ✅ ~~Duplicate stats~~ — resolved. The standalone stats section is gone; `#statsGrid` now lives

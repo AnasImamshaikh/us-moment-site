@@ -2,7 +2,8 @@
    EDIT HERE to add / remove / reorder brands.
    - logo: file in assets/clients/logos/ (transparent PNG silhouette). Leave it out and the
      brand name is set in type instead, until a logo file is supplied.
-     Only use logos that contain the brand name (icon-only marks like Gurume / the ISL crest are set in type).
+     Only brands with a logo that contains the name are shown in the rows (client request).
+     Brands still listed in BRANDS without a logo are kept for when the client supplies files.
    - ar:   logo width ÷ height, used to size every logo to the same visual weight.
    - Every logo has an ink version (assets/clients/logos/) and a real-colour version
      (assets/clients/logos/color/, logo only, no background) that fades in on hover.
@@ -51,9 +52,9 @@ const BRANDS={
   "paulie-gees":{n:"Paulie Gee’s"}
 };
 const BRAND_ROWS=[
-  ["netflix","elra","siciliana","walters","uber","so-positive","bar-bank","mubi","terractive","gush","yara","fossae","la-shield"],
-  ["amazon-prime","nykaa","gurume","tbf","isl","vinyl-pop","antimattr","candid","paper-boat-zero","mood-banana","brooklyn-bread","qreativs","olly-fest"],
-  ["ceat-specialty","house-of-govinda","the-croffle-guys","pop-upi","bold-care","comart","edit","licious","sarkar","gong","not-rocket-science","pho-table","scalpe-pro","paulie-gees"]
+  ["netflix","elra","siciliana","walters","uber","so-positive","mubi","terractive","fossae"],
+  ["amazon-prime","nykaa","tbf","antimattr","candid","mood-banana","gush","la-shield","brooklyn-bread"],
+  ["ceat-specialty","house-of-govinda","the-croffle-guys","pho-table","bold-care","gong","licious","comart"]
 ];
 (function(){
   var holders=document.querySelectorAll("[data-logo-wall]");

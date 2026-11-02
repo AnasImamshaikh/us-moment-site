@@ -158,6 +158,6 @@
 .lm-item{height:4.2em}
 .lm-text{font-size:2em}
 .lm-logo,.lm-text{transition:transform .45s cubic-bezier(.34,1.56,.64,1)}
-.lm-item:hover .lm-logo,.lm-item:hover .lm-text{transform:rotate(-5deg) scale(1.12)}
-.lm-item:nth-child(4n+3):hover .lm-logo,.lm-item:nth-child(4n+3):hover .lm-text{transform:rotate(5deg) scale(1.12)}
+.lm-item:hover .lm-logo,.lm-item:hover .lm-text{transform:rotate(-2.5deg) scale(1.12)}
+.lm-item:nth-child(4n+3):hover .lm-logo,.lm-item:nth-child(4n+3):hover .lm-text{transform:rotate(2.5deg) scale(1.12)}
 @media (prefers-reduced-motion:reduce){.lm-item:hover .lm-logo,.lm-item:hover .lm-text{transform:none}}
