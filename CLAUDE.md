@@ -196,9 +196,10 @@ Tokens live in `css/base.css` `:root`. Always reuse these instead of hard-coding
 - ✅ **Home page v3 (Nov 2026).** Hero font change **reverted** (Fraunces italic is back).
   Featured campaigns **reverted** to the original carousel ("Featured campaigns, in motion.").
   **What we do** = 4 cards (Strategy / Creative / Production / Growth) on SoCheers' "How the work
-  comes together" pattern: image background cycling frames of our work, centred title, divided
-  list of services; one card is active (lime border, clear image), others greyed; hover/tap to
-  switch (`#wwdFlow`, `.wwd-*`). **Logo wall**: real colours, bigger logos (tall logos get extra
+  comes together" pattern: centred title, divided list of 4 services per card; **each service line
+  has its own HD Unsplash photo** (free licence, hotlinked from images.unsplash.com — Unsplash's
+  recommended usage) that crossfades in when the line is hovered/tapped; the hovered card is active
+  (lime border, full-colour photo), others greyed (`#wwdFlow`, `.wwd-*`). **Logo wall**: real colours, bigger logos (tall logos get extra
   height), playful tilt on hover; only logos that contain the brand name are used — Gurume and the
   ISL crest and brands with no findable logo (Bar Bank, Vinyl Pop, Paper Boat Zero,
   POP UPI, Edit, Sarkar, Qreativs, Olly Fest, Yara, Not Rocket Science, Scalpe Pro, Paulie Gee's)

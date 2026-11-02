@@ -138,27 +138,33 @@ function initSwAccordion(data,items){
 })();
 
 /* ===== What we do: 4 cards, modelled on SoCheers' "How the work comes together".
-   Hover (or tap) a card to light it up; the others dim. Images are frames from our own work. ===== */
+   Each service line has its own HD photo (Unsplash, free licence, served from their CDN).
+   Hovering a line crossfades the card to that photo; hovering a card makes it the active one. ===== */
 (function(){
   var el=document.getElementById("wwdFlow");if(!el)return;
   var reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var R=function(c){return"assets/reels/"+c+".jpg"},SW=function(n){return"assets/switchboard/sw-"+n+".jpg"};
+  var U=function(id){return"https://images.unsplash.com/photo-"+id+"?auto=format&fit=crop&w=900&h=1200&q=80"};
   var S=[
-    {t:"Strategy",items:["Content Strategy","Branding & Positioning","Platform & Audience Planning","Monthly Content Calendars"],img:[R("DZKWM22vP71"),"assets/campaigns/nykaa.jpg",R("Dd6Ovj1oNBc")]},
-    {t:"Creative",items:["Creative Direction","Original IPs & Formats","Scripts & Hooks","Creator Collabs"],img:[SW("creative-direction"),R("DXW0CDHAnhH"),R("DQ3bAs3isW6")]},
-    {t:"Production",items:["Video Production","Shoot Days & Casting","Editing & Motion","Product & Food Shoots"],img:[SW("video-production"),R("Dd1RKqYO6cu"),R("DaiQz4ATL69")]},
-    {t:"Growth",items:["Social Media Management","Meta Ads","YouTube Management","Reporting You Can Act On"],img:[R("DShxlHdiPB8"),SW("youtube-mgmt"),R("DZPbav9s2tF")]}
+    {t:"Strategy",items:[["Content Strategy","1586936893354-362ad6ae47ba"],["Branding & Positioning","1763307411452-43cfd9f516ce"],["Platform & Audience Planning","1542744173-05336fcc7ad4"],["Monthly Content Calendars","1770250959829-de36726e99c4"]]},
+    {t:"Creative",items:[["Creative Direction","1758691736836-0413b066787a"],["Original IPs & Formats","1782274265689-4f10a91d4abb"],["Scripts & Hooks","1586339393565-32161f258eac"],["Creator Collabs","1695408247109-3bf125ad0538"]]},
+    {t:"Production",items:[["Video Production","1612544409025-e1f6a56c1152"],["Shoot Days & Casting","1536293283170-b4604bbe272f"],["Editing & Motion","1574717024653-61fd2cf4d44d"],["Product & Food Shoots","1758634553706-662cb7e38de4"]]},
+    {t:"Growth",items:[["Social Media Management","1759215524472-1b0686fdbd87"],["Meta Ads","1603145733146-ae562a55031e"],["YouTube Management","1526915303387-35900bc4ff33"],["Reporting You Can Act On","1551288049-bebda4e38f71"]]}
   ];
   el.innerHTML=S.map(function(s,i){
-    return'<article class="wwd-card'+(i?'':' on')+'" tabindex="0"><div class="wwd-img">'+s.img.map(function(src,k){return'<img src="'+src+'" alt="" loading="lazy" decoding="async"'+(k?'':' class="on"')+'>'}).join("")+'</div>'+
-      '<div class="wwd-body"><span class="wwd-n">'+String(i+1).padStart(2,"0")+'</span><h3>'+s.t+'</h3><ul>'+s.items.map(function(x){return"<li>"+x+"</li>"}).join("")+'</ul></div></article>';
+    return'<article class="wwd-card'+(i?'':' on')+'" tabindex="0"><div class="wwd-img">'+s.items.map(function(it,k){return'<img src="'+U(it[1])+'" alt="'+it[0]+'" loading="'+(k?'lazy':'eager')+'" decoding="async"'+(k?'':' class="on"')+'>'}).join("")+'</div>'+
+      '<div class="wwd-body"><span class="wwd-n">'+String(i+1).padStart(2,"0")+'</span><h3>'+s.t+'</h3><ul>'+s.items.map(function(it,k){return'<li data-i="'+k+'"'+(k?'':' class="on"')+'><span>'+it[0]+'</span><i aria-hidden="true">→</i></li>'}).join("")+'</ul></div></article>';
   }).join("");
   var cards=[].slice.call(el.children);
   function act(c){cards.forEach(function(x){x.classList.toggle("on",x===c)})}
-  cards.forEach(function(c){c.addEventListener("mouseenter",function(){act(c)});c.addEventListener("focus",function(){act(c)});c.addEventListener("click",function(){act(c)})});
-  if(!reduced)cards.forEach(function(c,i){
-    var imgs=c.querySelectorAll(".wwd-img img"),k=0;
-    setTimeout(function(){setInterval(function(){imgs[k].classList.remove("on");k=(k+1)%imgs.length;imgs[k].classList.add("on")},3400)},i*700);
+  function show(c,k){
+    [].forEach.call(c.querySelectorAll(".wwd-img img"),function(im,j){im.classList.toggle("on",j===k)});
+    [].forEach.call(c.querySelectorAll("li"),function(li,j){li.classList.toggle("on",j===k)});
+  }
+  cards.forEach(function(c){
+    c.addEventListener("mouseenter",function(){act(c)});
+    c.addEventListener("focus",function(){act(c)});
+    c.addEventListener("click",function(e){act(c);var li=e.target.closest("li");if(li)show(c,+li.dataset.i)});
+    [].forEach.call(c.querySelectorAll("li"),function(li){li.addEventListener("mouseenter",function(){show(c,+li.dataset.i)})});
   });
-  if(window.gsap&&window.ScrollTrigger&&!reduced)gsap.fromTo(cards,{opacity:0,y:40},{opacity:1,y:0,duration:.7,stagger:.1,ease:"power3.out",scrollTrigger:{trigger:el,start:"top 85%"}});
+  if(window.gsap&&window.ScrollTrigger&&!reduced)gsap.fromTo(cards,{opacity:0,y:50},{opacity:1,y:0,duration:.8,stagger:.12,ease:"power3.out",scrollTrigger:{trigger:el,start:"top 85%"}});
 })();
