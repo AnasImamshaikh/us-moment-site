@@ -21,11 +21,12 @@
   var play='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>';
   var work;
   if(reels.length){
-    work='<div class="cs-reels n'+reels.length+'">'+reels.map(function(r){
-      return'<figure class="cs-reel"><div class="cs-reel-media"><img src="'+r.poster+'" alt="'+esc(c.name)+' '+(r.kind==="reel"?"reel":"post")+'" loading="lazy" decoding="async">'+
+    var mid=Math.floor((reels.length-1)/2);
+    work='<div class="cs-reels n'+reels.length+'">'+reels.map(function(r,i){
+      return'<figure class="cs-reel s'+i+(i===mid?' big':'')+'"><div class="cs-reel-media"><img src="'+r.poster+'" alt="'+esc(c.name)+' '+(r.kind==="reel"?"reel":"post")+'" loading="lazy" decoding="async">'+
         (r.video?'<video data-src="'+r.video+'" muted playsinline loop preload="none"></video><span class="cs-reel-play">'+play+'</span>':'')+
-        '<span class="cs-reel-top"><span class="ig-ava">'+ava+'</span>'+esc(c.name)+'</span></div>'+
-        '<figcaption><a href="'+r.url+'"'+ext+'>Watch on Instagram ↗</a></figcaption></figure>';
+        '<span class="cs-reel-top"><span class="ig-ava">'+ava+'</span>'+esc(c.name)+'</span>'+
+        '<a class="cs-reel-ig" href="'+r.url+'"'+ext+'>Watch on Instagram ↗</a></div></figure>';
     }).join("")+'</div>';
   }else{
     var img=c.cover||c.poster;
@@ -82,15 +83,18 @@
   function stopAll(except){figs.forEach(function(f){if(f!==except){var v=f.querySelector("video");if(v){v.pause();f.classList.remove("playing")}}})}
   function start(f){var v=f.querySelector("video");if(!v)return;stopAll(f);if(!v.src)v.src=v.dataset.src;f.classList.add("playing");var p=v.play();p&&p.catch(function(){})}
   var hover=window.matchMedia("(hover:hover)").matches;
+  var stage=root.querySelector(".cs-reels"),midFig=root.querySelector(".cs-reel.big");
+  function grow(f){figs.forEach(function(x){x.classList.toggle("big",x===f)})}
+  if(stage&&midFig&&hover)stage.addEventListener("mouseleave",function(){grow(midFig);stopAll()});
   figs.forEach(function(f){
     var m=f.querySelector(".cs-reel-media");
-    if(hover&&!reducedMotion){m.addEventListener("mouseenter",function(){start(f)});m.addEventListener("mouseleave",function(){stopAll()})}
-    m.addEventListener("click",function(){if(f.classList.contains("playing"))stopAll();else start(f)});
+    if(hover){m.addEventListener("mouseenter",function(){grow(f);if(!reducedMotion)start(f)})}
+    m.addEventListener("click",function(e){if(e.target.closest(".cs-reel-ig"))return;if(!f.classList.contains("big")){grow(f);start(f);return}if(f.classList.contains("playing"))stopAll();else start(f)});
   });
 
   if(window.gsap&&!reducedMotion){
     gsap.fromTo(".cs-head-in>*",{opacity:0,y:24},{opacity:1,y:0,duration:.8,stagger:.08,ease:"power3.out",delay:.1});
-    gsap.fromTo(".cs-reel,.cs-mark",{opacity:0,y:30},{opacity:1,y:0,duration:.8,stagger:.08,ease:"power3.out",delay:.25});
+    gsap.fromTo(".cs-reels,.cs-mark",{opacity:0,y:30},{opacity:1,y:0,duration:.8,stagger:.08,ease:"power3.out",delay:.25});
     if(window.ScrollTrigger)gsap.utils.toArray(".cs-sec,.cs-next").forEach(function(el){
       gsap.fromTo(el,{opacity:0,y:24},{opacity:1,y:0,duration:.7,ease:"power3.out",scrollTrigger:{trigger:el,start:"top 92%"}});
     });

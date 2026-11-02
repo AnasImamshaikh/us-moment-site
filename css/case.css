@@ -41,9 +41,24 @@
 .cs-work{position:sticky;top:6rem}
 .cs-work .eyebrow{color:var(--signal);margin-bottom:.9rem}.cs-work .eyebrow:before{background:var(--signal)}
 .cs-reels{display:grid;gap:.8rem}
-.cs-reels.n3{grid-template-columns:repeat(3,minmax(0,1fr))}
-.cs-reels.n2{grid-template-columns:repeat(2,minmax(0,1fr));max-width:440px}
 .cs-reels.n1{grid-template-columns:minmax(0,1fr);max-width:300px}
+/* 2-3 reels: overlapping stack. Cards are 30% of the stage wide; the "big" one is scaled 1.5x and sits
+   in front. The stage has a fixed aspect ratio (big card height + room), so scaling never spills out. */
+.cs-reels.n2,.cs-reels.n3{display:block;position:relative;width:100%;aspect-ratio:1/.84;max-width:620px}
+.cs-reels.n2 .cs-reel,.cs-reels.n3 .cs-reel{position:absolute;top:50%;width:30%;margin:0;transform:translate(-50%,-50%) scale(1);z-index:1;transition:transform .6s cubic-bezier(.22,1,.36,1),filter .5s,z-index 0s .3s}
+.cs-reels.n3 .s0{left:22.5%}.cs-reels.n3 .s1{left:50%}.cs-reels.n3 .s2{left:77.5%}
+.cs-reels.n2 .s0{left:32%}.cs-reels.n2 .s1{left:68%}
+.cs-reels .cs-reel:not(.big){filter:brightness(.72) saturate(.85)}
+.cs-reels .cs-reel.big{transform:translate(-50%,-50%) scale(1.5);z-index:3;filter:none;transition:transform .6s cubic-bezier(.22,1,.36,1),filter .5s,z-index 0s}
+.cs-reels .cs-reel.big .cs-reel-media{box-shadow:0 40px 70px -30px #05082c}
+.cs-reel-ig{position:absolute;left:0;right:0;bottom:0;padding:1.6rem .6rem .55rem;font-size:.62rem;font-weight:600;color:var(--flash);background:linear-gradient(0deg,#0b0f3dd9,transparent);opacity:0;transition:opacity .35s}
+.cs-reel.big .cs-reel-ig,.cs-reels.n1 .cs-reel-ig{opacity:1}
+.cs-reel-ig:hover{text-decoration:underline}
+.cs-reels .cs-reel:not(.big) .cs-reel-top{opacity:0}
+.cs-reels .cs-reel .cs-reel-top{transition:opacity .35s}
+.cs-reels .cs-reel.big .cs-reel-top{font-size:.5rem}
+.cs-reels .cs-reel.big .cs-reel-top .ig-ava{width:16px;height:16px}
+.cs-reels .cs-reel.big .cs-reel-play{transform:scale(.67)}
 .cs-reel{margin:0}
 .cs-reel-media{position:relative;aspect-ratio:9/16;border-radius:14px;overflow:hidden;background:var(--ink);cursor:pointer;box-shadow:0 20px 40px -24px var(--ink)}
 .cs-reel-media>img,.cs-reel-media>video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
@@ -82,7 +97,7 @@
   .cs-head{padding-top:7rem}
   .cs-grid{grid-template-columns:1fr}
   .cs-work{position:static;order:-1}
-  .cs-reels.n3{margin-right:calc(var(--gutter)*-1);display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding-right:var(--gutter)}
-  .cs-reels.n3 .cs-reel{flex:0 0 44%;scroll-snap-align:start}
+  .cs-reels.n2,.cs-reels.n3{margin:0 auto}
 }
-@media (max-width:480px){.cs-head h1{font-size:var(--step-2)}.cs-intro{font-size:var(--step-0)}.cs-reels.n3 .cs-reel{flex-basis:58%}.cs-reels.n2{max-width:none}}
+@media (max-width:480px){.cs-head h1{font-size:var(--step-2)}.cs-intro{font-size:var(--step-0)}.cs-reels.n2{max-width:none}}
+.cs-reel-ig{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}@media (max-width:480px){.cs-reel-ig{font-size:.5rem;padding:1.2rem .45rem .45rem}.cs-reels .cs-reel.big .cs-reel-top{font-size:.42rem}}

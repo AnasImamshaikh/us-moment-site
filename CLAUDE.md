@@ -192,7 +192,10 @@ Tokens live in `css/base.css` `:root`. Always reuse these instead of hard-coding
   (sticky), smaller type, max 3 reels per brand. **Update:** the separate headline-number box is
   removed — every number lives in Results (a headline number missing from Results is folded in; near-
   duplicates like 7.9K/7,903 are treated as the same). On desktop the reels column is lifted into the
-  dark header beside the headline (`--cs-lift`, sized from the header height in case.js), max 3
+  dark header beside the headline (`--cs-lift`, sized from the header height in case.js). The reels are
+  an **overlapping stack** (Kaif-site style): middle reel 1.5× and in front on load; hovering (tap on
+  phones) another reel smoothly grows it to 1.5× and plays it; leaving the stack returns to the middle.
+  Fixed-ratio stage so scaling never spills; no arrows/scroller. Max 3
   reels per brand (`CASE_REELS`, first = card cover). **All reel posters regenerated** from the
   originals (best sharp, well-lit frame; landscape sources fitted on a blurred 9:16 backdrop).
 
