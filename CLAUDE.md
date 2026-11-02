@@ -225,6 +225,13 @@ Tokens live in `css/base.css` `:root`. Always reuse these instead of hard-coding
   are **removed from the rows** (client request; still defined in BRANDS for when files arrive) —
   26 logos in 3 rows of 9/9/8. Hover tilt is 2.5°. Testimonials heading → "The receipts."
 
+- ✅ **Services page v2 (Nov 2026).** Intro, then **"WHAT WE do."** switchboard (list + preview panel)
+  with the doc's order/copy/tags ([01] Social Media … [08] Branding): hover a row → arrow slides in,
+  panel crossfades to that service's HD Unsplash photo, small tilt, spinning lime "8 services, 1 team"
+  sticker, "Start a project" link. Phones: tap-to-open accordion with photo. Then **"How a moment gets
+  made"** (4 stages) + **"Two ways to run it"** (moved here from the Work page). Data/logic in
+  js/services.js, styles in css/services.css. Old svc-grid removed.
+
 ## 9. Open items / decisions pending
 - ✅ ~~Duplicate stats~~ — resolved. The standalone stats section is gone; `#statsGrid` now lives
   in the hero only (verified: `class="section stats"` no longer exists in `index.html`).
