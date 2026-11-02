@@ -1,0 +1,32 @@
+/* ===== CLIENT PREVIEW ONLY: colour palette switcher (home page) =====
+   Remove this file + js/palette-preview.js + their two tags in index.html once a palette is chosen.
+   Each palette = 3 colours: base (dark), neutral (light), one accent. */
+html[data-palette="midnight"]{--ink:#0b0c14;--ink-soft:#151726;--paper:#f4f6fa;--paper-dim:#e2e6ee;--flash:#ff8a5b;--signal:#1e9bdb;--gold:#ff8a5b;
+  --ink-a60:rgba(11,12,20,.6);--ink-a30:rgba(11,12,20,.3);--ink-a10:rgba(11,12,20,.1);--paper-a70:rgba(244,246,250,.7);--paper-a40:rgba(244,246,250,.4);--paper-a12:rgba(244,246,250,.12);--paper-a06:rgba(244,246,250,.06)}
+html[data-palette="bubblegum"]{--ink:#15298f;--ink-soft:#1f359f;--paper:#ffffff;--paper-dim:#eef1fa;--flash:#ff8fd6;--signal:#15298f;--gold:#ff8fd6;
+  --ink-a60:rgba(21,41,143,.6);--ink-a30:rgba(21,41,143,.3);--ink-a10:rgba(21,41,143,.1);--paper-a70:rgba(255,255,255,.72);--paper-a40:rgba(255,255,255,.4);--paper-a12:rgba(255,255,255,.12);--paper-a06:rgba(255,255,255,.06)}
+html[data-palette="onyx"]{--ink:#0e0e11;--ink-soft:#18181d;--paper:#f4f4f6;--paper-dim:#e3e3e8;--flash:#86f7b6;--signal:#6c2bff;--gold:#6c2bff;
+  --ink-a60:rgba(14,14,17,.6);--ink-a30:rgba(14,14,17,.3);--ink-a10:rgba(14,14,17,.1);--paper-a70:rgba(244,244,246,.7);--paper-a40:rgba(244,244,246,.4);--paper-a12:rgba(244,244,246,.12);--paper-a06:rgba(244,244,246,.06)}
+/* the blue liquid backgrounds are photos: tint them into each palette's base colour */
+html[data-palette] .hero,html[data-palette] .viral,html[data-palette] .campaigns{background-blend-mode:luminosity}
+html[data-palette="onyx"] .hero,html[data-palette="onyx"] .viral,html[data-palette="onyx"] .campaigns,
+html[data-palette="midnight"] .hero,html[data-palette="midnight"] .viral,html[data-palette="midnight"] .campaigns{background-blend-mode:multiply}
+/* section overlays that were hard-coded navy follow the base colour */
+html[data-palette] .wwd-card,html[data-palette] .fc-card{background:var(--ink)}
+html[data-palette] .wwd-card:after{background:linear-gradient(180deg,color-mix(in srgb,var(--ink) 85%,transparent) 0%,color-mix(in srgb,var(--ink) 55%,transparent) 42%,color-mix(in srgb,var(--ink) 10%,transparent) 75%,color-mix(in srgb,var(--ink) 30%,transparent) 100%)}
+html[data-palette] .wwd-card:not(.on):after{background:linear-gradient(180deg,color-mix(in srgb,var(--ink) 80%,transparent),color-mix(in srgb,var(--ink) 55%,transparent))}
+html[data-palette] .fc-shade{background:linear-gradient(180deg,color-mix(in srgb,var(--ink) 60%,transparent) 0%,transparent 26%,transparent 46%,color-mix(in srgb,var(--ink) 90%,transparent) 100%)}
+html[data-palette] .wwd-card.on{box-shadow:0 0 0 4px color-mix(in srgb,var(--flash) 20%,transparent),0 40px 80px -36px var(--ink)}
+
+/* the switcher itself */
+.pal{position:fixed;left:16px;bottom:16px;z-index:9999;font-family:var(--f-body);color:#111}
+.pal-btn{display:flex;align-items:center;gap:.55rem;padding:.55rem .9rem .55rem .6rem;border-radius:999px;border:1px solid #0002;background:#fff;box-shadow:0 10px 30px -10px #0006;font-size:.8rem;font-weight:600;cursor:pointer}
+.pal-sw{display:inline-flex}.pal-sw i{width:14px;height:14px;border-radius:50%;border:1.5px solid #fff;margin-left:-5px;box-shadow:0 0 0 1px #0002}.pal-sw i:first-child{margin-left:0}
+.pal-menu{position:absolute;left:0;bottom:calc(100% + 8px);min-width:290px;padding:.5rem;border-radius:16px;background:#fff;box-shadow:0 20px 50px -14px #0007;display:none}
+.pal.open .pal-menu{display:block}
+.pal-menu p{margin:.3rem .5rem .5rem;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:#666;font-family:var(--f-mono)}
+.pal-opt{display:flex;align-items:center;gap:.7rem;width:100%;padding:.6rem .6rem;border:0;border-radius:10px;background:none;text-align:left;cursor:pointer;font-size:.82rem;color:#111}
+.pal-opt:hover{background:#f2f2f4}
+.pal-opt input{accent-color:#111;margin:0}
+.pal-opt small{display:block;color:#777;font-size:.7rem;margin-top:.1rem}
+@media (max-width:480px){.pal-menu{min-width:260px}}

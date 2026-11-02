@@ -232,6 +232,14 @@ Tokens live in `css/base.css` `:root`. Always reuse these instead of hard-coding
   made"** (4 stages) + **"Two ways to run it"** (moved here from the Work page). Data/logic in
   js/services.js, styles in css/services.css. Old svc-grid removed.
 
+- 🧪 **Palette preview (CLIENT DEMO ONLY, home page).** Floating "Palette" pill bottom-left
+  (`js/palette-preview.js` + `css/palette-preview.css`, linked only from index.html) switches between
+  Original, Midnight (black / electric blue / cantaloupe), Bubblegum (deep blue / white / bubblegum
+  pink) and Onyx (black / electric indigo / tropical mint) by overriding the `:root` tokens via
+  `html[data-palette]`; the liquid background photos are re-tinted with background-blend-mode. Choice is
+  remembered per browser. **Remove both files + the 2 tags once the client picks a palette** (then bake
+  the chosen values into `:root`).
+
 ## 9. Open items / decisions pending
 - ✅ ~~Duplicate stats~~ — resolved. The standalone stats section is gone; `#statsGrid` now lives
   in the hero only (verified: `class="section stats"` no longer exists in `index.html`).
