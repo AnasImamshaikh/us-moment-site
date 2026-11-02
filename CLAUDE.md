@@ -181,6 +181,18 @@ Tokens live in `css/base.css` `:root`. Always reuse these instead of hard-coding
   Web media in `assets/reels/` (540px poster + 8s muted 360px preview per reel; index in
   `assets/reels/REELS.md`). Full-quality originals in `_media/reels/<brand>/` (git-ignored).
 
+- ✅ **Work page v3 (client feedback, Nov 2026).** Hero = compact "Pinned work" coverflow of the 5
+  featured cases (styled after the Kaif site reference: centre card + stacked side cards, arrows, dots,
+  pause, swipe; front card plays its preview). Headline "Work that stops the scroll." is a placeholder;
+  the client will send the line. Reel wall replaced by **one IG-style card per brand**: the Top 18
+  (`WORK_TOP` in work-data.js) lead, then the other cases; no numbers on cards; bigger logo/name.
+  Seven Top 18 brands without content (Netflix, Uber, Prime, MUBI, So+, Bhuvan Bam, Wamiqa) show as
+  non-clickable "Case study coming soon" cards (`WORK_SOON`). "How a moment gets made" and "Two ways
+  to run it" removed (move to Services later). **Case page** = header, then details left / work right
+  (sticky), smaller type, headline number highlighted once (dropped from the result boxes), max 3
+  reels per brand (`CASE_REELS`, first = card cover). **All reel posters regenerated** from the
+  originals (best sharp, well-lit frame; landscape sources fitted on a blurred 9:16 backdrop).
+
 ## 9. Open items / decisions pending
 - ✅ ~~Duplicate stats~~ — resolved. The standalone stats section is gone; `#statsGrid` now lives
   in the hero only (verified: `class="section stats"` no longer exists in `index.html`).

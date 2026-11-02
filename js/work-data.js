@@ -258,3 +258,38 @@ const CASES=[
  results:[{p:"Instagram",s:[{l:"Assets delivered",v:"10"}]}],
  links:["https://www.instagram.com/reel/DawmthcicGo/","https://www.instagram.com/reel/DamY_MuK3ah/","https://www.instagram.com/reel/DaX6A0VtyXT/","https://www.instagram.com/reel/DaXmWcTi9cL/","https://www.instagram.com/reel/DaQV_TTNqYz/","https://www.instagram.com/reel/DaP1dXSinz9/"]}
 ];
+
+/* Work page order: the client's Top 18 lead the brand grid, then every other case in CASES order.
+   Slugs missing from CASES come from WORK_SOON and show as "case study coming soon" cards (not clickable). */
+const WORK_TOP=["ceat-specialty","netflix","siciliana","uber","walters","nykaa","the-croffle-guys","amazon-prime","bar-bank","mubi","pop-upi","paper-boat-zero","so-positive","vinyl-pop-up","bhuvan-bam","olly-fest","scalpe-pro","wamiqa-gabbi"];
+const WORK_SOON={
+  "netflix":{name:"Netflix",logo:"netflix.png",category:"Social & IPs",filters:["social"]},
+  "uber":{name:"Uber",logo:"uber.png",category:"Social & IPs",filters:["social"]},
+  "amazon-prime":{name:"Amazon Prime Video",logo:"amazon-prime.png",category:"Social & IPs",filters:["social"]},
+  "mubi":{name:"MUBI",logo:"mubi.png",category:"Social & IPs",filters:["social"]},
+  "so-positive":{name:"So Positive (So+)",logo:"so-positive.png",category:"Social Media",filters:["social"]},
+  "bhuvan-bam":{name:"Bhuvan Bam",category:"Creator Collabs",filters:["social"]},
+  "wamiqa-gabbi":{name:"Wamiqa Gabbi",category:"Creator Collabs",filters:["social"]}
+};
+/* Up to 3 reels per brand (codes from js/reels-data.js). The first one is the brand card's cover. */
+const CASE_REELS={
+  "ceat-specialty":["DaiQz4ATL69","DY4ygKSzd7x","DZz7XP1SJBu"],
+  "siciliana":["Dd1RKqYO6cu","DdjRAvbN2Ww","DdY4JpGuFLD"],
+  "walters":["DUTBy2BAjZM","DZsDUa7CMFY","Dd1GlDniWVz"],
+  "the-croffle-guys":["DQ3bAs3isW6","DR36hx_Cp0E","DPlBsptCo-1"],
+  "bar-bank":["DShxlHdiPB8","DXoblCjCJPt","DVLUwxLCDTe"],
+  "pop-upi":["Da0ENyZKsSA","DZpbILBIPlo","DdBBp3eIiZ7"],
+  "paper-boat-zero":["DdBokmANXE2","Dejn4yENd20","Dety7tVtnyH"],
+  "vinyl-pop-up":["DXW0CDHAnhH","DXUqHieggmJ","DW_wGwAAo4s"],
+  "olly-fest":["DO8W-25Ca5o","DPyrBfiDQQ6"],
+  "scalpe-pro":["DbIu7BPINJp","DbDlelnIay3","DeRd90ZIfr9"],
+  "edit":["DWTqSygDSdS","Dbs0OH0NQHu"],
+  "elra":["DZKWM22vP71","DXqmv0cjLwo","DYeDiv1Mson"],
+  "mood-banana":["DYj4AkpCKX9","DaVL58uj7yL"],
+  "candid":["DXOVFdRCErK","DXLlqMrCNXy","DY2B_X1InQd"],
+  "gong":["DdwDv2-P27F","Dc3YG_Zt5HC","DbvUZC2txrP"],
+  "bar-stock-exchange":["DR7LGT1CC0Y","DSwcEY7iDBF","DTQDNftCP7D"],
+  "comart":["Dc0wu0xJAsK","DdbW762ATvV","DdGvLJCgJh7"],
+  "fossae":["DdtiijpI_Vg","DdTm-x9Ip0j","Dd6Ovj1oNBc"],
+  "la-shield":["DZPbav9s2tF","DawmthcicGo","DaXmWcTi9cL"]
+};

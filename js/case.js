@@ -1,4 +1,5 @@
-/* Case study page: case.html?b=<slug> — renders one entry from CASES (js/work-data.js). */
+/* Case study page: case.html?b=<slug> — renders one entry from CASES (js/work-data.js).
+   Layout: details on the left, the work (max 3 reels from CASE_REELS) on the right. */
 (function(){
   var root=document.getElementById("cs");
   var slug=new URLSearchParams(location.search).get("b");
@@ -12,49 +13,74 @@
   document.title=c.name+" case study — Us Moment";
   var md=document.getElementById("metaDesc");if(md)md.setAttribute("content",c.headline+" "+c.summary);
 
-  var img=c.cover||c.poster;
-  var media=c.video?'<video src="'+c.video+'" poster="'+(c.poster||c.cover||"")+'" muted playsinline loop preload="metadata"'+(reducedMotion?' controls':' autoplay')+'></video>'
-    :img?'<img src="'+img+'" alt="'+esc(c.name)+' work">':'';
-  // no reel/cover yet: show the brand mark in place of the phone frame
-  var mark=c.logo?'<img class="cs-mark-logo" src="assets/clients/logos/'+c.logo+'" alt="'+esc(c.name)+'">':'<span class="cs-mark-name">'+esc(c.name)+'</span>';
   var ava=c.logo?'<img src="assets/clients/logos/'+c.logo+'" alt="">':esc(c.name.charAt(0));
 
-  function statBox(s){
-    var inner='<span class="cs-box-l">'+esc(s.l)+'</span><b class="cs-box-v">'+esc(s.v)+'</b>';
-    return s.link?'<a class="cs-box is-link" href="'+s.link+'"'+ext+'>'+inner+'<span class="cs-box-go">Watch on Instagram ↗</span></a>':'<div class="cs-box">'+inner+'</div>';
+  /* the work: up to 3 reels */
+  var reelBy={};if(typeof REELS!=="undefined")REELS.forEach(function(r){reelBy[r.code]=r});
+  var reels=((typeof CASE_REELS!=="undefined"&&CASE_REELS[c.slug])||[]).map(function(k){return reelBy[k]}).filter(Boolean).slice(0,3);
+  var play='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>';
+  var work;
+  if(reels.length){
+    work='<div class="cs-reels n'+reels.length+'">'+reels.map(function(r){
+      return'<figure class="cs-reel"><div class="cs-reel-media"><img src="'+r.poster+'" alt="'+esc(c.name)+' '+(r.kind==="reel"?"reel":"post")+'" loading="lazy" decoding="async">'+
+        (r.video?'<video data-src="'+r.video+'" muted playsinline loop preload="none"></video><span class="cs-reel-play">'+play+'</span>':'')+
+        '<span class="cs-reel-top"><span class="ig-ava">'+ava+'</span>'+esc(c.name)+'</span></div>'+
+        '<figcaption><a href="'+r.url+'"'+ext+'>Watch on Instagram ↗</a></figcaption></figure>';
+    }).join("")+'</div>';
+  }else{
+    var img=c.cover||c.poster;
+    work=img?'<div class="cs-reels n1"><figure class="cs-reel"><div class="cs-reel-media"><img src="'+img+'" alt="'+esc(c.name)+' work"><span class="cs-reel-top"><span class="ig-ava">'+ava+'</span>'+esc(c.name)+'</span></div></figure></div>'
+      :'<div class="cs-mark">'+(c.logo?'<img class="cs-mark-logo" src="assets/clients/logos/'+c.logo+'" alt="'+esc(c.name)+'">':'<span class="cs-mark-name">'+esc(c.name)+'</span>')+'</div>';
   }
-  var results="";
-  if(c.results.length||c.links.length){
-    results='<section class="cs-sec cs-results"><div class="cs-col"><div class="eyebrow">The outcome</div><h2>Results by platform</h2>'+
-      c.results.map(function(r){var n=r.s.length,cols=Math.min(n,3),rem=n%cols;return'<h3 class="cs-plat">'+esc(r.p)+'</h3><div class="cs-boxes n'+cols+(rem?" r"+rem:"")+'">'+r.s.map(statBox).join("")+'</div>'}).join("")+
-      (c.links.length?'<h3 class="cs-plat">See it on the feed</h3><div class="cs-links">'+c.links.map(function(u,i){return'<a class="cs-link" href="'+u+'"'+ext+'><span class="cs-link-n">'+String(i+1).padStart(2,"0")+'</span>'+(u.indexOf("/p/")>-1?"Post":"Reel")+' ↗</a>'}).join("")+'</div>':'')+
-      '</div></section>';
+  var moreLinks=(c.links||[]).filter(function(u){return!reels.some(function(r){return u.indexOf(r.code)>-1})});
+
+  /* results: the headline number is shown once (top of the page), so drop it from the boxes */
+  var hero=c.stat?String(c.stat.v):null;
+  function box(s){
+    var inner='<span class="cs-box-v">'+esc(s.v)+'</span><span class="cs-box-l">'+esc(s.l)+'</span>';
+    return s.link?'<a class="cs-box is-link" href="'+s.link+'"'+ext+'>'+inner+'<span class="cs-box-go">Watch ↗</span></a>':'<div class="cs-box">'+inner+'</div>';
   }
+  var results=(c.results||[]).map(function(r){var s=r.s.filter(function(x){return String(x.v)!==hero});return s.length?{p:r.p,s:s}:null}).filter(Boolean);
+  var resHTML=results.length?'<section class="cs-sec cs-results"><h2>Results by platform</h2>'+results.map(function(r){return'<h3 class="cs-plat">'+esc(r.p)+'</h3><div class="cs-boxes">'+r.s.map(box).join("")+'</div>'}).join("")+'</section>':'';
+  var linksHTML=moreLinks.length?'<section class="cs-sec"><h3 class="cs-plat">More on the feed</h3><div class="cs-links">'+moreLinks.map(function(u,i){return'<a class="cs-link" href="'+u+'"'+ext+'><span class="cs-link-n">'+String(i+1).padStart(2,"0")+'</span>'+(u.indexOf("/p/")>-1?"Post":"Reel")+' ↗</a>'}).join("")+'</div></section>':'';
 
   root.innerHTML=
     '<header class="cs-head"><div class="cs-head-in">'+
       '<div class="cs-crumbs"><a href="work.html#work">← All work</a></div>'+
-      '<div class="eyebrow">'+esc(c.category)+' <span class="cs-dot">·</span> Case study <span class="cs-dot">·</span> '+esc(c.timeline)+'</div>'+
-      '<h1>'+esc(c.headline)+'</h1><p class="cs-intro">'+esc(c.summary)+'</p>'+
+      '<div class="cs-brand"><span class="ig-ava">'+ava+'</span><div><b>'+esc(c.name)+'</b><span>'+esc(c.category)+'</span></div></div>'+
+      '<h1>'+esc(c.headline)+'</h1>'+
     '</div></header>'+
-    '<div class="cs-band"><div class="cs-band-bg"'+(img?' style="background-image:url(\''+img+'\')"':'')+'></div>'+
-      '<div class="cs-band-in">'+(media?'<div class="cs-phone"><span class="wk-phone-bar"><span class="ig-ava">'+ava+'</span>'+esc(c.name)+'</span>'+media+'</div>':'<div class="cs-mark">'+mark+'</div>')+
-      (c.stat?'<div class="cs-band-stat"><b>'+esc(c.stat.v)+'</b><span>'+esc(c.stat.l)+'</span>'+(c.stat.link?'<a href="'+c.stat.link+'"'+ext+' class="btn">Watch the reel ↗</a>':'')+'</div>':'')+
-    '</div></div>'+
-    '<div class="cs-body">'+
-      '<section class="cs-sec cs-meta"><dl class="cs-facts"><div><dt>Client</dt><dd>'+esc(c.name)+'</dd></div>'+(c.timeline!==c.status?'<div><dt>Timeline</dt><dd>'+esc(c.timeline)+'</dd></div>':'')+'<div><dt>Service</dt><dd>'+esc(c.service)+'</dd></div><div><dt>Status</dt><dd>'+esc(c.status)+'</dd></div></dl></section>'+
-      '<section class="cs-sec"><div class="cs-col"><h2>The challenge</h2><p>'+esc(c.ask)+'</p></div></section>'+
-      '<section class="cs-sec"><div class="cs-col"><h2>The solution</h2><p>'+esc(c.made)+'</p></div></section>'+
-      '<section class="cs-sec"><div class="cs-col"><h2>What happened</h2><p>'+esc(c.happened)+'</p></div></section>'+
-      results+
-      '<a class="cs-next" href="case.html?b='+encodeURIComponent(next.slug)+'"><span class="cs-next-l">Next case</span><span class="cs-next-n">'+esc(next.name)+' <span aria-hidden="true">→</span></span><span class="cs-next-h">'+esc(next.headline)+'</span></a>'+
+    '<div class="cs-body"><div class="cs-grid">'+
+      '<div class="cs-main">'+
+        '<p class="cs-intro">'+esc(c.summary)+'</p>'+
+        (c.stat?'<div class="cs-stat"><b>'+esc(c.stat.v)+'</b><span>'+esc(c.stat.l)+'</span></div>':'')+
+        '<dl class="cs-facts"><div><dt>Service</dt><dd>'+esc(c.service)+'</dd></div>'+(c.timeline!==c.status?'<div><dt>Timeline</dt><dd>'+esc(c.timeline)+'</dd></div>':'')+'<div><dt>Status</dt><dd>'+esc(c.status)+'</dd></div></dl>'+
+        '<section class="cs-sec"><h2>The challenge</h2><p>'+esc(c.ask)+'</p></section>'+
+        '<section class="cs-sec"><h2>The solution</h2><p>'+esc(c.made)+'</p></section>'+
+        '<section class="cs-sec"><h2>What happened</h2><p>'+esc(c.happened)+'</p></section>'+
+        resHTML+linksHTML+
+      '</div>'+
+      '<aside class="cs-work" aria-label="The work"><div class="cs-work-in"><div class="eyebrow">The work</div>'+work+'</div></aside>'+
+    '</div>'+
+    '<a class="cs-next" href="case.html?b='+encodeURIComponent(next.slug)+'"><span class="cs-next-l">Next case</span><span class="cs-next-n">'+esc(next.name)+' <span aria-hidden="true">→</span></span><span class="cs-next-h">'+esc(next.headline)+'</span></a>'+
     '</div>';
+
+  /* reels: play on hover (mouse) or tap (touch); only one plays at a time */
+  var figs=[].slice.call(root.querySelectorAll(".cs-reel"));
+  function stopAll(except){figs.forEach(function(f){if(f!==except){var v=f.querySelector("video");if(v){v.pause();f.classList.remove("playing")}}})}
+  function start(f){var v=f.querySelector("video");if(!v)return;stopAll(f);if(!v.src)v.src=v.dataset.src;f.classList.add("playing");var p=v.play();p&&p.catch(function(){})}
+  var hover=window.matchMedia("(hover:hover)").matches;
+  figs.forEach(function(f){
+    var m=f.querySelector(".cs-reel-media");
+    if(hover&&!reducedMotion){m.addEventListener("mouseenter",function(){start(f)});m.addEventListener("mouseleave",function(){stopAll()})}
+    m.addEventListener("click",function(){if(f.classList.contains("playing"))stopAll();else start(f)});
+  });
 
   if(window.gsap&&!reducedMotion){
     gsap.fromTo(".cs-head-in>*",{opacity:0,y:24},{opacity:1,y:0,duration:.8,stagger:.08,ease:"power3.out",delay:.1});
-    gsap.fromTo(".cs-phone",{opacity:0,y:40},{opacity:1,y:0,duration:.9,ease:"power3.out",delay:.3});
-    if(window.ScrollTrigger)gsap.utils.toArray(".cs-sec,.cs-box,.cs-next").forEach(function(el){
-      gsap.fromTo(el,{opacity:0,y:28},{opacity:1,y:0,duration:.7,ease:"power3.out",scrollTrigger:{trigger:el,start:"top 92%"}});
+    gsap.fromTo(".cs-reel,.cs-mark",{opacity:0,y:30},{opacity:1,y:0,duration:.8,stagger:.08,ease:"power3.out",delay:.25});
+    if(window.ScrollTrigger)gsap.utils.toArray(".cs-sec,.cs-next").forEach(function(el){
+      gsap.fromTo(el,{opacity:0,y:24},{opacity:1,y:0,duration:.7,ease:"power3.out",scrollTrigger:{trigger:el,start:"top 92%"}});
     });
   }
 })();
