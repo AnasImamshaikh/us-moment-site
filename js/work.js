@@ -20,7 +20,7 @@
   /* ---------- pinned work: full-screen cinematic hero (SoCheers-style) ----------
      Background = 8s widescreen clip per featured case (assets/work/hero/<slug>.mp4/.jpg).
      Copy bottom-left, "More pinned work" thumbnails bottom-right, autoplay with progress. */
-  var feat=CASES.filter(function(c){return c.featured}).slice(0,5);
+  var feat=(typeof WORK_FEATURED!=="undefined"?WORK_FEATURED.map(function(s){return CASES.filter(function(c){return c.slug===s})[0]}).filter(Boolean):CASES.filter(function(c){return c.featured})).slice(0,5);
   var bg=document.getElementById("wkBg"),copy=document.getElementById("wkCopy"),thumbs=document.getElementById("wkThumbs");
   if(bg&&feat.length){
     var n=feat.length,cur=-1,timer=null,DUR=7000,hov=false;

@@ -205,8 +205,9 @@ Tokens live in `css/base.css` `:root`. Always reuse these instead of hard-coding
   (`assets/work/hero/<slug>.mp4` + `.jpg`, 1280×720 crops cut from the 720×1280 originals in
   `_media/`), dark gradient, story + "View case" bottom-left, "More pinned work" thumbnail strip with
   arrows and autoplay progress bottom-right (stacks on phones). The coverflow is gone. **Whole Work page
-  is dark** (`#07092b`): brand grid, chips and buttons restyled for dark. New featured case → cut a
-  clip into assets/work/hero/ with the same slug.
+  is dark** (`#07092b`): brand grid, chips and buttons restyled for dark. Pinned order = `WORK_FEATURED`
+  in work-data.js (now Bar Bank, Siciliana, Walters, Croffle Guys, Edit; Bar Bank replaced CEAT). New
+  pinned case → add its slug there and cut a clip into assets/work/hero/ with the same slug.
 
 - ✅ **Home page v3 (Nov 2026).** Hero font change **reverted** (Fraunces italic is back).
   Featured campaigns = **brand cards** like the Work page grid (`#fcGrid`, `.fc-*`, renderer at the end

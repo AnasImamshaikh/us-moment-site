@@ -11,7 +11,7 @@
    - The case page lives at case.html?b=<slug>. */
 const WORK_FILTERS={social:"Social & IPs",ads:"Meta Ads",launch:"Launches & Events",youtube:"YouTube",production:"Production"};
 const CASES=[
-{slug:"ceat-specialty",name:"CEAT Specialty",featured:true,logo:"ceat-specialty.png",cover:"assets/work/ceat-specialty.jpg",
+{slug:"ceat-specialty",name:"CEAT Specialty",logo:"ceat-specialty.png",cover:"assets/work/ceat-specialty.jpg",
  category:"Socials, YouTube & Creator Collabs",filters:["social","youtube","launch"],status:"Current",timeline:"Ongoing",
  service:"Social media, YouTube, creator collabs",
  headline:"Making a tyre brand fun, and doubling its following along the way.",
@@ -105,7 +105,7 @@ const CASES=[
  happened:"Boosted impressions and views on the campaigns added to Nykaa’s earned media.",
  results:[],links:[]},
 
-{slug:"bar-bank",name:"Bar Bank",cover:"assets/work-reels/DZCJdNiogkB.jpg",video:"assets/work-reels/DZCJdNiogkB.mp4",poster:"assets/work-reels/DZCJdNiogkB.jpg",
+{slug:"bar-bank",name:"Bar Bank",featured:true,cover:"assets/work-reels/DZCJdNiogkB.jpg",video:"assets/work-reels/DZCJdNiogkB.mp4",poster:"assets/work-reels/DZCJdNiogkB.jpg",
  category:"Social & IPs",filters:["social","launch"],status:"Current",timeline:"Ongoing",
  service:"Social media, IPs, events",
  headline:"Turning Wednesdays at Bar Bank into a Gen Z ritual.",
@@ -293,3 +293,6 @@ const CASE_REELS={
   "fossae":["DdtiijpI_Vg","DdTm-x9Ip0j","Dd6Ovj1oNBc"],
   "la-shield":["DZPbav9s2tF","DawmthcicGo","DaXmWcTi9cL"]
 };
+
+/* Pinned work (Work page hero) order. Each slug needs a clip in assets/work/hero/<slug>.mp4 + .jpg. */
+const WORK_FEATURED=["bar-bank","siciliana","walters","the-croffle-guys","edit"];
