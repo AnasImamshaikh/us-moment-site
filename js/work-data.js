@@ -295,4 +295,4 @@ const CASE_REELS={
 };
 
 /* Pinned work (Work page hero) order. Each slug needs a clip in assets/work/hero/<slug>.mp4 + .jpg. */
-const WORK_FEATURED=["bar-bank","siciliana","walters","the-croffle-guys","edit"];
+const WORK_FEATURED=["the-croffle-guys","bar-bank","siciliana","walters","edit"];
