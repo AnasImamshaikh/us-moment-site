@@ -189,7 +189,10 @@ Tokens live in `css/base.css` `:root`. Always reuse these instead of hard-coding
   Seven Top 18 brands without content (Netflix, Uber, Prime, MUBI, So+, Bhuvan Bam, Wamiqa) show as
   non-clickable "Case study coming soon" cards (`WORK_SOON`). "How a moment gets made" and "Two ways
   to run it" removed (move to Services later). **Case page** = header, then details left / work right
-  (sticky), smaller type, headline number highlighted once (dropped from the result boxes), max 3
+  (sticky), smaller type, max 3 reels per brand. **Update:** the separate headline-number box is
+  removed — every number lives in Results (a headline number missing from Results is folded in; near-
+  duplicates like 7.9K/7,903 are treated as the same). On desktop the reels column is lifted into the
+  dark header beside the headline (`--cs-lift`, sized from the header height in case.js), max 3
   reels per brand (`CASE_REELS`, first = card cover). **All reel posters regenerated** from the
   originals (best sharp, well-lit frame; landscape sources fitted on a blurred 9:16 backdrop).
 

@@ -67,6 +67,16 @@
     '<a class="cs-next" href="case.html?b='+encodeURIComponent(next.slug)+'"><span class="cs-next-l">Next case</span><span class="cs-next-n">'+esc(next.name)+' <span aria-hidden="true">→</span></span><span class="cs-next-h">'+esc(next.headline)+'</span></a>'+
     '</div>';
 
+  /* desktop: lift the work column into the header, keeping it clear of the menu bar */
+  var head=root.querySelector(".cs-head"),workCol=root.querySelector(".cs-work");
+  function lift(){
+    if(!head||!workCol)return;
+    if(window.innerWidth<=900){workCol.style.removeProperty("--cs-lift");return}
+    var hh=head.offsetHeight,room=hh-150;
+    workCol.style.setProperty("--cs-lift",(-Math.max(0,Math.min(room,300)))+"px");
+  }
+  lift();window.addEventListener("resize",lift);if(document.fonts)document.fonts.ready.then(lift);
+
   /* reels: play on hover (mouse) or tap (touch); only one plays at a time */
   var figs=[].slice.call(root.querySelectorAll(".cs-reel"));
   function stopAll(except){figs.forEach(function(f){if(f!==except){var v=f.querySelector("video");if(v){v.pause();f.classList.remove("playing")}}})}

@@ -71,6 +71,13 @@
 .cs-next:hover .cs-next-n{color:var(--signal)}
 .cs-next:hover .cs-next-n span{transform:translateX(8px)}
 
+/* desktop: the work column rises into the dark header (amount set in case.js from the header height) */
+@media (min-width:901px){
+  .cs-head h1{max-width:min(24ch,calc((min(1240px,100vw - 2*var(--gutter)) - clamp(2rem,1rem + 4vw,5rem)) * .513))}
+  .cs-work{margin-top:var(--cs-lift,0px)}
+  .cs-work .eyebrow{color:var(--flash)}.cs-work .eyebrow:before{background:var(--flash)}
+  .cs-reel-media{box-shadow:0 30px 60px -28px #05082c}
+}
 @media (max-width:900px){
   .cs-head{padding-top:7rem}
   .cs-grid{grid-template-columns:1fr}
