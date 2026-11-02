@@ -17,59 +17,44 @@
     return'<div class="ps '+tint[i%tint.length]+'">'+mark+(soon?'<span class="ps-soon">Case study coming soon</span>':'')+'</div>';
   }
 
-  /* ---------- pinned work: coverflow (5 featured cases) ---------- */
+  /* ---------- pinned work: full-screen cinematic hero (SoCheers-style) ----------
+     Background = 8s widescreen clip per featured case (assets/work/hero/<slug>.mp4/.jpg).
+     Copy bottom-left, "More pinned work" thumbnails bottom-right, autoplay with progress. */
   var feat=CASES.filter(function(c){return c.featured}).slice(0,5);
-  var cf=document.getElementById("wkCf"),track=document.getElementById("wkCfTrack");
-  if(cf&&feat.length>1){
-    var n=feat.length,cur=0,timer=null,userPaused=reducedMotion,hovering=false,DELAY=5000;
-    track.innerHTML=feat.map(function(c,i){
-      var r=coverReel(c.slug),img=r?r.poster:(c.cover||c.poster);
-      var vid=r&&r.video?'<video data-src="'+r.video+'" muted playsinline loop preload="none"></video>':'';
-      return'<div class="cf-slide" data-i="'+i+'" role="group" aria-roledescription="slide" aria-label="'+(i+1)+' of '+n+': '+esc(c.name)+'">'+
-        (img?'<img src="'+img+'" alt="" decoding="async"'+(i>1?' loading="lazy"':'')+'>':poster(c,i))+vid+
-        '<span class="cf-top"><span class="ig-ava">'+ava(c)+'</span>'+esc(c.name)+'</span>'+
-        '<span class="cf-cap"><small>'+esc(c.category)+'</small><b>'+esc(c.headline)+'</b><span class="cf-go">View case ↗</span></span></div>';
-    }).join("");
-    var slides=[].slice.call(track.children),dots=document.getElementById("wkDots"),pause=document.getElementById("wkPause"),info=document.getElementById("wkInfo");
-    dots.innerHTML=feat.map(function(c,i){return'<button data-go="'+i+'" aria-label="Show '+esc(c.name)+'"></button>'}).join("");
-    var X=[0,42,66,84],S=[1,.82,.66,.5],B=[1,.6,.45,.4];
-    function layout(){
-      slides.forEach(function(el,i){
-        var o=i-cur;if(o>n/2)o-=n;if(o<-n/2)o+=n;
-        var a=Math.min(Math.abs(o),3),dir=o<0?-1:1;
-        el.style.transform="translateX("+(dir*X[a])+"%) scale("+S[a]+")";
-        el.style.zIndex=String(10-a);el.style.opacity=a>2?"0":"1";
-        el.style.filter=a?"brightness("+B[a]+") saturate(.8)":"none";
-        el.style.pointerEvents=a>2?"none":"";
-        el.classList.toggle("on",a===0);el.setAttribute("aria-hidden",a===0?"false":"true");
-        var v=el.querySelector("video");
-        if(v){if(a===0&&!reducedMotion){if(!v.src)v.src=v.dataset.src;var p=v.play();p&&p.catch(function(){});el.classList.add("playing")}else{v.pause();el.classList.remove("playing")}}
+  var bg=document.getElementById("wkBg"),copy=document.getElementById("wkCopy"),thumbs=document.getElementById("wkThumbs");
+  if(bg&&feat.length){
+    var n=feat.length,cur=-1,timer=null,DUR=7000,hov=false;
+    var H=function(c,ext){return"assets/work/hero/"+c.slug+"."+ext};
+    bg.innerHTML=feat.map(function(c){return'<div class="wk-slide"><video muted playsinline loop preload="none" poster="'+H(c,"jpg")+'" data-src="'+H(c,"mp4")+'"></video></div>'}).join("");
+    thumbs.innerHTML=feat.map(function(c){return'<button class="wk-thumb" role="tab" aria-selected="false" aria-label="'+esc(c.name)+'"><span class="wk-thumb-img" style="background-image:url(\''+H(c,"jpg")+'\')"></span><span class="wk-thumb-name">'+esc(c.name)+'</span><i></i></button>'}).join("");
+    var slides=bg.children,tb=thumbs.children;
+    function go(i){
+      i=(i+n)%n;if(i===cur)return;cur=i;var c=feat[i];
+      [].forEach.call(slides,function(s,k){
+        var v=s.querySelector("video");s.classList.toggle("on",k===i);
+        if(k===i){if(!reducedMotion){if(!v.src)v.src=v.dataset.src;v.currentTime=0;var p=v.play();p&&p.catch(function(){})}}else v.pause();
       });
-      [].forEach.call(dots.children,function(d,i){d.setAttribute("aria-current",String(i===cur))});
-      var c=feat[cur];
-      info.innerHTML='<span class="wk-cf-n">'+String(cur+1).padStart(2,"0")+' / '+String(n).padStart(2,"0")+'</span><a class="btn solid" href="'+caseUrl(c)+'"><span>View '+esc(c.name)+'</span><span class="mag">↗</span></a>';
+      [].forEach.call(tb,function(t,k){t.classList.toggle("on",k===i);t.setAttribute("aria-selected",k===i)});
+      copy.innerHTML='<div class="wk-eyebrow">'+esc(c.name)+' × Us Moment <span>|</span> '+esc(c.category)+'</div>'+
+        '<h1>'+esc(c.headline)+'</h1><p class="wk-sum">'+esc(c.summary)+'</p>'+
+        '<a class="btn solid wk-cta" href="'+caseUrl(c)+'"><span>View case</span><span class="mag">↗</span></a>';
+      if(window.gsap&&!reducedMotion)gsap.fromTo(copy.children,{opacity:0,y:22},{opacity:1,y:0,duration:.7,stagger:.07,ease:"power3.out"});
+      restart();
     }
-    function go(i){cur=(i+n)%n;layout();restart()}
-    function stop(){clearInterval(timer);timer=null}
-    function restart(){stop();if(userPaused||hovering||document.hidden)return;timer=setInterval(function(){cur=(cur+1)%n;layout()},DELAY)}
+    function restart(){
+      clearTimeout(timer);[].forEach.call(thumbs.querySelectorAll("i"),function(b){b.style.transition="none";b.style.transform="scaleX(0)"});
+      if(reducedMotion||hov)return;
+      var b=tb[cur].querySelector("i");void b.offsetWidth;b.style.transition="transform "+DUR+"ms linear";b.style.transform="scaleX(1)";
+      timer=setTimeout(function(){go(cur+1)},DUR);
+    }
+    [].forEach.call(tb,function(t,i){t.addEventListener("click",function(){go(i)})});
     document.getElementById("wkPrev").addEventListener("click",function(){go(cur-1)});
     document.getElementById("wkNext").addEventListener("click",function(){go(cur+1)});
-    dots.addEventListener("click",function(e){var b=e.target.closest("[data-go]");if(b)go(+b.dataset.go)});
-    pause.addEventListener("click",function(){userPaused=!userPaused;pause.setAttribute("aria-pressed",String(userPaused));pause.setAttribute("aria-label",userPaused?"Play slideshow":"Pause slideshow");restart()});
-    cf.addEventListener("keydown",function(e){if(e.key==="ArrowLeft"){e.preventDefault();go(cur-1)}if(e.key==="ArrowRight"){e.preventDefault();go(cur+1)}if(e.key==="Enter"&&e.target===cf)location.href=caseUrl(feat[cur])});
-    cf.addEventListener("mouseenter",function(){hovering=true;stop()});
-    cf.addEventListener("mouseleave",function(){hovering=false;restart()});
-    document.addEventListener("visibilitychange",restart);
-    // swipe; tapping a side card brings it forward, tapping the front card opens the case
-    var x0=null,moved=false;
-    cf.addEventListener("pointerdown",function(e){if(e.target.closest("button"))return;x0=e.clientX;moved=false});
-    cf.addEventListener("pointermove",function(e){if(x0!==null&&Math.abs(e.clientX-x0)>8)moved=true});
-    cf.addEventListener("dragstart",function(e){e.preventDefault()});
-    cf.addEventListener("pointercancel",function(){x0=null});
-    cf.addEventListener("pointerup",function(e){if(x0===null)return;var dx=e.clientX-x0;x0=null;if(Math.abs(dx)>40)go(cur+(dx<0?1:-1))});
-    track.addEventListener("click",function(e){if(moved)return;var sl=e.target.closest(".cf-slide");if(!sl)return;var i=+sl.dataset.i;if(i!==cur)go(i);else location.href=caseUrl(feat[cur])});
-    if(reducedMotion){pause.setAttribute("aria-pressed","true");pause.setAttribute("aria-label","Play slideshow")}
-    layout();restart();
+    var rail=thumbs.parentNode;
+    rail.addEventListener("mouseenter",function(){hov=true;restart()});
+    rail.addEventListener("mouseleave",function(){hov=false;restart()});
+    document.getElementById("wkHero").addEventListener("keydown",function(e){if(e.key==="ArrowRight")go(cur+1);if(e.key==="ArrowLeft")go(cur-1)});
+    go(0);
   }
 
   /* ---------- brand cards: Top 18 first, then the rest of CASES ----------

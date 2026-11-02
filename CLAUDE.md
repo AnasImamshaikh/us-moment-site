@@ -193,6 +193,14 @@ Tokens live in `css/base.css` `:root`. Always reuse these instead of hard-coding
   reels per brand (`CASE_REELS`, first = card cover). **All reel posters regenerated** from the
   originals (best sharp, well-lit frame; landscape sources fitted on a blurred 9:16 backdrop).
 
+- ✅ **Work page v4 (Nov 2026).** Pinned work is now a **full-screen cinematic hero** like
+  socheers.in/work: the active featured case's 8s widescreen clip fills the screen
+  (`assets/work/hero/<slug>.mp4` + `.jpg`, 1280×720 crops cut from the 720×1280 originals in
+  `_media/`), dark gradient, story + "View case" bottom-left, "More pinned work" thumbnail strip with
+  arrows and autoplay progress bottom-right (stacks on phones). The coverflow is gone. **Whole Work page
+  is dark** (`#07092b`): brand grid, chips and buttons restyled for dark. New featured case → cut a
+  clip into assets/work/hero/ with the same slug.
+
 - ✅ **Home page v3 (Nov 2026).** Hero font change **reverted** (Fraunces italic is back).
   Featured campaigns **reverted** to the original carousel ("Featured campaigns, in motion.").
   **What we do** = 4 cards (Strategy / Creative / Production / Growth) on SoCheers' "How the work
