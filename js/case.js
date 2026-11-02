@@ -34,13 +34,16 @@
   }
   var moreLinks=(c.links||[]).filter(function(u){return!reels.some(function(r){return u.indexOf(r.code)>-1})});
 
-  /* results: the headline number is shown once (top of the page), so drop it from the boxes */
-  var hero=c.stat?String(c.stat.v):null;
+  /* results: every number lives here (no separate headline-number box) */
   function box(s){
     var inner='<span class="cs-box-v">'+esc(s.v)+'</span><span class="cs-box-l">'+esc(s.l)+'</span>';
     return s.link?'<a class="cs-box is-link" href="'+s.link+'"'+ext+'>'+inner+'<span class="cs-box-go">Watch ↗</span></a>':'<div class="cs-box">'+inner+'</div>';
   }
-  var results=(c.results||[]).map(function(r){var s=r.s.filter(function(x){return String(x.v)!==hero});return s.length?{p:r.p,s:s}:null}).filter(Boolean);
+  var results=(c.results||[]).filter(function(r){return r.s&&r.s.length});
+  // a headline number that isn't already in the results is added to them, so nothing is lost
+  var num=function(v){var m=String(v).replace(/,/g,"").match(/([\d.]+)\s*([KkMm]?)/);return m?parseFloat(m[1])*({k:1e3,m:1e6}[m[2].toLowerCase()]||1):NaN};
+  var same=function(a,b){var x=num(a),y=num(b);return String(a)===String(b)||(x&&y&&Math.abs(x-y)/Math.max(x,y)<.02)};
+  if(c.stat&&!results.some(function(r){return r.s.some(function(x){return same(x.v,c.stat.v)})})){if(results.length)results[0]={p:results[0].p,s:[c.stat].concat(results[0].s)};else results=[{p:"Highlights",s:[c.stat]}]}
   var resHTML=results.length?'<section class="cs-sec cs-results"><h2>Results by platform</h2>'+results.map(function(r){return'<h3 class="cs-plat">'+esc(r.p)+'</h3><div class="cs-boxes">'+r.s.map(box).join("")+'</div>'}).join("")+'</section>':'';
   var linksHTML=moreLinks.length?'<section class="cs-sec"><h3 class="cs-plat">More on the feed</h3><div class="cs-links">'+moreLinks.map(function(u,i){return'<a class="cs-link" href="'+u+'"'+ext+'><span class="cs-link-n">'+String(i+1).padStart(2,"0")+'</span>'+(u.indexOf("/p/")>-1?"Post":"Reel")+' ↗</a>'}).join("")+'</div></section>':'';
 
@@ -53,7 +56,6 @@
     '<div class="cs-body"><div class="cs-grid">'+
       '<div class="cs-main">'+
         '<p class="cs-intro">'+esc(c.summary)+'</p>'+
-        (c.stat?'<div class="cs-stat"><b>'+esc(c.stat.v)+'</b><span>'+esc(c.stat.l)+'</span></div>':'')+
         '<dl class="cs-facts"><div><dt>Service</dt><dd>'+esc(c.service)+'</dd></div>'+(c.timeline!==c.status?'<div><dt>Timeline</dt><dd>'+esc(c.timeline)+'</dd></div>':'')+'<div><dt>Status</dt><dd>'+esc(c.status)+'</dd></div></dl>'+
         '<section class="cs-sec"><h2>The challenge</h2><p>'+esc(c.ask)+'</p></section>'+
         '<section class="cs-sec"><h2>The solution</h2><p>'+esc(c.made)+'</p></section>'+
