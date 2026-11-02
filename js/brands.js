@@ -5,7 +5,8 @@
    - ar:   logo width ÷ height, used to size every logo to the same visual weight.
    - Every logo has an ink version (assets/clients/logos/) and a real-colour version
      (assets/clients/logos/color/, logo only, no background) that fades in on hover.
-   - Each array in BRAND_ROWS is one scrolling row; order inside a row is the display order. */
+   - Each array in BRAND_ROWS is one scrolling row; order inside a row is the display order.
+     Rows are arranged so neighbouring logos are different colours and the big names are spread out. */
 const BRANDS={
   "netflix":{n:"Netflix",logo:"netflix.png",ar:3.73},
   "amazon-prime":{n:"Amazon Prime Video",logo:"amazon-prime.png",ar:5.19},
@@ -49,9 +50,9 @@ const BRANDS={
   "paulie-gees":{n:"Paulie Gee’s"}
 };
 const BRAND_ROWS=[
-  ["netflix","nykaa","uber","elra","siciliana","isl","walters","gong","edit","comart","fossae","pho-table","yara"],
-  ["amazon-prime","ceat-specialty","licious","mood-banana","the-croffle-guys","bar-bank","paper-boat-zero","house-of-govinda","gush","brooklyn-bread","sarkar","qreativs","not-rocket-science"],
-  ["mubi","candid","bold-care","tbf","terractive","vinyl-pop","pop-upi","so-positive","la-shield","antimattr","gurume","olly-fest","scalpe-pro","paulie-gees"]
+  ["netflix","elra","siciliana","walters","uber","so-positive","bar-bank","mubi","terractive","gush","yara","fossae","la-shield"],
+  ["amazon-prime","nykaa","gurume","tbf","isl","vinyl-pop","antimattr","candid","paper-boat-zero","mood-banana","brooklyn-bread","qreativs","olly-fest"],
+  ["ceat-specialty","house-of-govinda","the-croffle-guys","pop-upi","bold-care","comart","edit","licious","sarkar","gong","not-rocket-science","pho-table","scalpe-pro","paulie-gees"]
 ];
 (function(){
   var holders=document.querySelectorAll("[data-logo-wall]");
