@@ -193,17 +193,16 @@ Tokens live in `css/base.css` `:root`. Always reuse these instead of hard-coding
   reels per brand (`CASE_REELS`, first = card cover). **All reel posters regenerated** from the
   originals (best sharp, well-lit frame; landscape sources fitted on a blurred 9:16 backdrop).
 
-- ✅ **Home page v2 (client feedback, Nov 2026).** Hero order and colours unchanged; only
-  *unforgettable.* switched to **Instrument Serif italic** (Fraunces' display italic swashes looked
-  distorted). **What we do** = 8 image cards (`#wwdFlow`, `.wwd-*` in base.css, renderer at end of
-  home.js) in the doc's order with the doc's copy and tags; each cycles 3 frames of real work; swipe
-  row on phones. The old switchboard JS is left in home.js but no-ops (its elements are gone).
-  **Logo wall** on light sections shows real-colour logos by default; rows re-ordered so neighbours
-  differ in colour and big names are spread (Prime and CEAT in different rows); logos not linked.
-  **Featured campaigns** → "The big swings." spotlight (big image + story + arrows, autoplaying
-  thumbnail strip; `.bs-*`); uses the existing `campaigns` array; "View case" only for brands with a
-  case page (Uber, Wamiqa, Terractive have none yet). A hidden `#campTrack` stays so the old minified
-  render chain (stats, testimonials) keeps working. Testimonials heading → "The receipts."
+- ✅ **Home page v3 (Nov 2026).** Hero font change **reverted** (Fraunces italic is back).
+  Featured campaigns **reverted** to the original carousel ("Featured campaigns, in motion.").
+  **What we do** = 4 cards (Strategy / Creative / Production / Growth) on SoCheers' "How the work
+  comes together" pattern: image background cycling frames of our work, centred title, divided
+  list of services; one card is active (lime border, clear image), others greyed; hover/tap to
+  switch (`#wwdFlow`, `.wwd-*`). **Logo wall**: real colours, bigger logos (tall logos get extra
+  height), playful tilt on hover; only logos that contain the brand name are used — Gurume and the
+  ISL crest are set as type; brands with no findable logo (Bar Bank, Vinyl Pop, Paper Boat Zero,
+  POP UPI, Edit, Sarkar, Qreativs, Olly Fest, Yara, Not Rocket Science, Scalpe Pro, Paulie Gee's)
+  stay as type until the client sends files. Testimonials heading → "The receipts."
 
 ## 9. Open items / decisions pending
 - ✅ ~~Duplicate stats~~ — resolved. The standalone stats section is gone; `#statsGrid` now lives

@@ -137,69 +137,28 @@ function initSwAccordion(data,items){
   reveal("#peopleBrief .team-card",{media:".team-avatar",stagger:.1});
 })();
 
-/* ===== What we do: 8 service cards (copy and order from the client's "UM website" doc, Home tab).
-   Each card cycles through a few frames of real work. ===== */
+/* ===== What we do: 4 cards, modelled on SoCheers' "How the work comes together".
+   Hover (or tap) a card to light it up; the others dim. Images are frames from our own work. ===== */
 (function(){
   var el=document.getElementById("wwdFlow");if(!el)return;
   var reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var R=function(c){return"assets/reels/"+c+".jpg"},SW=function(n){return"assets/switchboard/sw-"+n+".jpg"};
   var S=[
-    {t:"Social Media",d:"Day-to-day posting and community management, built around how people scroll, which is rarely how brands wish they did.",g:"We read the comments, all of them",img:[R("DShxlHdiPB8"),SW("social-media"),R("DdBokmANXE2")]},
-    {t:"Content Strategy",d:"The plan behind the posts. What to make, when to post it and why it’ll land, mapped to what your audience actually wants next.",g:"A calendar with a reason behind it",img:[R("DZKWM22vP71"),"assets/campaigns/nykaa.jpg",R("DQ3bAs3isW6")]},
-    {t:"Video Production",d:"Our team runs the whole production, from casting and locations on shoot day to the final edit, and every frame is shot with the feed in mind.",g:"Shot and edited under one roof",img:[SW("video-production"),R("DaiQz4ATL69"),R("Dd1RKqYO6cu")]},
-    {t:"Meta Ads",d:"Relatable enough to pass for organic content. Sharp enough to sell in the first five seconds.",g:"Creative that earns its budget",img:[R("DZPbav9s2tF"),R("DbIu7BPINJp"),R("DXqmv0cjLwo")]},
-    {t:"Creator Collabs",d:"The right creators, briefed properly, paid fairly and delivering on time. We find whoever your audience already trusts.",g:"Vetted creators, managed end to end",img:[SW("creator-collabs"),R("DXW0CDHAnhH"),R("DYj4AkpCKX9")]},
-    {t:"YouTube Management",d:"Channels grown, revived and run end to end. Thumbnails, titles, upload strategy, the whole engine.",g:"Growth you can see in your analytics",img:[SW("youtube-mgmt"),R("DY4ygKSzd7x"),R("DWTqSygDSdS")]},
-    {t:"Creative Direction",d:"The throughline across every platform and pitch deck. One creative vision, applied consistently, so nothing feels like a rebrand mid-campaign.",g:"Consistent across every touchpoint",img:[SW("creative-direction"),R("DdtiijpI_Vg"),R("DdwDv2-P27F")]},
-    {t:"Branding",d:"Positioning and identity, down to the tone of voice, so the brand has a full personality beyond the logo file. We build brands people recognise mid-scroll.",g:"Strategy to style guide, one team",img:[R("Dd6Ovj1oNBc"),"assets/campaigns/edit.jpg",R("DawmthcicGo")]}
+    {t:"Strategy",items:["Content Strategy","Branding & Positioning","Platform & Audience Planning","Monthly Content Calendars"],img:[R("DZKWM22vP71"),"assets/campaigns/nykaa.jpg",R("Dd6Ovj1oNBc")]},
+    {t:"Creative",items:["Creative Direction","Original IPs & Formats","Scripts & Hooks","Creator Collabs"],img:[SW("creative-direction"),R("DXW0CDHAnhH"),R("DQ3bAs3isW6")]},
+    {t:"Production",items:["Video Production","Shoot Days & Casting","Editing & Motion","Product & Food Shoots"],img:[SW("video-production"),R("Dd1RKqYO6cu"),R("DaiQz4ATL69")]},
+    {t:"Growth",items:["Social Media Management","Meta Ads","YouTube Management","Reporting You Can Act On"],img:[R("DShxlHdiPB8"),SW("youtube-mgmt"),R("DZPbav9s2tF")]}
   ];
   el.innerHTML=S.map(function(s,i){
-    return'<article class="wwd-card" tabindex="0"><div class="wwd-img">'+s.img.map(function(src,k){return'<img src="'+src+'" alt="" loading="lazy" decoding="async"'+(k?'':' class="on"')+'>'}).join("")+'</div>'+
-      '<div class="wwd-body"><span class="wwd-n">['+String(i+1).padStart(2,"0")+']</span><h3>'+s.t+'</h3><p>'+s.d+'</p><span class="wwd-tag">'+s.g+'</span></div></article>';
+    return'<article class="wwd-card'+(i?'':' on')+'" tabindex="0"><div class="wwd-img">'+s.img.map(function(src,k){return'<img src="'+src+'" alt="" loading="lazy" decoding="async"'+(k?'':' class="on"')+'>'}).join("")+'</div>'+
+      '<div class="wwd-body"><span class="wwd-n">'+String(i+1).padStart(2,"0")+'</span><h3>'+s.t+'</h3><ul>'+s.items.map(function(x){return"<li>"+x+"</li>"}).join("")+'</ul></div></article>';
   }).join("");
-  if(!reduced)[].forEach.call(el.querySelectorAll(".wwd-img"),function(box,i){
-    var imgs=box.querySelectorAll("img"),k=0;
-    setTimeout(function(){setInterval(function(){imgs[k].classList.remove("on");k=(k+1)%imgs.length;imgs[k].classList.add("on")},3200)},i*500);
+  var cards=[].slice.call(el.children);
+  function act(c){cards.forEach(function(x){x.classList.toggle("on",x===c)})}
+  cards.forEach(function(c){c.addEventListener("mouseenter",function(){act(c)});c.addEventListener("focus",function(){act(c)});c.addEventListener("click",function(){act(c)})});
+  if(!reduced)cards.forEach(function(c,i){
+    var imgs=c.querySelectorAll(".wwd-img img"),k=0;
+    setTimeout(function(){setInterval(function(){imgs[k].classList.remove("on");k=(k+1)%imgs.length;imgs[k].classList.add("on")},3400)},i*700);
   });
-  if(window.gsap&&window.ScrollTrigger&&!reduced)gsap.fromTo(el.children,{opacity:0,y:40},{opacity:1,y:0,duration:.7,stagger:.07,ease:"power3.out",scrollTrigger:{trigger:el,start:"top 85%"}});
-})();
-
-/* ===== Featured campaigns: "The big swings." — spotlight + thumbnail strip, autoplay.
-   Data = the `campaigns` array above; a case link shows when that brand has a case page. ===== */
-(function(){
-  var media=document.getElementById("bsMedia"),text=document.getElementById("bsText"),strip=document.getElementById("bsStrip"),count=document.getElementById("bsCount"),stage=document.getElementById("bsStage");
-  if(!media||typeof campaigns==="undefined")return;
-  var reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var CASE={"Nykaa":"nykaa","The Croffle Guys":"the-croffle-guys","Mood Banana":"mood-banana","Edit":"edit","Walters":"walters","ELRA":"elra","Siciliana":"siciliana"};
-  var n=campaigns.length,cur=-1,timer=null,DUR=6000,pad=function(i){return String(i+1).padStart(2,"0")};
-  media.innerHTML=campaigns.map(function(c,i){return'<div class="bs-slide" style="background-image:url(\''+c.img+'\')" aria-hidden="true"></div>'}).join("");
-  strip.innerHTML=campaigns.map(function(c,i){return'<button type="button" class="bs-thumb" role="tab" aria-selected="false" aria-label="'+c.t+'"><span class="bs-thumb-img" style="background-image:url(\''+c.img+'\')"></span><span class="bs-thumb-t"><small>'+pad(i)+'</small>'+c.t+'</span><i></i></button>'}).join("");
-  var slides=media.children,thumbs=strip.children;
-  function go(i,user){
-    i=(i+n)%n;if(i===cur)return;cur=i;var c=campaigns[i],slug=CASE[c.t];
-    [].forEach.call(slides,function(s,k){s.classList.toggle("on",k===i)});
-    [].forEach.call(thumbs,function(t,k){t.classList.toggle("on",k===i);t.setAttribute("aria-selected",k===i)});
-    count.innerHTML='<b>'+pad(i)+'</b> / '+pad(n-1);
-    text.innerHTML='<h3>'+c.t+'</h3><p>'+c.d+'</p>'+(slug?'<a class="bs-cta" href="case.html?b='+slug+'">View case <span aria-hidden="true">↗</span></a>':'');
-    if(window.gsap&&!reduced)gsap.fromTo(text.children,{opacity:0,y:16},{opacity:1,y:0,duration:.55,stagger:.06,ease:"power3.out"});
-    if(user&&window.innerWidth<900){var t=thumbs[i];strip.scrollTo({left:t.offsetLeft-strip.clientWidth/2+t.clientWidth/2,behavior:"smooth"})}
-    restart();
-  }
-  function restart(){
-    clearTimeout(timer);[].forEach.call(strip.querySelectorAll("i"),function(b){b.style.transition="none";b.style.transform="scaleX(0)"});
-    if(reduced)return;
-    var bar=thumbs[cur].querySelector("i");void bar.offsetWidth;bar.style.transition="transform "+DUR+"ms linear";bar.style.transform="scaleX(1)";
-    timer=setTimeout(function(){go(cur+1)},DUR);
-  }
-  [].forEach.call(thumbs,function(t,i){t.addEventListener("click",function(){go(i,true)})});
-  document.getElementById("bsPrev").addEventListener("click",function(){go(cur-1,true)});
-  document.getElementById("bsNext").addEventListener("click",function(){go(cur+1,true)});
-  stage.addEventListener("keydown",function(e){if(e.key==="ArrowRight")go(cur+1,true);if(e.key==="ArrowLeft")go(cur-1,true)});
-  var x0=null;media.addEventListener("pointerdown",function(e){x0=e.clientX});media.addEventListener("pointerup",function(e){if(x0===null)return;var d=e.clientX-x0;x0=null;if(Math.abs(d)>40)go(cur+(d<0?1:-1),true)});
-  // pause while hovered, and while the section is off screen
-  var hover=false,seen=true;
-  stage.addEventListener("mouseenter",function(){hover=true;clearTimeout(timer);var b=thumbs[cur].querySelector("i");b.style.transition="none"});
-  stage.addEventListener("mouseleave",function(){hover=false;restart()});
-  if("IntersectionObserver"in window)new IntersectionObserver(function(es){seen=es[0].isIntersecting;if(seen&&!hover)restart();else clearTimeout(timer)},{threshold:.2}).observe(stage);
-  go(0);
+  if(window.gsap&&window.ScrollTrigger&&!reduced)gsap.fromTo(cards,{opacity:0,y:40},{opacity:1,y:0,duration:.7,stagger:.1,ease:"power3.out",scrollTrigger:{trigger:el,start:"top 85%"}});
 })();

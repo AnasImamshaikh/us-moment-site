@@ -2,6 +2,7 @@
    EDIT HERE to add / remove / reorder brands.
    - logo: file in assets/clients/logos/ (transparent PNG silhouette). Leave it out and the
      brand name is set in type instead, until a logo file is supplied.
+     Only use logos that contain the brand name (icon-only marks like Gurume / the ISL crest are set in type).
    - ar:   logo width ÷ height, used to size every logo to the same visual weight.
    - Every logo has an ink version (assets/clients/logos/) and a real-colour version
      (assets/clients/logos/color/, logo only, no background) that fades in on hover.
@@ -23,7 +24,7 @@ const BRANDS={
   "tbf":{n:"TBF (To Be Frank)",logo:"tbf.png",ar:1.47},
   "the-croffle-guys":{n:"The Croffle Guys",logo:"the-croffle-guys.png",ar:2.14},
   "terractive":{n:"Terractive",logo:"terractive.png",ar:6.02},
-  "isl":{n:"ISL",logo:"isl.png",ar:.76},
+  "isl":{n:"Indian Super League"},
   "bar-bank":{n:"Bar Bank"},
   "vinyl-pop":{n:"Vinyl Pop"},
   "walters":{n:"Walters",logo:"walters.png",ar:4},
@@ -40,7 +41,7 @@ const BRANDS={
   "antimattr":{n:"Antimattr",logo:"antimattr.png",ar:5.44},
   "fossae":{n:"Fossae",logo:"fossae.png",ar:3.52},
   "sarkar":{n:"Sarkar"},
-  "gurume":{n:"Gurume",logo:"gurume.png",ar:1},
+  "gurume":{n:"Gurume"},
   "pho-table":{n:"Pho Table",logo:"pho-table.png",ar:2.73},
   "qreativs":{n:"Qreativs"},
   "olly-fest":{n:"Olly Fest"},
@@ -62,7 +63,9 @@ const BRAND_ROWS=[
     var b=BRANDS[slug];if(!b)return"";
     var star='<span class="lm-star '+stars[i%3]+'" aria-hidden="true">✦</span>';
     if(!b.logo)return'<span class="lm-item"><span class="lm-text">'+b.n+'</span></span>'+star;
-    var ar=b.ar||3,h=Math.min(3,Math.sqrt(20/ar)),w=h*ar;
+    // sized to roughly equal visual weight; bigger than before so every name reads clearly.
+    // Tall logos (name under an emblem) get extra height so the name stays legible.
+    var ar=b.ar||3,h=Math.min(ar<1.2?4.4:3.8,Math.sqrt(34/ar)),w=h*ar;
     // two layers: an ink silhouette (default) and the real-colour logo (shown on hover).
     // Both are plain images, so they work even when the site is opened as a local file.
     return'<span class="lm-item"><span class="lm-logo" style="width:'+w.toFixed(2)+'em;height:'+h.toFixed(2)+'em"><img class="lm-mono" src="assets/clients/logos/'+b.logo+'" alt="'+b.n+'" decoding="async"><img class="lm-col" src="assets/clients/logos/color/'+b.logo+'" alt="" aria-hidden="true" decoding="async"></span></span>'+star;
