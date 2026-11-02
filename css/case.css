@@ -101,3 +101,17 @@
 }
 @media (max-width:480px){.cs-head h1{font-size:var(--step-2)}.cs-intro{font-size:var(--step-0)}.cs-reels.n2{max-width:none}}
 .cs-reel-ig{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}@media (max-width:480px){.cs-reel-ig{font-size:.5rem;padding:1.2rem .45rem .45rem}.cs-reels .cs-reel.big .cs-reel-top{font-size:.42rem}}
+/* smaller text, bigger reels (client feedback) */
+.cs-head h1{font-size:clamp(1.7rem,1.2rem + 1.6vw,2.6rem)}
+.cs-intro{font-size:clamp(1rem,.95rem + .25vw,1.15rem)}
+.cs-sec h2{font-size:clamp(1.05rem,.95rem + .4vw,1.3rem)}
+.cs-sec p{font-size:.88rem;line-height:1.6}
+.cs-facts dd{font-size:.84rem}
+.cs-box-v{font-size:clamp(1.05rem,.95rem + .4vw,1.35rem)}
+.cs-box-l{font-size:.72rem}
+@media (min-width:901px){
+  .cs-grid{grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:clamp(1.5rem,1rem + 3vw,4rem)}
+  .cs-reels.n2,.cs-reels.n3{max-width:none}
+  .cs-head h1{max-width:min(24ch,calc((min(1240px,100vw - 2*var(--gutter)) - clamp(1.5rem,1rem + 3vw,4rem)) * .41))}
+}
+@media (min-width:901px){.cs-reels.n2,.cs-reels.n3{max-width:min(100%,calc((100svh - 14rem) / .84));margin:0 auto}.cs-work{top:5rem}}
