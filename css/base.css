@@ -164,3 +164,9 @@
 .lm-item:hover .lm-logo,.lm-item:hover .lm-text{transform:rotate(-2.5deg) scale(1.12)}
 .lm-item:nth-child(4n+3):hover .lm-logo,.lm-item:nth-child(4n+3):hover .lm-text{transform:rotate(2.5deg) scale(1.12)}
 @media (prefers-reduced-motion:reduce){.lm-item:hover .lm-logo,.lm-item:hover .lm-text{transform:none}}
+
+/* "Don't take our word for it" — one-line title, tighter section (less scroll) */
+.section.viral{padding-top:clamp(2.6rem,2rem + 3vw,5rem);padding-bottom:clamp(2.6rem,2rem + 3vw,5rem)}
+.viral-head{max-width:none;margin-bottom:clamp(1.4rem,1rem + 1.2vw,2.2rem)}
+.viral-head h2{font-size:clamp(1.45rem,1rem + 1.7vw,2.5rem);line-height:1.2;text-wrap:balance}
+@media (min-width:900px){.viral-head h2{white-space:nowrap}}
