@@ -1,4 +1,4 @@
-/* Us Moment — every reel / post from the client's "UM Web Archive Page" doc.
+/* Us Moment, every reel / post from the client's "UM Web Archive Page" doc.
    Generated from that doc; one line per piece of content. Used by the Work page reel wall.
    - brand: slug from js/work-data.js (the card opens that brand's case study)
    - poster / video: web versions in assets/reels/ (full-quality originals live in _media/reels/, not in git)

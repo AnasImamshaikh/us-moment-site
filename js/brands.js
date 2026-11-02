@@ -1,4 +1,4 @@
-/* Us Moment — client logo wall (shared by index.html and work.html).
+/* Us Moment, client logo wall (shared by index.html and work.html).
    EDIT HERE to add / remove / reorder brands.
    - logo: file in assets/clients/logos/ (transparent PNG silhouette). Leave it out and the
      brand name is set in type instead, until a logo file is supplied.

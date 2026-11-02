@@ -1,4 +1,4 @@
-/* Case study page: case.html?b=<slug> — renders one entry from CASES (js/work-data.js).
+/* Case study page: case.html?b=<slug>, renders one entry from CASES (js/work-data.js).
    Layout: details on the left, the work (max 3 reels from CASE_REELS) on the right. */
 (function(){
   var root=document.getElementById("cs");
@@ -10,7 +10,7 @@
   var esc=function(t){return String(t==null?"":t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")};
   var ext=' target="_blank" rel="noopener"';
 
-  document.title=c.name+" case study — Us Moment";
+  document.title=c.name+" case study | Us Moment";
   var md=document.getElementById("metaDesc");if(md)md.setAttribute("content",c.headline+" "+c.summary);
 
   var ava=c.logo?'<img src="assets/clients/logos/'+c.logo+'" alt="">':esc(c.name.charAt(0));

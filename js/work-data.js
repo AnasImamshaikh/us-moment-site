@@ -1,4 +1,4 @@
-/* Us Moment — case studies (used by work.html and case.html).
+/* Us Moment, case studies (used by work.html and case.html).
    EDIT HERE to change the Work page.
    - Order of this array = order of the cards on the Work page (major brands first).
    - featured:true  → shows in the Work page hero carousel (keep it to 5).

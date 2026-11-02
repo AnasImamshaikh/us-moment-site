@@ -208,7 +208,10 @@ Tokens live in `css/base.css` `:root`. Always reuse these instead of hard-coding
   clip into assets/work/hero/ with the same slug.
 
 - ✅ **Home page v3 (Nov 2026).** Hero font change **reverted** (Fraunces italic is back).
-  Featured campaigns **reverted** to the original carousel ("Featured campaigns, in motion.").
+  Featured campaigns = **brand cards** like the Work page grid (`#fcGrid`, `.fc-*`, renderer at the end
+  of home.js): same 10 campaigns from the `campaigns` array, 5×2 on desktop, swipe row on phones,
+  colour logo avatar, 2-line blurb, "View case" for brands with a case page. Heading on one line.
+  **No " — " anywhere on the site** (client request): titles use " | ", text uses commas.
   **What we do** = 4 cards (Strategy / Creative / Production / Growth) on SoCheers' "How the work
   comes together" pattern: centred title, divided list of 4 services per card; **each service line
   has its own HD Unsplash photo** (free licence, hotlinked from images.unsplash.com — Unsplash's

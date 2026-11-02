@@ -170,3 +170,32 @@
 .viral-head{max-width:none;margin-bottom:clamp(1.4rem,1rem + 1.2vw,2.2rem)}
 .viral-head h2{font-size:clamp(1.45rem,1rem + 1.7vw,2.5rem);line-height:1.2;text-wrap:balance}
 @media (min-width:900px){.viral-head h2{white-space:nowrap}}
+
+/* ===== Home: Featured campaigns as brand cards (short version of the Work page grid) ===== */
+.fc-head{display:flex;justify-content:space-between;align-items:flex-end;gap:1rem 2.5rem;flex-wrap:wrap;margin-bottom:clamp(1.4rem,1rem + 1.2vw,2.2rem)}
+.fc-head h2{font-size:clamp(1.6rem,1.1rem + 2vw,2.8rem);line-height:1.1;margin:.3rem 0 0}
+@media (min-width:900px){.fc-head h2{white-space:nowrap}}
+.fc-head-r{display:flex;align-items:center;gap:1.4rem;flex-wrap:wrap}
+.fc-head-r p{margin:0;color:var(--paper-a70);font-size:.95rem}
+.fc-all{font-weight:600;font-size:.9rem;color:var(--flash);border-bottom:1.5px solid currentColor;padding-bottom:2px;white-space:nowrap}
+.fc-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(.7rem,.4rem + .8vw,1.1rem)}
+.fc-card{position:relative;display:block;aspect-ratio:4/5;border-radius:14px;overflow:hidden;background:var(--ink);color:var(--paper);isolation:isolate;box-shadow:0 0 0 1px #f3f1e81a;transition:transform .45s var(--ease-out),box-shadow .45s var(--ease-out)}
+.fc-media{position:absolute;inset:0;z-index:-2;background:center/cover no-repeat;transition:transform .8s var(--ease-out)}
+.fc-shade{position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,#0b0f3d99 0%,transparent 26%,transparent 46%,#0b0f3de6 100%)}
+.fc-top{position:absolute;left:.75rem;right:.75rem;top:.75rem;display:flex;align-items:center;gap:.5rem;font-size:.85rem;font-weight:600;line-height:1.2}
+.fc-ava{width:34px;height:34px;flex:none;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:var(--paper);box-shadow:0 0 0 2px #fff3,0 0 0 3.5px var(--gold);font-family:var(--f-display);color:var(--ink);overflow:hidden}
+.fc-ava img{width:76%;height:76%;object-fit:contain}
+.fc-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fc-foot{position:absolute;left:0;right:0;bottom:0;display:flex;flex-direction:column;gap:.35rem;padding:.85rem}
+.fc-desc{font-size:.74rem;line-height:1.35;color:#f3f1e8cc;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.fc-cta{font-size:.75rem;font-weight:600;color:var(--flash);max-height:0;opacity:0;overflow:hidden;transition:max-height .4s var(--ease-out),opacity .3s}
+a.fc-card:hover,a.fc-card:focus-visible{transform:translateY(-6px);box-shadow:0 26px 40px -24px #000}
+.fc-card:hover .fc-media{transform:scale(1.06)}
+a.fc-card:hover .fc-cta,a.fc-card:focus-visible .fc-cta{max-height:1.4em;opacity:1}
+@media (hover:none){.fc-cta{max-height:1.4em;opacity:1}}
+@media (max-width:1100px){.fc-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:640px){
+  .fc-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;margin-right:calc(var(--gutter)*-1);padding:0 var(--gutter) .5rem 0;scrollbar-width:none}
+  .fc-grid::-webkit-scrollbar{display:none}
+  .fc-card{flex:0 0 62%;scroll-snap-align:start}
+}
