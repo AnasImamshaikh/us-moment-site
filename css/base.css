@@ -212,3 +212,11 @@ a.fc-card:hover .fc-cta,a.fc-card:focus-visible .fc-cta{max-height:1.4em;opacity
 .wwd-body{padding:clamp(1.3rem,1rem + 1vw,2rem) clamp(1rem,.8rem + .6vw,1.4rem)}
 .wwd-body h3{margin-bottom:.9rem}
 .wwd-body li{padding:.65rem .2rem}
+
+/* Closing CTA: one compact line (heading + button side by side), footer tagline removed */
+.cta-band{padding:clamp(2.2rem,1.6rem + 2vw,3.4rem) var(--gutter);display:flex;align-items:center;justify-content:center;gap:.8rem 1.6rem;flex-wrap:wrap}
+.cta-band .eyebrow{width:100%;margin:0}
+.cta-band h2{font-size:clamp(1.5rem,1.1rem + 1.6vw,2.4rem);line-height:1.15;margin:0}
+.cta-band h2 .line,.cta-band h2 .word{line-height:1.15}
+.foot-top{justify-content:flex-end;padding-bottom:1.4rem;margin-bottom:1.4rem}
+@media (max-width:640px){.cta-band{flex-direction:column}.foot-top{justify-content:flex-start}}
