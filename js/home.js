@@ -172,7 +172,7 @@ function initSwAccordion(data,items){
       c.addEventListener("mouseleave",function(){c.style.setProperty("--ry","0deg");c.style.setProperty("--rx","0deg")});
     }
   });
-  if(window.gsap&&window.ScrollTrigger&&!reduced)gsap.fromTo(cards,{opacity:0,y:50},{opacity:1,y:0,duration:.8,stagger:.12,ease:"power3.out",scrollTrigger:{trigger:el,start:"top 85%"}});
+  if(window.gsap&&window.ScrollTrigger&&!reduced)gsap.fromTo(cards,{opacity:0,y:50,scale:1},{opacity:1,y:0,duration:.8,stagger:.12,ease:"power3.out",clearProps:"transform",scrollTrigger:{trigger:el,start:"top 85%"}});
 })();
 
 /* ===== Featured campaigns: Instagram-style brand cards (a short version of the Work page grid).
