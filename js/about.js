@@ -4,3 +4,14 @@ const team=[{n:"Fardeen",r:"Co-Founder",bio:"Co-founder. Cut his teeth growing N
   <div class="process-row">
     <span class="pnum">${c.n}</span><h3>${c.t}</h3><p>${c.d}</p>
   </div>`).join("");
+/* Five stages: scroll-driven progress rail */
+(function(){
+  var reducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var track=document.querySelector(".process-track"),fill=document.getElementById("processFill"),rows=[].slice.call(document.querySelectorAll(".process-row"));
+  if(!track||!fill||!rows.length)return;
+  if(reducedMotion||!window.gsap||!window.ScrollTrigger){rows.forEach(function(r){r.classList.add("on")});return}
+  gsap.to(fill,{height:"100%",ease:"none",scrollTrigger:{trigger:track,start:"top 68%",end:"bottom 55%",scrub:.3}});
+  rows.forEach(function(r){
+    ScrollTrigger.create({trigger:r,start:"top 65%",end:"bottom 55%",onEnter:function(){r.classList.add("on")},onEnterBack:function(){r.classList.add("on")},onLeaveBack:function(){r.classList.remove("on")}});
+  });
+})();
