@@ -251,3 +251,6 @@ a.wwd-card{color:var(--paper);text-decoration:none}
 @media (max-width:640px){.wwd-head{align-items:flex-start}}
 @media (prefers-reduced-motion:reduce){.wwd-roll>span{transition:none}}
 @media (max-width:640px){.wwd-card,.wwd-card.on{box-shadow:none}}
+
+/* viral cards are links now */
+a.viral-card{display:block;color:inherit;text-decoration:none}
