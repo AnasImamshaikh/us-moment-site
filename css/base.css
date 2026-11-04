@@ -228,3 +228,6 @@ a.fc-card:hover .fc-cta,a.fc-card:focus-visible .fc-cta{max-height:1.4em;opacity
 .section.contact{padding-top:clamp(2.6rem,2rem + 3vw,5rem);padding-bottom:clamp(2.6rem,2rem + 3vw,5rem)}
 /* footer: no newsletter strip any more */
 footer .foot-bottom{padding-top:0}
+
+/* Home: The people (title left, founders left, story right) */
+#peopleBrief .pb-head{margin-bottom:1.6rem}#peopleBrief .pb-head h2{font-size:clamp(1.6rem,1.2rem + 1.4vw,2.4rem);line-height:1.15;margin-top:.6rem;max-width:24ch}#peopleBrief .pb-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(1.6rem,3vw,3rem);align-items:center}#peopleBrief .pb-row .team-grid.founders{max-width:none;gap:1rem}#peopleBrief .pb-story{color:var(--paper-a70);font-size:1rem;line-height:1.65;max-width:56ch}#peopleBrief .pb-story p+p{margin-top:.9em}@media (max-width:860px){#peopleBrief .pb-row{grid-template-columns:1fr;gap:1.4rem}#peopleBrief .pb-row .team-grid.founders{max-width:520px}}@media (max-width:420px){#peopleBrief .pb-row .team-grid.founders{gap:.8rem}#peopleBrief .pb-story{font-size:.95rem}}
