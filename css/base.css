@@ -261,3 +261,16 @@ a.viral-card{display:block;color:inherit;text-decoration:none}
 @media (min-width:861px){#peopleBrief .pb-head h2{white-space:nowrap}}
 #peopleBrief .pb-story{max-width:none;font-size:clamp(1rem,.9rem + .45vw,1.22rem);line-height:1.6}
 #peopleBrief .reveal[style*="justify-content:flex-end"]{margin-top:1rem!important}
+/* Home dropdown in the navbar: hero previews for the client */
+.nav-dd{position:relative;display:inline-flex}
+.nav-dd>a i{font-style:normal;font-size:.7em;margin-left:.15em;opacity:.7}
+.nav-dd-menu{position:absolute;top:100%;left:50%;min-width:220px;padding:.6rem;margin-top:.6rem;display:flex;flex-direction:column;gap:2px;background:var(--ink);border:1px solid var(--paper-a12);border-radius:14px;box-shadow:0 24px 50px -20px #05082c;opacity:0;visibility:hidden;transform:translate(-50%,6px);transition:opacity .25s,transform .25s var(--ease-out),visibility .25s;z-index:100}
+.nav-dd-menu:before{content:"";position:absolute;left:0;right:0;top:-.8rem;height:.8rem}
+.nav-dd:hover .nav-dd-menu,.nav-dd:focus-within .nav-dd-menu{opacity:1;visibility:visible;transform:translate(-50%,0)}
+.nav-dd-l{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--flash);padding:.3rem .6rem .4rem}
+.nav-dd-menu a{padding:.5rem .6rem;border-radius:8px;color:var(--paper);white-space:nowrap;font-size:.82rem}
+.nav-dd-menu a:hover{background:var(--paper-a12);color:var(--flash)}
+.nav-dd-menu a:after{display:none}
+.menu-sub{display:flex;flex-wrap:wrap;gap:.4rem .9rem;margin:-.4rem 0 .8rem;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase}
+.menu-sub span{width:100%;color:var(--flash)}
+.menu-sub a{color:inherit;opacity:.8;text-decoration:underline;text-underline-offset:3px}

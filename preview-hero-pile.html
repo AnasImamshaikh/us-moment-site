@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preview | Hero: physics pile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#131a5e;--paper:#f3f1e8;--flash:#d7ff3d;--paper-a70:rgba(243,241,232,.7);--f-display:"Fraunces",Georgia,serif;--f-body:"Inter",system-ui,sans-serif;--f-mono:"JetBrains Mono",monospace;--gutter:clamp(1.25rem,1rem + 2vw,3.5rem)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--ink);color:var(--paper);font-family:var(--f-body)}
+.tag{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:50;font:500 .7rem var(--f-mono);letter-spacing:.12em;text-transform:uppercase;background:var(--flash);color:var(--ink);padding:.45em .9em;border-radius:999px;white-space:nowrap}
+.hero{position:relative;height:100svh;min-height:560px;overflow:hidden;padding:4.4rem var(--gutter) var(--gutter);display:flex;flex-direction:column;gap:1rem}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:1rem 2rem;flex-wrap:wrap}
+.eyebrow{font:500 .78rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--flash);margin-bottom:.5rem}
+h1{font-family:var(--f-display);font-weight:500;font-size:clamp(2.2rem,1.2rem + 4vw,5.2rem);line-height:.98;letter-spacing:-.02em}
+h1 em{font-style:italic;color:var(--flash)}
+.sub{max-width:32ch;color:var(--paper-a70);font-size:clamp(.92rem,.9rem + .2vw,1.05rem)}
+.panel{position:relative;flex:1;min-height:0;border-radius:22px;overflow:hidden;background:radial-gradient(ellipse at 50% 40%,#232c8c,#0d1350 70%);box-shadow:inset 0 0 0 1px rgba(243,241,232,.1)}
+canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y}
+.hint{position:absolute;left:50%;bottom:1rem;transform:translateX(-50%);font:500 .68rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--paper-a70);pointer-events:none;transition:opacity .5s;white-space:nowrap}
+.load{position:absolute;inset:0;display:grid;place-items:center;font:500 .7rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--paper-a70)}
+@media (max-width:760px){.tag{display:none}}
+</style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+</head>
+<body>
+<nav class="pv-nav" style="position:fixed;top:12px;left:12px;z-index:60;display:flex;gap:6px;flex-wrap:wrap;max-width:calc(100vw - 24px);font:500 .66rem 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase"><a href="index.html" style="background:#f3f1e8;color:#131a5e;padding:.45em .8em;border-radius:999px;text-decoration:none">← Site</a><a href="preview-hero-shards.html" style="background:rgba(243,241,232,.12);color:#f3f1e8;padding:.45em .8em;border-radius:999px;text-decoration:none">1</a><a href="preview-hero-pile.html" style="background:#d7ff3d;color:#131a5e;padding:.45em .8em;border-radius:999px;text-decoration:none">2</a><a href="preview-hero-signal.html" style="background:rgba(243,241,232,.12);color:#f3f1e8;padding:.45em .8em;border-radius:999px;text-decoration:none">3</a><a href="preview-hero-liquid.html" style="background:rgba(243,241,232,.12);color:#f3f1e8;padding:.45em .8em;border-radius:999px;text-decoration:none">4</a></nav>
+<div class="tag" style="left:auto;right:12px;transform:none;top:12px">Preview 2 | Physics pile</div>
+<section class="hero">
+  <div class="head">
+    <div><div class="eyebrow">Us Moment | Mumbai</div><h1>We make brands <em>unforgettable.</em></h1></div>
+    <p class="sub">Social-first strategy, content and production for brands that want to be talked about.</p>
+  </div>
+  <div class="panel" id="panel"><div class="load" id="load">Loading</div><div class="hint" id="hint">Move through the pile | tap or click to burst it</div></div>
+</section>
+<script type="module">
+import * as THREE from "three";
+import {RoomEnvironment} from "three/addons/environments/RoomEnvironment.js";
+const panel=document.getElementById("panel");
+const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const small=innerWidth<700;
+const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,small?1.5:2));
+renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;
+panel.prepend(renderer.domElement);
+const scene=new THREE.Scene();
+const pm=new THREE.PMREMGenerator(renderer);scene.environment=pm.fromScene(new RoomEnvironment(),.04).texture;
+const camera=new THREE.PerspectiveCamera(32,1,.1,100);camera.position.set(0,0,22);
+const key=new THREE.DirectionalLight(0xffffff,1.6);key.position.set(5,8,10);scene.add(key);
+const rim=new THREE.DirectionalLight(0xd7ff3d,.8);rim.position.set(-8,-4,-6);scene.add(rim);
+
+// ---- shapes: our ✱ asterisk, a heart, a play button, and a few plain beads ----
+function capsuleStar(arms){const g=[];const c=new THREE.CapsuleGeometry(.24,1.9,6,14);for(let i=0;i<arms;i++){const m=c.clone();m.rotateZ(i*Math.PI/arms);g.push(m)}return merge(g)}
+function merge(list){ // tiny merge (no addon needed)
+  let pos=[],nor=[],idx=[],off=0;
+  for(const g of list){const gi=g.index?g:g.toNonIndexed();const p=gi.attributes.position.array,n=gi.attributes.normal.array;pos.push(...p);nor.push(...n);
+    if(gi.index){for(const i of gi.index.array)idx.push(i+off)}else{for(let i=0;i<p.length/3;i++)idx.push(i+off)}off+=p.length/3}
+  const out=new THREE.BufferGeometry();out.setAttribute("position",new THREE.Float32BufferAttribute(pos,3));out.setAttribute("normal",new THREE.Float32BufferAttribute(nor,3));out.setIndex(idx);return out}
+function heartGeo(){const s=new THREE.Shape();s.moveTo(0,-.9);s.bezierCurveTo(-1.7,.1,-.9,1.25,0,.55);s.bezierCurveTo(.9,1.25,1.7,.1,0,-.9);
+  const g=new THREE.ExtrudeGeometry(s,{depth:.55,bevelEnabled:true,bevelThickness:.22,bevelSize:.18,bevelSegments:6,curveSegments:24});g.center();return g}
+function playGeo(){const s=new THREE.Shape();const r=.18;s.moveTo(-.55,-.75);s.lineTo(.85,0);s.lineTo(-.55,.75);s.closePath();
+  const g=new THREE.ExtrudeGeometry(s,{depth:.45,bevelEnabled:true,bevelThickness:.2,bevelSize:.2,bevelSegments:6});g.center();return g}
+const GEO={star:capsuleStar(3),star4:capsuleStar(4),heart:heartGeo(),play:playGeo(),bead:new THREE.SphereGeometry(.62,32,24)};
+const mat=(c,o={})=>new THREE.MeshPhysicalMaterial({color:c,roughness:.22,metalness:0,clearcoat:1,clearcoatRoughness:.12,...o});
+const MAT={ink:mat(0x131a5e),blue:mat(0x3245f5),paper:mat(0xf3f1e8,{roughness:.35}),lime:mat(0xd7ff3d,{roughness:.3}),pink:mat(0xff59c4),glass:mat(0xffffff,{transmission:.9,thickness:1.2,roughness:.05,ior:1.4})};
+// recipe: mostly stars in brand colours, plus hearts, play buttons and beads
+const recipe=[["star","blue",7],["star","paper",5],["star","ink",5],["star4","lime",3],["heart","pink",4],["heart","lime",2],["play","lime",3],["play","paper",2],["bead","glass",3],["bead","blue",2]];
+const bodies=[];
+for(const [g,m,n] of recipe)for(let i=0;i<(small?Math.ceil(n*.6):n);i++){
+  const mesh=new THREE.Mesh(GEO[g],MAT[m]);const s=.85+Math.random()*.35;mesh.scale.setScalar(s);
+  mesh.position.set((Math.random()-.5)*14,(Math.random()-.5)*8,(Math.random()-.5)*4);
+  mesh.rotation.set(Math.random()*6,Math.random()*6,Math.random()*6);scene.add(mesh);
+  bodies.push({m:mesh,v:new THREE.Vector3(),w:new THREE.Vector3((Math.random()-.5)*.02,(Math.random()-.5)*.02,(Math.random()-.5)*.02),r:(g==="bead"?.62:1.05)*s});
+}
+document.getElementById("load").remove();
+
+// ---- pointer on the z=0 plane ----
+const ray=new THREE.Raycaster(),ndc=new THREE.Vector2(9,9),plane=new THREE.Plane(new THREE.Vector3(0,0,1),0),hit=new THREE.Vector3(),prevHit=new THREE.Vector3();
+let active=false,last=0,burst=0;
+function setPtr(x,y){const b=panel.getBoundingClientRect();ndc.set((x-b.left)/b.width*2-1,-((y-b.top)/b.height)*2+1);active=true;last=performance.now();document.getElementById("hint").style.opacity=0}
+panel.addEventListener("pointermove",e=>setPtr(e.clientX,e.clientY));
+panel.addEventListener("pointerdown",e=>{setPtr(e.clientX,e.clientY);burst=1});
+panel.addEventListener("pointerleave",()=>{active=false});
+
+function size(){const w=panel.clientWidth,h=panel.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;
+  // keep the pile filling the panel width on any screen
+  camera.position.z=w/h<1?30:22;camera.updateProjectionMatrix()}
+size();addEventListener("resize",size);
+
+const tmp=new THREE.Vector3(),clock=new THREE.Clock();
+function step(){
+  const dt=Math.min(clock.getDelta(),.033),t=clock.elapsedTime;
+  const idle=performance.now()-last>2500;
+  // the "hand": real pointer, or a slow lazy loop through the pile when idle
+  if(active&&!idle){ray.setFromCamera(ndc,camera);ray.ray.intersectPlane(plane,hit)}
+  else hit.set(Math.sin(t*.6)*5,Math.sin(t*1.1)*2.4,0);
+  const hv=tmp.copy(hit).sub(prevHit).length();prevHit.copy(hit);
+  for(const b of bodies){
+    const p=b.m.position;
+    // gentle pull back to the centre of the panel (flattened so the pile spreads wide)
+    b.v.x+=-p.x*.9*dt;b.v.y+=-p.y*1.4*dt;b.v.z+=-p.z*2*dt;
+    // push away from the hand, harder when it moves fast; a click bursts everything outward
+    const dx=p.x-hit.x,dy=p.y-hit.y,dz=p.z,d=Math.hypot(dx,dy,dz)||.001,R=3.4;
+    if(d<R){const f=(1-d/R)*(18+hv*140)*dt;b.v.x+=dx/d*f;b.v.y+=dy/d*f;b.v.z+=(dz/d+.3)*f*.6;b.w.x+=dy*f*.02;b.w.y-=dx*f*.02}
+    if(burst>0){const k=burst*30*dt/(d*.3+1);b.v.x+=dx/d*k;b.v.y+=dy/d*k}
+  }
+  // soft sphere collisions so pieces stack and jostle instead of overlapping
+  for(let i=0;i<bodies.length;i++)for(let j=i+1;j<bodies.length;j++){
+    const a=bodies[i],c=bodies[j],pa=a.m.position,pc=c.m.position;
+    const dx=pc.x-pa.x,dy=pc.y-pa.y,dz=pc.z-pa.z,d=Math.hypot(dx,dy,dz),min=(a.r+c.r)*.92;
+    if(d<min&&d>0){const o=(min-d)/d*.5;pa.x-=dx*o;pa.y-=dy*o;pa.z-=dz*o;pc.x+=dx*o;pc.y+=dy*o;pc.z+=dz*o;
+      const k=.15;a.v.x-=dx*o*k*10;a.v.y-=dy*o*k*10;c.v.x+=dx*o*k*10;c.v.y+=dy*o*k*10;a.w.z+=o*.05;c.w.z-=o*.05}
+  }
+  burst*=.85;if(burst<.01)burst=0;
+  for(const b of bodies){
+    b.v.multiplyScalar(reduced?.8:.94);b.w.multiplyScalar(.97);
+    b.m.position.addScaledVector(b.v,dt*4);
+    b.m.rotation.x+=b.w.x+.002;b.m.rotation.y+=b.w.y+.003;b.m.rotation.z+=b.w.z;
+  }
+  renderer.render(scene,camera);
+  requestAnimationFrame(step);
+}
+requestAnimationFrame(step);
+</script>
+</body>
+</html>

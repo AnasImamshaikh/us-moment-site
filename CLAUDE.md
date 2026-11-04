@@ -273,6 +273,14 @@ Tokens live in `css/base.css` `:root`. Always reuse these instead of hard-coding
   stage lights up, autoplay in view; vertical on phones); hero is 2-column; sticker removed;
   switchboard rows use line icons instead of [01] numbers and arrows.
 
+- 🧪 **Hero previews (CLIENT DEMO ONLY, Nov 4 2026).** Four standalone pages to pick a new interactive
+  home hero: `preview-hero-shards.html` (1, floating reel cards, CSS 3D + JS), `preview-hero-pile.html`
+  (2, three.js physics pile of ✱/hearts/play buttons, three@0.160.0 from jsdelivr),
+  `preview-hero-signal.html` (3, 2D canvas tick field that pops reactions), `preview-hero-liquid.html`
+  (4, WebGL brush that reveals 3 reels). Reached from a **"Home ▾" dropdown in the navbar** on index/about/
+  work/services/case (`.nav-dd` / `.nav-dd-menu` in base.css; phones get a `.menu-sub` list in the menu
+  overlay); each preview has a "← Site / 1 2 3 4" pill bar. **Once the client picks one: build it into the
+  real hero, then delete the 4 preview files, the dropdown markup on the 5 pages and the .nav-dd/.menu-sub CSS.**
 
 ## 9. Open items / decisions pending
 - ✅ ~~Duplicate stats~~ — resolved. The standalone stats section is gone; `#statsGrid` now lives
