@@ -254,3 +254,10 @@ a.wwd-card{color:var(--paper);text-decoration:none}
 
 /* viral cards are links now */
 a.viral-card{display:block;color:inherit;text-decoration:none}
+/* Home "The people" v2: title on one line where it fits, story text matches About and fills the column */
+#peopleBrief{padding-top:clamp(2.4rem,2rem + 2vw,4rem);padding-bottom:clamp(2.4rem,2rem + 2vw,4rem)}
+#peopleBrief .pb-head{margin-bottom:1.2rem}
+#peopleBrief .pb-head h2{max-width:none;font-size:clamp(1.5rem,.9rem + 2.2vw,2.6rem);text-wrap:balance}
+@media (min-width:861px){#peopleBrief .pb-head h2{white-space:nowrap}}
+#peopleBrief .pb-story{max-width:none;font-size:clamp(1rem,.9rem + .45vw,1.22rem);line-height:1.6}
+#peopleBrief .reveal[style*="justify-content:flex-end"]{margin-top:1rem!important}

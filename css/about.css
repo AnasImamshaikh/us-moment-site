@@ -29,4 +29,13 @@
 .process-row.on h3{color:var(--paper);transform:translateX(.3rem)}
 @media (max-width:760px){.process-rail,.process-row:before{display:none}#processList{padding-left:0}}
 
-@media (max-width:420px){.founders-side .team-grid.founders{gap:.8rem}.founders-side .team-card .bio{font-size:.78rem}}
+@media (max-width:420px){.founders-side .team-grid.founders{gap:.8rem}.founders-side .team-card .bio{font-size:.78rem}}/* hero row v2: left text fills its column (no fixed ch caps), so there is no dead gap before the founders */
+@media (min-width:901px){.about-hero-row{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(1.6rem,3vw,3rem)}}
+#aboutHero h1{max-width:none;text-wrap:balance}
+#aboutHero .ahero-main>p,.ahero-main .about-story{max-width:none}
+.ahero-main .about-story{font-size:clamp(1rem,.92rem + .3vw,1.12rem)}
+
+/* desktop: founder photos stretch to the height of the text column, so both columns end level at any width */
+@media (min-width:901px){.about-hero-row{align-items:stretch}.founders-side{display:flex;flex-direction:column}.founders-side .team-grid.founders{flex:1;align-items:stretch}.founders-side .team-card{display:flex;flex-direction:column}.founders-side .team-avatar{flex:1 1 auto;aspect-ratio:auto;min-height:240px;background-position:center 20%}}
+#aboutHero .about-story p{max-width:none}
+#aboutHero .about-story p+p{margin-top:.9em}
