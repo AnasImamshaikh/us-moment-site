@@ -152,7 +152,7 @@ function initSwAccordion(data,items){
   ];
   el.innerHTML=S.map(function(s,i){
     return'<article class="wwd-card'+(i?'':' on')+'" tabindex="0"><div class="wwd-img">'+s.items.map(function(it,k){return'<img src="'+U(it[1])+'" alt="'+it[0]+'" loading="'+(k?'lazy':'eager')+'" decoding="async"'+(k?'':' class="on"')+'>'}).join("")+'</div>'+
-      '<div class="wwd-body"><span class="wwd-n">'+String(i+1).padStart(2,"0")+'</span><h3>'+s.t+'</h3><ul>'+s.items.map(function(it,k){return'<li data-i="'+k+'"'+(k?'':' class="on"')+'><span>'+it[0]+'</span><i aria-hidden="true">→</i></li>'}).join("")+'</ul></div></article>';
+      '<div class="wwd-body"><h3>'+s.t+'</h3><ul>'+s.items.map(function(it,k){return'<li data-i="'+k+'"'+(k?'':' class="on"')+'><span>'+it[0]+'</span></li>'}).join("")+'</ul></div></article>';
   }).join("");
   var cards=[].slice.call(el.children);
   function act(c){cards.forEach(function(x){x.classList.toggle("on",x===c)})}
