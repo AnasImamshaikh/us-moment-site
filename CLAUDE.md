@@ -258,6 +258,22 @@ Tokens live in `css/base.css` `:root`. Always reuse these instead of hard-coding
   base64-inlined in `js/about.js`; switched to file paths (`assets/team/fardeen.jpg` /
   `melvin.jpg`), which also shrank `about.js` from ~133 KB to ~4.5 KB.
 
+- ✅ **About/Home/Services pass (Nov 4 2026, evening).** **About:** crew quips removed; hero row =
+  heading + "Our story" (left, 1.45fr) and founders side by side (right); "How we work / Five stages"
+  section removed (about.js guards `processList`); section paddings cut. **Home:** "What clients say"
+  testimonials commented out in index.html (home.js null-guards `testiTrack`); "The people" = left
+  heading "Two freelancers who had their us moment.", founders left, story right, "Meet the rest of
+  us"; founders photos are files, not base64 (home.js ~259 KB → ~128 KB). **What we do** cards: no
+  numbers/arrows, Inter titles that roll to a lime copy on hover, hover lift + scale + cursor tilt
+  (only while hovered, entrance tween uses clearProps), each card links to services.html, "See all
+  services" top right, no shadow on phones. **Our work speaks louder:** 12 reels (client's 10 + 2
+  kept) cut from `_media/reels` to 6s 480×854 in `assets/work-reels/`, real brand labels, each card
+  links to its Instagram reel. DaVKgn6uMlQ / DL494kaJ1NF / DZCJdNiogkB must stay (work-data.js uses
+  them). **Services:** "How a moment gets made" = animated pipeline (spark travels a track, active
+  stage lights up, autoplay in view; vertical on phones); hero is 2-column; sticker removed;
+  switchboard rows use line icons instead of [01] numbers and arrows.
+
+
 ## 9. Open items / decisions pending
 - ✅ ~~Duplicate stats~~ — resolved. The standalone stats section is gone; `#statsGrid` now lives
   in the hero only (verified: `class="section stats"` no longer exists in `index.html`).
