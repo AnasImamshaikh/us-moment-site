@@ -53,27 +53,50 @@
     if(window.gsap&&window.ScrollTrigger&&!reduced)gsap.fromTo(items,{opacity:0,x:-30},{opacity:1,x:0,duration:.6,stagger:.05,ease:"power3.out",scrollTrigger:{trigger:list,start:"top 85%"}});
   }
 })();
-/* "How a moment gets made" — four stages; each card cycles through a few frames of real work. */
+/* "How a moment gets made": a pipeline. A lime spark runs along the track from stage to stage;
+   the active stage lights up and its tasks cascade in. Autoplays once in view, pauses on hover,
+   hover/tap a stage to jump to it. Track is horizontal on desktop, vertical on phones. */
 (function(){
   var el=document.getElementById("flow");if(!el)return;
   var reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var S=[
-    {n:"01",t:"Strategy",d:"Know what to make, and why.",items:["Brand positioning & tone of voice","Content strategy","Monthly calendars","Platform & audience planning"],img:["assets/campaigns/nykaa.jpg","assets/switchboard/sw-creative-direction.jpg","assets/campaigns/edit.jpg"]},
-    {n:"02",t:"Creative",d:"Ideas built for the feed.",items:["Original IPs & formats","Creative direction","Scripts & hooks","Creator collabs"],img:["assets/campaigns/mood-banana.jpg","assets/campaigns/elra.jpg","assets/switchboard/sw-creator-collabs.jpg"]},
-    {n:"03",t:"Production",d:"Shot and edited under one roof.",items:["Casting & locations","Shoot days","Editing & motion","Product & food shoots"],img:["assets/switchboard/sw-video-production.jpg","assets/campaigns/terractive.jpg","assets/campaigns/croffle-guys.jpg"]},
-    {n:"04",t:"Growth",d:"Posted, boosted and measured.",items:["Posting & community management","Meta ads","YouTube management","Reporting you can act on"],img:["assets/switchboard/sw-social-media.jpg","assets/switchboard/sw-youtube-mgmt.jpg","assets/campaigns/walters.jpg"]}
+    {t:"Strategy",d:"Know what to make, and why.",items:["Brand positioning & tone of voice","Content strategy","Monthly calendars","Platform & audience planning"],img:["assets/campaigns/nykaa.jpg","assets/switchboard/sw-creative-direction.jpg","assets/campaigns/edit.jpg"]},
+    {t:"Creative",d:"Ideas built for the feed.",items:["Original IPs & formats","Creative direction","Scripts & hooks","Creator collabs"],img:["assets/campaigns/mood-banana.jpg","assets/campaigns/elra.jpg","assets/switchboard/sw-creator-collabs.jpg"]},
+    {t:"Production",d:"Shot and edited under one roof.",items:["Casting & locations","Shoot days","Editing & motion","Product & food shoots"],img:["assets/switchboard/sw-video-production.jpg","assets/campaigns/terractive.jpg","assets/campaigns/croffle-guys.jpg"]},
+    {t:"Growth",d:"Posted, boosted and measured.",items:["Posting & community management","Meta ads","YouTube management","Reporting you can act on"],img:["assets/switchboard/sw-social-media.jpg","assets/switchboard/sw-youtube-mgmt.jpg","assets/campaigns/walters.jpg"]}
   ];
-  el.innerHTML=S.map(function(s,i){
-    return'<article class="flow-card f'+i+'" tabindex="0"><div class="flow-img">'+s.img.map(function(src,k){return'<img src="'+src+'" alt="" loading="lazy" decoding="async"'+(k?'':' class="on"')+'>'}).join("")+'</div>'+
-      '<div class="flow-body"><span class="flow-n">'+s.n+'</span><h3>'+s.t+'</h3><p>'+s.d+'</p><ul>'+s.items.map(function(x){return"<li>"+x+"</li>"}).join("")+'</ul></div>'+
-      (i<S.length-1?'<span class="flow-arrow" aria-hidden="true">→</span>':'')+'</article>';
+  el.innerHTML='<div class="fl-track" aria-hidden="true"><i class="fl-fill"></i><i class="fl-spark"></i></div>'+S.map(function(s,i){
+    return'<article class="fl-stage" tabindex="0"><span class="fl-node" aria-hidden="true"><i></i></span><div class="fl-card">'+
+      '<div class="fl-media">'+s.img.map(function(src,k){return'<img src="'+src+'" alt="" loading="lazy" decoding="async"'+(k?'':' class="on"')+'>'}).join("")+'</div>'+
+      '<div class="fl-body"><h3>'+s.t+'</h3><p>'+s.d+'</p><ul>'+s.items.map(function(x,k){return'<li style="--d:'+(k*70+120)+'ms">'+x+'</li>'}).join("")+'</ul></div></div></article>';
   }).join("");
-  if(reduced)return;
-  // cycle the frames inside each card, offset so they don't all change at once
-  [].forEach.call(el.querySelectorAll(".flow-img"),function(box,i){
-    var imgs=box.querySelectorAll("img"),k=0;
-    setTimeout(function(){setInterval(function(){imgs[k].classList.remove("on");k=(k+1)%imgs.length;imgs[k].classList.add("on")},3200)},i*800);
+  var track=el.querySelector(".fl-track"),stages=[].slice.call(el.querySelectorAll(".fl-stage")),n=stages.length,cur=-1,timer=null,hold=false,live=false;
+  function ctr(s){var d=s.querySelector(".fl-node");return[s.offsetLeft+d.offsetLeft+d.offsetWidth/2,s.offsetTop+d.offsetTop+d.offsetHeight/2]}
+  function layout(){
+    var A=ctr(stages[0]),B=ctr(stages[n-1]),vert=Math.abs(B[0]-A[0])<Math.abs(B[1]-A[1]);el.classList.toggle("vert",vert);
+    track.style.cssText=vert?"left:"+(A[0]-1)+"px;top:"+A[1]+"px;width:2px;height:"+(B[1]-A[1])+"px":"left:"+A[0]+"px;top:"+(A[1]-1)+"px;height:2px;width:"+(B[0]-A[0])+"px";
+  }
+  function go(i){
+    i=(i+n)%n;cur=i;el.style.setProperty("--p",n>1?i/(n-1):1);
+    stages.forEach(function(s,k){s.classList.toggle("on",k===i);s.classList.toggle("done",k<=i)});
+  }
+  function tick(){clearTimeout(timer);if(reduced||hold||!live)return;timer=setTimeout(function(){go(cur+1);tick()},cur===n-1?4200:2800)}
+  layout();addEventListener("resize",layout);if(document.fonts)document.fonts.ready.then(layout);
+  stages.forEach(function(s,i){
+    s.addEventListener("mouseenter",function(){go(i)});
+    s.addEventListener("focus",function(){go(i)});
+    s.addEventListener("click",function(){go(i);hold=true;clearTimeout(timer)});
   });
-  if(window.gsap&&window.ScrollTrigger)gsap.fromTo(el.children,{opacity:0,y:40},{opacity:1,y:0,duration:.7,stagger:.1,ease:"power3.out",scrollTrigger:{trigger:el,start:"top 85%"}});
+  el.addEventListener("mouseenter",function(){hold=true;clearTimeout(timer)});
+  el.addEventListener("mouseleave",function(){hold=false;tick()});
+  if(reduced){go(n-1);stages.forEach(function(s){s.classList.add("done")});return}
+  go(0);
+  // cycle the photo inside each card
+  [].forEach.call(el.querySelectorAll(".fl-media"),function(box,i){
+    var imgs=box.querySelectorAll("img"),k=0;
+    setTimeout(function(){setInterval(function(){imgs[k].classList.remove("on");k=(k+1)%imgs.length;imgs[k].classList.add("on")},3400)},i*700);
+  });
+  if("IntersectionObserver" in window)new IntersectionObserver(function(es){es.forEach(function(e){live=e.isIntersecting;if(live)tick();else clearTimeout(timer)})},{threshold:.35}).observe(el);
+  else{live=true;tick()}
+  if(window.gsap&&window.ScrollTrigger)gsap.fromTo(stages,{opacity:0,y:30},{opacity:1,y:0,duration:.7,stagger:.1,ease:"power3.out",scrollTrigger:{trigger:el,start:"top 85%"}});
 })();
-
