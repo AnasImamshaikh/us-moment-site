@@ -150,9 +150,10 @@ function initSwAccordion(data,items){
     {t:"Production",items:[["Video Production","1612544409025-e1f6a56c1152"],["Shoot Days & Casting","1536293283170-b4604bbe272f"],["Editing & Motion","1574717024653-61fd2cf4d44d"],["Product & Food Shoots","1758634553706-662cb7e38de4"]]},
     {t:"Growth",items:[["Social Media Management","1759215524472-1b0686fdbd87"],["Meta Ads","1603145733146-ae562a55031e"],["YouTube Management","1526915303387-35900bc4ff33"],["Reporting You Can Act On","1551288049-bebda4e38f71"]]}
   ];
+  // each card links to the Services page; the title rolls to a lime copy on hover (SoCheers-style)
   el.innerHTML=S.map(function(s,i){
-    return'<article class="wwd-card'+(i?'':' on')+'" tabindex="0"><div class="wwd-img">'+s.items.map(function(it,k){return'<img src="'+U(it[1])+'" alt="'+it[0]+'" loading="'+(k?'lazy':'eager')+'" decoding="async"'+(k?'':' class="on"')+'>'}).join("")+'</div>'+
-      '<div class="wwd-body"><h3>'+s.t+'</h3><ul>'+s.items.map(function(it,k){return'<li data-i="'+k+'"'+(k?'':' class="on"')+'><span>'+it[0]+'</span></li>'}).join("")+'</ul></div></article>';
+    return'<a class="wwd-card'+(i?'':' on')+'" href="services.html" aria-label="'+s.t+': see our services"><div class="wwd-img">'+s.items.map(function(it,k){return'<img src="'+U(it[1])+'" alt="" loading="'+(k?'lazy':'eager')+'" decoding="async"'+(k?'':' class="on"')+'>'}).join("")+'</div>'+
+      '<div class="wwd-body"><h3><span class="wwd-roll"><span>'+s.t+'</span><span aria-hidden="true">'+s.t+'</span></span></h3><ul>'+s.items.map(function(it,k){return'<li data-i="'+k+'"'+(k?'':' class="on"')+'><span>'+it[0]+'</span></li>'}).join("")+'</ul></div></a>';
   }).join("");
   var cards=[].slice.call(el.children);
   function act(c){cards.forEach(function(x){x.classList.toggle("on",x===c)})}
@@ -160,11 +161,16 @@ function initSwAccordion(data,items){
     [].forEach.call(c.querySelectorAll(".wwd-img img"),function(im,j){im.classList.toggle("on",j===k)});
     [].forEach.call(c.querySelectorAll("li"),function(li,j){li.classList.toggle("on",j===k)});
   }
+  var fine=window.matchMedia("(hover:hover) and (pointer:fine)").matches;
   cards.forEach(function(c){
     c.addEventListener("mouseenter",function(){act(c)});
     c.addEventListener("focus",function(){act(c)});
-    c.addEventListener("click",function(e){act(c);var li=e.target.closest("li");if(li)show(c,+li.dataset.i)});
     [].forEach.call(c.querySelectorAll("li"),function(li){li.addEventListener("mouseenter",function(){show(c,+li.dataset.i)})});
+    // gentle 3D tilt that follows the cursor
+    if(fine&&!reduced){
+      c.addEventListener("mousemove",function(e){var r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.setProperty("--ry",(x*8).toFixed(2)+"deg");c.style.setProperty("--rx",(-y*6).toFixed(2)+"deg")});
+      c.addEventListener("mouseleave",function(){c.style.setProperty("--ry","0deg");c.style.setProperty("--rx","0deg")});
+    }
   });
   if(window.gsap&&window.ScrollTrigger&&!reduced)gsap.fromTo(cards,{opacity:0,y:50},{opacity:1,y:0,duration:.8,stagger:.12,ease:"power3.out",scrollTrigger:{trigger:el,start:"top 85%"}});
 })();

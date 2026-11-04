@@ -232,4 +232,21 @@ footer .foot-bottom{padding-top:0}
 /* Home: The people (title left, founders left, story right) */
 #peopleBrief .pb-head{margin-bottom:1.6rem}#peopleBrief .pb-head h2{font-size:clamp(1.6rem,1.2rem + 1.4vw,2.4rem);line-height:1.15;margin-top:.6rem;max-width:24ch}#peopleBrief .pb-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(1.6rem,3vw,3rem);align-items:center}#peopleBrief .pb-row .team-grid.founders{max-width:none;gap:1rem}#peopleBrief .pb-story{color:var(--paper-a70);font-size:1rem;line-height:1.65;max-width:56ch}#peopleBrief .pb-story p+p{margin-top:.9em}@media (max-width:860px){#peopleBrief .pb-row{grid-template-columns:1fr;gap:1.4rem}#peopleBrief .pb-row .team-grid.founders{max-width:520px}}@media (max-width:420px){#peopleBrief .pb-row .team-grid.founders{gap:.8rem}#peopleBrief .pb-story{font-size:.95rem}}
 /* What we do: smooth grow on hover (hover-capable pointers only) */
-@media (hover:hover) and (min-width:641px){.wwd-card{will-change:transform}.wwd-card.on{transform:translateY(-10px) scale(1.04);z-index:2}}
+@media (hover:hover) and (min-width:641px){.wwd-card{will-change:transform}.wwd-card.on{transform:translateY(-10px) scale(1.04);z-index:2}}/* What we do v2: header with "See all" top right, linked cards, rolling sans title, cursor tilt */
+.wwd-head{display:flex;justify-content:space-between;align-items:flex-end;gap:1.2rem 2rem;flex-wrap:wrap;max-width:none;margin-bottom:clamp(1.4rem,1rem + 1.5vw,2.4rem)}
+.wwd-head .wwd-all{flex:none}
+a.wwd-card{color:var(--paper);text-decoration:none}
+.wwd-body h3{font-family:var(--f-body);font-weight:700;letter-spacing:-.03em;font-size:clamp(1.6rem,1.1rem + 1.4vw,2.4rem);line-height:1.1}
+.wwd-roll{display:inline-grid;overflow:hidden;height:1.1em;vertical-align:top}
+.wwd-roll>span{grid-area:1/1;transition:transform .55s cubic-bezier(.76,0,.24,1)}
+.wwd-roll>span+span{transform:translateY(105%);color:var(--flash)}
+.wwd-card.on .wwd-roll>span:first-child{transform:translateY(-105%)}
+.wwd-card.on .wwd-roll>span+span{transform:none}
+.wwd-card.on h3{color:var(--paper)}
+@media (min-width:641px){
+  .wwd-flow{perspective:1200px}
+  .wwd-card{transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .5s var(--ease-out),border-color .4s,box-shadow .5s,filter .5s}
+  .wwd-card.on{transform:translateY(-10px) scale(1.045) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));z-index:2}
+}
+@media (max-width:640px){.wwd-head{align-items:flex-start}}
+@media (prefers-reduced-motion:reduce){.wwd-roll>span{transition:none}}
