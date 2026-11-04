@@ -15,17 +15,19 @@
     {t:"Branding",d:"Positioning and identity, down to the tone of voice, so the brand has a full personality beyond the logo file. We build brands people recognise mid-scroll.",g:"Strategy to style guide, one team",img:"1763307411452-43cfd9f516ce"}
   ];
   var n=function(i){return String(i+1).padStart(2,"0")};
+  var ICO={"Social Media":"<path d=\"M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.1A8 8 0 1 1 20 12z\"/><path d=\"M12 15.5s-3-1.8-3-4a1.7 1.7 0 0 1 3-1.1 1.7 1.7 0 0 1 3 1.1c0 2.2-3 4-3 4z\"/>","Content Strategy":"<circle cx=\"12\" cy=\"12\" r=\"8.5\"/><circle cx=\"12\" cy=\"12\" r=\"4.5\"/><circle cx=\"12\" cy=\"12\" r=\"1\"/><path d=\"M12 3.5V1.5M20.5 12h2\"/>","Video Production":"<rect x=\"3\" y=\"6.5\" width=\"13\" height=\"11\" rx=\"2\"/><path d=\"m16 10.5 5-3v9l-5-3\"/>","Meta Ads":"<path d=\"M4 10v4a1 1 0 0 0 1 1h2l6 4V5L7 9H5a1 1 0 0 0-1 1z\"/><path d=\"M17 9a4 4 0 0 1 0 6M19.5 6.5a7.5 7.5 0 0 1 0 11\"/>","Creator Collabs":"<circle cx=\"8.5\" cy=\"8\" r=\"3\"/><circle cx=\"16.5\" cy=\"9.5\" r=\"2.5\"/><path d=\"M3 19a5.5 5.5 0 0 1 11 0M14.5 15.2A4.5 4.5 0 0 1 21 19\"/>","YouTube Management":"<rect x=\"2.5\" y=\"5.5\" width=\"19\" height=\"13\" rx=\"4\"/><path d=\"m10 9.2 5 2.8-5 2.8z\"/>","Creative Direction":"<path d=\"M12 2.5l1.8 5.2L19 9.5l-5.2 1.8L12 16.5l-1.8-5.2L5 9.5l5.2-1.8z\"/><path d=\"M18.5 15l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z\"/>","Branding":"<path d=\"M6 3.5h12l3 5-9 12-9-12z\"/><path d=\"M3 8.5h18M9.5 3.5 8 8.5l4 12 4-12-1.5-5\"/>"};
+  var svg=function(t){return'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+ICO[t]+'</svg>'};
   var list=document.getElementById("svList"),art=document.getElementById("svArt");
   if(list){
     list.innerHTML=S.map(function(s,i){
       return'<button class="sw-item'+(i?'':' active')+'" role="tab" aria-selected="'+(i?'false':'true')+'" aria-expanded="false" data-i="'+i+'">'+
-        '<span class="sw-idx">'+n(i)+'</span><span class="sw-tag">['+n(i)+']</span><span class="sw-name">'+s.t+'</span><span class="sv-arrow" aria-hidden="true">→</span><span class="sw-toggle" aria-hidden="true"><i></i><i></i></span></button>'+
+        '<span class="sv-ico">'+svg(s.t)+'</span><span class="sw-name">'+s.t+'</span><span class="sw-toggle" aria-hidden="true"><i></i><i></i></span></button>'+
         '<div class="sw-acc"><div class="sw-acc-in"><img class="sv-acc-img" src="'+U(s.img)+'" alt="" loading="lazy"><p class="sw-acc-desc">'+s.d+'</p><p class="sw-acc-tag">'+s.g+'</p></div></div>';
     }).join("");
     art.innerHTML=S.map(function(s,i){return'<img src="'+U(s.img)+'" alt="'+s.t+'"'+(i?' loading="lazy"':' class="on"')+'>'}).join("");
     var items=[].slice.call(list.querySelectorAll(".sw-item")),imgs=art.children,cur=0;
     var panel=document.getElementById("svPanel"),num=document.getElementById("svNum"),name=document.getElementById("svName"),desc=document.getElementById("svDesc"),tag=document.getElementById("svTag");
-    function fill(i){num.textContent="["+n(i)+"]";name.textContent=S[i].t;desc.textContent=S[i].d;tag.textContent=S[i].g}
+    function fill(i){num.innerHTML=svg(S[i].t);name.textContent=S[i].t;desc.textContent=S[i].d;tag.textContent=S[i].g}
     fill(0);
     function show(i){
       if(i===cur)return;cur=i;

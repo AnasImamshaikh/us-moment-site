@@ -80,3 +80,13 @@
 .sv-hero h1{margin-bottom:0}
 .sv-hero p{margin:0 0 .4rem;max-width:40ch}
 @media (max-width:860px){.sv-hero{grid-template-columns:1fr}.sv-hero p{margin-top:1rem}}
+/* list + panel icons (replace the [01] numbers and the arrow) */
+.sv-ico{flex:none;display:grid;place-items:center;width:46px;height:46px;border-radius:50%;border:2px solid var(--ink);color:var(--ink);background:var(--paper);transition:background .3s var(--ease-out),color .3s,border-color .3s,transform .5s cubic-bezier(.34,1.56,.64,1)}
+.sv-ico svg{width:22px;height:22px}
+.sw-item:hover .sv-ico,.sw-item.active .sv-ico{background:var(--flash);border-color:var(--flash);color:var(--ink);transform:rotate(-12deg) scale(1.12)}
+.sw-item.active .sv-ico svg{animation:svIco 2.4s ease-in-out infinite}
+@keyframes svIco{0%,100%{transform:none}50%{transform:scale(1.12) rotate(8deg)}}
+.sv-pico{display:grid;place-items:center;width:52px;height:52px;border-radius:14px;background:var(--flash);color:var(--ink);border:2px solid var(--ink);margin:0 0 .6rem;transform:rotate(-6deg)}
+.sv-pico svg{width:26px;height:26px}
+@media (max-width:1000px){.sv-ico{width:38px;height:38px}.sv-ico svg{width:19px;height:19px}.sw-item:hover .sv-ico,.sw-item.active .sv-ico{transform:none}.sw-item.open .sv-ico{background:var(--flash);border-color:var(--flash)}}
+@media (prefers-reduced-motion:reduce){.sw-item.active .sv-ico svg{animation:none}}
