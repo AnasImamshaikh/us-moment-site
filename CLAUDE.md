@@ -247,6 +247,17 @@ Tokens live in `css/base.css` `:root`. Always reuse these instead of hard-coding
   newsletter/subscribe strip removed, YouTube social **commented out** (no channel link yet, markup
   kept to uncomment), LinkedIn now https://www.linkedin.com/company/us-moment/about/.
 
+- ✅ **About page "The people" cleanup (Nov 2026).** "The people responsible." line (struck out by
+  client, heading area closed up) removed from `.about-top`, leaving just the eyebrow. Intro copy
+  swapped for the client's grammar-pass version (Andheri West → Mumbai in the first line, "hyperlocal
+  community" → "hyperlocal page that somehow has", "2000" → "2,000", third paragraph's last two
+  sentences replaced). **All 23 crew photos + both founder photos refreshed** from the client's new
+  batch (`assets/team/`, same filenames, overwritten): originals were already-square 3000px+ PNGs,
+  resized/cropped to the site's 480×480 JPG convention. Ananya Ahuja and Zaheen — previously
+  initials-only placeholders — now have real photos. Fardeen's and Melvin's founder photos were
+  base64-inlined in `js/about.js`; switched to file paths (`assets/team/fardeen.jpg` /
+  `melvin.jpg`), which also shrank `about.js` from ~133 KB to ~4.5 KB.
+
 ## 9. Open items / decisions pending
 - ✅ ~~Duplicate stats~~ — resolved. The standalone stats section is gone; `#statsGrid` now lives
   in the hero only (verified: `class="section stats"` no longer exists in `index.html`).
