@@ -240,6 +240,13 @@ Tokens live in `css/base.css` `:root`. Always reuse these instead of hard-coding
   remembered per browser. **Remove both files + the 2 tags once the client picks a palette** (then bake
   the chosen values into `:root`).
 
+- ✅ **Let's talk / footer cleanup (Nov 2026).** Contact eyebrow asterisk removed, sub copy ends in
+  "stop for!", headline is one line ("READY TO GO VIRAL?", no `<br>`): `.contact-h2` clamp is sized so
+  it fits the column at every width down to 430px and wraps to two balanced lines below that (no
+  nowrap, so a font fallback can never overflow). Section padding tightened. **Footer** (all pages):
+  newsletter/subscribe strip removed, YouTube social **commented out** (no channel link yet, markup
+  kept to uncomment), LinkedIn now https://www.linkedin.com/company/us-moment/about/.
+
 ## 9. Open items / decisions pending
 - ✅ ~~Duplicate stats~~ — resolved. The standalone stats section is gone; `#statsGrid` now lives
   in the hero only (verified: `class="section stats"` no longer exists in `index.html`).

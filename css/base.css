@@ -220,3 +220,11 @@ a.fc-card:hover .fc-cta,a.fc-card:focus-visible .fc-cta{max-height:1.4em;opacity
 .cta-band h2 .line,.cta-band h2 .word{line-height:1.15}
 .foot-top{justify-content:flex-end;padding-bottom:1.4rem;margin-bottom:1.4rem}
 @media (max-width:640px){.cta-band{flex-direction:column}.foot-top{justify-content:flex-start}}
+
+/* Contact: headline on one line (wraps only on small screens), tighter block */
+.contact-h2{font-size:clamp(1.9rem,1rem + 2.6vw,4rem);line-height:1.02;margin-top:.5rem;text-wrap:balance}
+.contact-sub{margin-top:.9rem;max-width:38ch}
+.contact-pill{margin-top:1.3rem}
+.section.contact{padding-top:clamp(2.6rem,2rem + 3vw,5rem);padding-bottom:clamp(2.6rem,2rem + 3vw,5rem)}
+/* footer: no newsletter strip any more */
+footer .foot-bottom{padding-top:0}
