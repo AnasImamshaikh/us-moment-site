@@ -274,3 +274,9 @@ a.viral-card{display:block;color:inherit;text-decoration:none}
 .menu-sub{display:flex;flex-wrap:wrap;gap:.4rem .9rem;margin:-.4rem 0 .8rem;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase}
 .menu-sub span{width:100%;color:var(--flash)}
 .menu-sub a{color:inherit;opacity:.8;text-decoration:underline;text-underline-offset:3px}
+/* What we do: sound toggle beside "See all services" */
+.wwd-head-r{display:flex;align-items:center;gap:.4rem 1rem;flex-wrap:wrap}
+.wwd-snd{font:500 .7rem var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink);background:none;border:1.5px solid var(--ink-a10);border-radius:999px;padding:.55em 1em;cursor:pointer;transition:background .25s,border-color .25s}
+.wwd-snd i{font-style:normal;margin-right:.2em}
+.wwd-snd:hover{border-color:var(--ink)}
+.wwd-snd[aria-pressed="false"]{opacity:.55}
