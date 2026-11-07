@@ -282,6 +282,21 @@ Tokens live in `css/base.css` `:root`. Always reuse these instead of hard-coding
   overlay); each preview has a "← Site / 1 2 3 4" pill bar. **Once the client picks one: build it into the
   real hero, then delete the 4 preview files, the dropdown markup on the 5 pages and the .nav-dd/.menu-sub CSS.**
 
+- ✅ **About page v3 redesign (Nov 7 2026), "editorial + kinetic".** Replaces the hero/founders/crew layout
+  (previous version is in git history). Sections: **hero** = huge Fraunces headline in 4 offset lines
+  that rise in on load and drift sideways on scroll, with a pill of rotating crew faces inside the line, spinning
+  "US MOMENT ✦ SOCIAL-FIRST ✦ MUMBAI" badge; **story** = 5 colour cards (Netflix 13M→22M, Prime 2,000+, 75M,
+  AWSP 181K, Us Moment) with count-ups, **pinned horizontal scroll on desktop** (GSAP containerAnimation),
+  stacked on ≤900px; **founders** = big flip cards (tap to flip, cursor tilt + glare on desktop); **crew** = two
+  CSS-marquee rows of faces in opposite directions, hover/tap shows the name huge in lime outline behind, "View as
+  grid" toggle (grid is the default under reduced motion); CTA band kept. All copy is existing site copy except
+  "How we got here." and the chapter labels. Data stays in `js/about.js` (`team`, `crew`); styles fully
+  rewritten in `css/about.css`. **4 easter eggs** (toast counts "Secret n/4", hint line under the CTA):
+  5 quick clicks on a founder = dad-joke mode (stamp + rotating jokes, Mr Masti / Mr Shaant); click Jyoti =
+  coffee steam + crown + sarcastic lines; click Zaheen = thinking dots → HR thought bubble; Konami code
+  (↑↑↓↓←→←→BA) or 7 taps on the spinning badge = ✱ confetti "You found us." card. Jokes/lines live in the
+  `DAD` and `EGG` objects in about.js. The old process data array was dropped.
+
 ## 9. Open items / decisions pending
 - ✅ ~~Duplicate stats~~ — resolved. The standalone stats section is gone; `#statsGrid` now lives
   in the hero only (verified: `class="section stats"` no longer exists in `index.html`).
