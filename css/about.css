@@ -158,3 +158,6 @@
 .mc .crown{top:auto;bottom:calc(100% - 2.6rem);left:auto;right:10px;transform:rotate(14deg)}
 .mc .ab-bubble{max-width:none;font-size:.82rem;padding:.7em .9em}
 .mc .ab-bubble.think:before{display:none}
+/* hover lift was clipped by the marquee row: give the row breathing room inside its own box */
+.ab-row{padding:18px 0 10px;margin:-18px 0 -10px}
+.ab-rows .mc:hover .mc-img,.ab-rows .mc:focus-visible .mc-img,.mc.sel .mc-img{transform:translateY(-8px) rotate(-1.5deg) scale(1.03)}
