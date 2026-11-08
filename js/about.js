@@ -35,9 +35,17 @@ const team=[{n:"Fardeen",r:"Co-Founder",portrait:"assets/team/fardeen-portrait.j
 
   /* ---------- founders: tilt + flip, and "dad mode" (5 quick clicks) ---------- */
   var DAD={
-    Fardeen:{stamp:"Mr Masti mode",lines:["Why did the reel go to therapy? Too many unresolved hooks.","I told the algorithm a joke. It didn't laugh, but it did push it to 75M people.","Our content calendar has trust issues. Too many dates.","What's a brand's favourite workout? Brand stretching."]},
-    // UPDATE the joke when United's form changes (written Nov 2026: 17th, no win in 5 league games)
-    Melvin:{stamp:"Glory glory mode",joke:"Why is Melvin so shaant? He supports Man United. 17th in the league, no win in five, and he still says \u201cwe go again next week.\u201d Your deadline doesn\u2019t scare him.",
+    // each double click: question first, answer ~2.5s later
+    Fardeen:{stamp:"Mr Masti mode",qa:[
+      ["Why did the reel go to therapy?","Too many unresolved hooks."],
+      ["Why don\u2019t influencers ever get lost?","They always follow the trend."],
+      ["What\u2019s a brand\u2019s favourite workout?","Brand stretching."],
+      ["Why was the content calendar so stressed?","Too many dates."],
+      ["Why did the video editor break up with the timeline?","It kept cutting him off."],
+      ["Why did the algorithm join a band?","It already had all the right hooks."]]},
+    // double click 1: joke Q then A; double click 2: fun facts; then repeats.
+    // UPDATE the answer when United's form changes (written Nov 2026: 17th, no win in 5 league games)
+    Melvin:{stamp:"Red Devils mode",qa:[["Why is Melvin always so shaant?","He supports Man United. 17th in the league, no win in five, and he still says \u201cwe go again next week.\u201d Your deadline doesn\u2019t scare him."]],
       facts:["Fun fact: United started life in 1878 as Newton Heath, a team of railway workers.","Fun fact: Sir Bobby Charlton nicknamed Old Trafford \u201cthe Theatre of Dreams.\u201d","Fun fact: In 1999 United won the Premier League, FA Cup and Champions League in one season. The treble.","Fun fact: Sir Alex Ferguson managed the club for 26 years and won 13 Premier League titles.","Fun fact: United have won 20 English league titles. Melvin can recite every one."]}
   };
   var fg=$("#abFounderGrid");
@@ -51,9 +59,13 @@ const team=[{n:"Fardeen",r:"Co-Founder",portrait:"assets/team/fardeen-portrait.j
       var clicks=[],li=0,d=DAD[card.dataset.n];
       function dadMode(){card.classList.remove("flip");card.classList.remove("dad");void card.offsetWidth;card.classList.add("dad");
         (card._ft||[]).forEach(clearTimeout);card._ft=[];
-        var seq=d.facts?[d.joke].concat(d.facts):[d.lines[li++%d.lines.length]],first=d.facts?5200:5200,step=3600,total=d.facts?first+step*(d.facts.length-1)+3400:5200;
-        var bb=bubble(card,esc(seq[0]),"",total);bb.style.left="1rem";bb.style.right="1rem";bb.style.top="1rem";bb.style.zIndex="6";bb.style.maxWidth="22rem";
-        seq.slice(1).forEach(function(t,k){card._ft.push(setTimeout(function(){if(!bb.isConnected)return;bb.style.animation="none";void bb.offsetWidth;bb.style.animation="";bb.innerHTML="\u26bd "+esc(t)},first+step*k))});
+        var step=card._step||0,seq,icon=d.facts?"\u26bd ":"\ud83e\udd41 ",QA=2600;
+        if(d.facts&&step%2===1){seq=d.facts.map(function(t){return{t:"\u26bd "+t,at:0}});seq.forEach(function(x,k){x.at=k*3600})}
+        else{var q=d.qa[li++%d.qa.length];seq=[{t:"\u2753 "+q[0],at:0,q:1},{t:icon+q[1],at:QA}]}
+        card._step=step+1;
+        var lastT=seq[seq.length-1].t.length,total=seq[seq.length-1].at+(d.facts&&step%2===1?3400:Math.max(4000,lastT*55));
+        var bb=bubble(card,esc(seq[0].t)+(seq[0].q?' <span class="dots"><i></i><i></i><i></i></span>':""),"",total);bb.style.left="1rem";bb.style.right="1rem";bb.style.top="1rem";bb.style.zIndex="6";bb.style.maxWidth="22rem";
+        seq.slice(1).forEach(function(x){card._ft.push(setTimeout(function(){if(!bb.isConnected)return;bb.style.animation="none";void bb.offsetWidth;bb.style.animation="";bb.innerHTML=esc(x.t)},x.at))});
         clearTimeout(card._dt);card._dt=setTimeout(function(){card.classList.remove("dad")},total);secret("dad","Dad-joke mode")}
       // double click/tap = dad mode (single click still flips, after a short wait)
       var dbl=!!d,pend=null;
