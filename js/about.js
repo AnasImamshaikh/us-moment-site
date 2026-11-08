@@ -44,12 +44,19 @@ const team=[{n:"Fardeen",r:"Co-Founder",portrait:"assets/team/fardeen-portrait.j
         '</span><span class="fx-stamp">'+esc((DAD[c.n]||{}).stamp||"")+'</span></button>'}).join("");
     $$(".fx3d",fg).forEach(function(card){
       var clicks=[],li=0,d=DAD[card.dataset.n];
+      function dadMode(){card.classList.remove("flip");card.classList.remove("dad");void card.offsetWidth;card.classList.add("dad");
+        var bb=bubble(card,esc(d.lines[li++%d.lines.length]),"",5200);bb.style.left="1rem";bb.style.top="1rem";bb.style.zIndex="6";
+        clearTimeout(card._dt);card._dt=setTimeout(function(){card.classList.remove("dad")},5200);secret("dad","Dad-joke mode")}
+      // Fardeen: double click/tap = Mr Masti mode (single click still flips, after a short wait). Melvin: 5 quick clicks.
+      var dbl=card.dataset.n==="Fardeen",pend=null;
       card.addEventListener("click",function(){
+        if(dbl&&d){
+          if(pend){clearTimeout(pend);pend=null;dadMode();return}
+          pend=setTimeout(function(){pend=null;card.classList.toggle("flip")},280);return;
+        }
         card.classList.toggle("flip");
         var now=Date.now();clicks=clicks.filter(function(t){return now-t<1800});clicks.push(now);
-        if(d&&clicks.length>=5){clicks=[];card.classList.remove("flip");card.classList.remove("dad");void card.offsetWidth;card.classList.add("dad");
-          var b=bubble(card,esc(d.lines[li++%d.lines.length]),"",5200);b.style.left="1rem";b.style.top="1rem";b.style.zIndex="6";
-          clearTimeout(card._dt);card._dt=setTimeout(function(){card.classList.remove("dad")},5200);secret("dad","Dad-joke mode")}
+        if(d&&clicks.length>=5){clicks=[];dadMode()}
       });
       if(fine&&!reduced){
         card.addEventListener("pointermove",function(e){var r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;card.style.setProperty("--ry",((x-.5)*12).toFixed(2)+"deg");card.style.setProperty("--rx",((.5-y)*10).toFixed(2)+"deg");card.style.setProperty("--gx",(x*100).toFixed(1)+"%");card.style.setProperty("--gy",(y*100).toFixed(1)+"%")});

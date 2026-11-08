@@ -292,7 +292,7 @@ Tokens live in `css/base.css` `:root`. Always reuse these instead of hard-coding
   grid" toggle (grid is the default under reduced motion); CTA band kept. All copy is existing site copy except
   "How we got here." and the chapter labels. Data stays in `js/about.js` (`team`, `crew`); styles fully
   rewritten in `css/about.css`. **4 easter eggs** (toast counts "Secret n/4", hint line under the CTA):
-  5 quick clicks on a founder = dad-joke mode (stamp + rotating jokes, Mr Masti / Mr Shaant); click Jyoti =
+  double-click Fardeen / 5 quick clicks on Melvin = dad-joke mode (stamp + rotating jokes, Mr Masti / Mr Shaant); click Jyoti =
   coffee steam + crown + sarcastic lines; click Zaheen = thinking dots → HR thought bubble; Konami code
   (↑↑↓↓←→←→BA) or 7 taps on the spinning badge = ✱ confetti "You found us." card. Jokes/lines live in the
   `DAD` and `EGG` objects in about.js. The old process data array was dropped.
