@@ -161,3 +161,18 @@
 /* hover lift was clipped by the marquee row: give the row breathing room inside its own box */
 .ab-row{padding:18px 0 10px;margin:-18px 0 -10px}
 .ab-rows .mc:hover .mc-img,.ab-rows .mc:focus-visible .mc-img,.mc.sel .mc-img{transform:translateY(-8px) rotate(-1.5deg) scale(1.03)}
+.fx-stamp{top:56%}
+/* headline: each word lights up on hover */
+.ab-title.ab-in .ab-m{overflow:visible}
+.ab-wd{display:inline-block;transition:color .35s var(--ease-out),transform .55s cubic-bezier(.34,1.56,.64,1),-webkit-text-stroke-color .35s,text-shadow .4s;cursor:default}
+.ab-wd:hover{transform:translateY(-.05em) rotate(-2.5deg)}
+.ab-wd[data-c="lime"]:hover{color:var(--flash);text-shadow:0 0 .35em #d7ff3d40}
+.ab-wd[data-c="pink"]:hover{color:var(--gold);text-shadow:0 0 .35em #ff59c440}
+.ab-wd[data-c="line"]:hover{color:transparent;-webkit-text-stroke:.025em var(--paper)}
+.ab-feed:hover{color:inherit}
+@media (prefers-reduced-motion:reduce){.ab-wd:hover{transform:none}}
+.ab-talk{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--paper-a70)}
+.ab-talk b{font-weight:500;color:var(--flash)}
+.ab-talk i{font-style:normal;display:inline-block;margin-right:.3em;animation:abNudge 2.4s ease-in-out infinite}
+@keyframes abNudge{0%,70%,100%{transform:none}78%{transform:rotate(-14deg)}86%{transform:rotate(10deg)}}
+@media (prefers-reduced-motion:reduce){.ab-talk i{animation:none}}

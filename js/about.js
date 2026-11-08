@@ -18,9 +18,12 @@ const team=[{n:"Fardeen",r:"Co-Founder",portrait:"assets/team/fardeen-portrait.j
     clearTimeout(host._bt);host._bt=setTimeout(function(){b.classList.add("bye");setTimeout(function(){b.remove()},300)},ms||4200);return b}
 
   /* ---------- hero: faces in the headline + kinetic lines ---------- */
+  // every word in the headline lights up on hover in its own colour (like "feed." going pink)
+  (function(){var C={"Twenty-something":"lime","people":"pink","with":"line","strong":"pink","opinions":"pink","about":"line","your":"lime","feed.":"pink"};
+    $$(".ab-title .ab-w").forEach(function(w){w.innerHTML=w.textContent.trim().split(/\s+/).map(function(t){return'<span class="ab-wd" data-c="'+(C[t]||"lime")+'">'+esc(t)+'</span>'}).join(" ")})})();
   function heroIntro(){
-    if(!G||reduced){$$(".ab-w").forEach(function(w){w.style.transform="none"});return}
-    G.to(".ab-w",{y:"0%",duration:1.15,ease:"power4.out",stagger:.09,delay:.1});
+    if(!G||reduced){$$(".ab-w").forEach(function(w){w.style.transform="none"});var t0=$(".ab-title");if(t0)t0.classList.add("ab-in");return}
+    G.to(".ab-w",{y:"0%",duration:1.15,ease:"power4.out",stagger:.09,delay:.1,onComplete:function(){var t=$(".ab-title");if(t)t.classList.add("ab-in")}});
     G.fromTo([".ab-hero-top",".ab-hero-foot"],{opacity:0,y:20},{opacity:1,y:0,duration:1,ease:"power3.out",stagger:.1,delay:.5});
   }
   // start after the site preloader is gone (first visit) or straight away
@@ -33,7 +36,9 @@ const team=[{n:"Fardeen",r:"Co-Founder",portrait:"assets/team/fardeen-portrait.j
   /* ---------- founders: tilt + flip, and "dad mode" (5 quick clicks) ---------- */
   var DAD={
     Fardeen:{stamp:"Mr Masti mode",lines:["Why did the reel go to therapy? Too many unresolved hooks.","I told the algorithm a joke. It didn't laugh, but it did push it to 75M people.","Our content calendar has trust issues. Too many dates.","What's a brand's favourite workout? Brand stretching."]},
-    Melvin:{stamp:"Mr Shaant mode",lines:["Breathe. The deadline can wait one sip of iced coffee.","Shaant. Everything ships.","Iced coffee first. Panic later. Actually, never."]}
+    // UPDATE the joke when United's form changes (written Nov 2026: 17th, no win in 5 league games)
+    Melvin:{stamp:"Glory glory mode",joke:"Why is Melvin so shaant? He supports Man United. 17th in the league, no win in five, and he still says \u201cwe go again next week.\u201d Your deadline doesn\u2019t scare him.",
+      facts:["Fun fact: United started life in 1878 as Newton Heath, a team of railway workers.","Fun fact: Sir Bobby Charlton nicknamed Old Trafford \u201cthe Theatre of Dreams.\u201d","Fun fact: In 1999 United won the Premier League, FA Cup and Champions League in one season. The treble.","Fun fact: Sir Alex Ferguson managed the club for 26 years and won 13 Premier League titles.","Fun fact: United have won 20 English league titles. Melvin can recite every one."]}
   };
   var fg=$("#abFounderGrid");
   if(fg){
@@ -45,10 +50,13 @@ const team=[{n:"Fardeen",r:"Co-Founder",portrait:"assets/team/fardeen-portrait.j
     $$(".fx3d",fg).forEach(function(card){
       var clicks=[],li=0,d=DAD[card.dataset.n];
       function dadMode(){card.classList.remove("flip");card.classList.remove("dad");void card.offsetWidth;card.classList.add("dad");
-        var bb=bubble(card,esc(d.lines[li++%d.lines.length]),"",5200);bb.style.left="1rem";bb.style.top="1rem";bb.style.zIndex="6";
-        clearTimeout(card._dt);card._dt=setTimeout(function(){card.classList.remove("dad")},5200);secret("dad","Dad-joke mode")}
-      // Fardeen: double click/tap = Mr Masti mode (single click still flips, after a short wait). Melvin: 5 quick clicks.
-      var dbl=card.dataset.n==="Fardeen",pend=null;
+        (card._ft||[]).forEach(clearTimeout);card._ft=[];
+        var seq=d.facts?[d.joke].concat(d.facts):[d.lines[li++%d.lines.length]],first=d.facts?5200:5200,step=3600,total=d.facts?first+step*(d.facts.length-1)+3400:5200;
+        var bb=bubble(card,esc(seq[0]),"",total);bb.style.left="1rem";bb.style.right="1rem";bb.style.top="1rem";bb.style.zIndex="6";bb.style.maxWidth="22rem";
+        seq.slice(1).forEach(function(t,k){card._ft.push(setTimeout(function(){if(!bb.isConnected)return;bb.style.animation="none";void bb.offsetWidth;bb.style.animation="";bb.innerHTML="\u26bd "+esc(t)},first+step*k))});
+        clearTimeout(card._dt);card._dt=setTimeout(function(){card.classList.remove("dad")},total);secret("dad","Dad-joke mode")}
+      // double click/tap = dad mode (single click still flips, after a short wait)
+      var dbl=!!d,pend=null;
       card.addEventListener("click",function(){
         if(dbl&&d){
           if(pend){clearTimeout(pend);pend=null;dadMode();return}
@@ -73,7 +81,6 @@ const team=[{n:"Fardeen",r:"Co-Founder",portrait:"assets/team/fardeen-portrait.j
   };
   function card(c,dup){return'<button class="mc" type="button" data-n="'+esc(c.n)+'" data-r="'+esc(c.r)+'"'+(dup?' tabindex="-1" aria-hidden="true"':'')+'><span class="mc-img" style="background-image:url(\''+c.photo+'\')"></span><span class="mc-t"><b>'+esc(c.n)+'</b><span>'+esc(c.r)+'</span></span></button>'}
   var rows=$("#abRows"),stage=$(".ab-stage"),bigN=$("#abBigName"),bigR=$("#abBigRole");
-  $("#abCount").textContent=crew.length;
   var half=Math.ceil(crew.length/2),A=crew.slice(0,half),B=crew.slice(half);
   rows.innerHTML=[A,B].map(function(set,i){return'<div class="ab-row'+(i?' rev':'')+'" style="--dur:'+(set.length*5.2)+'s"><div class="ab-row-in">'+set.map(function(c){return card(c)}).join("")+set.map(function(c){return card(c,1)}).join("")+'</div></div>'}).join("");
   function showName(n,r){bigN.textContent=n;bigR.textContent=r;stage.classList.add("has")}

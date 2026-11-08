@@ -292,7 +292,7 @@ Tokens live in `css/base.css` `:root`. Always reuse these instead of hard-coding
   grid" toggle (grid is the default under reduced motion); CTA band kept. All copy is existing site copy except
   "How we got here." and the chapter labels. Data stays in `js/about.js` (`team`, `crew`); styles fully
   rewritten in `css/about.css`. **4 easter eggs** (toast counts "Secret n/4", hint line under the CTA):
-  double-click Fardeen / 5 quick clicks on Melvin = dad-joke mode (stamp + rotating jokes, Mr Masti / Mr Shaant); click Jyoti =
+  double-click a founder = dad-joke mode (Fardeen: "Mr Masti mode" stamp + rotating dad jokes; Melvin: "Glory glory mode", a Man United form joke then 5 club fun facts cycling in the bubble; update the joke in DAD.Melvin when United's form changes); click Jyoti =
   coffee steam + crown + sarcastic lines; click Zaheen = thinking dots → HR thought bubble; Konami code
   (↑↑↓↓←→←→BA) or 7 taps on the spinning badge = ✱ confetti "You found us." card. Jokes/lines live in the
   `DAD` and `EGG` objects in about.js. The old process data array was dropped.
@@ -301,6 +301,12 @@ Tokens live in `css/base.css` `:root`. Always reuse these instead of hard-coding
   portraits (`assets/team/fardeen-portrait.jpg` / `melvin-portrait.jpg`, 1200x1500 from the client HEICs;
   the square `fardeen.jpg`/`melvin.jpg` stay for the home page), no "Co-Founder" label, bio without the
   leading "Co-founder."; crew is wall-only (grid toggle removed).
+  **v3.2 (Nov 9 2026):** every headline word lights up on hover in its own colour (lime / pink / outline,
+  springy lift + tilt; `.ab-wd` spans built in about.js, colour map `C`), "feed." stays pink; double-click
+  either founder for dad mode; Melvin's is "Glory glory mode": a Man United form joke then 5 club fun
+  facts cycling in the bubble (**update `DAD.Melvin.joke` when United's form changes**, written for 17th /
+  no win in 5); stamp moved to chest height; crew header "22 people" replaced by "Some of us talk back.
+  Click around." (hints at the Jyoti / Zaheen eggs).
 
 ## 9. Open items / decisions pending
 - ✅ ~~Duplicate stats~~ — resolved. The standalone stats section is gone; `#statsGrid` now lives
