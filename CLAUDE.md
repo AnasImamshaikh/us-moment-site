@@ -296,6 +296,11 @@ Tokens live in `css/base.css` `:root`. Always reuse these instead of hard-coding
   coffee steam + crown + sarcastic lines; click Zaheen = thinking dots → HR thought bubble; Konami code
   (↑↑↓↓←→←→BA) or 7 taps on the spinning badge = ✱ confetti "You found us." card. Jokes/lines live in the
   `DAD` and `EGG` objects in about.js. The old process data array was dropped.
+  **v3.1 (Nov 9 2026):** headline centred and sized to span the page width (one screen tall at any size);
+  rotating crew-face pill removed; "Our story" timeline section removed; founder cards use new full-length
+  portraits (`assets/team/fardeen-portrait.jpg` / `melvin-portrait.jpg`, 1200x1500 from the client HEICs;
+  the square `fardeen.jpg`/`melvin.jpg` stay for the home page), no "Co-Founder" label, bio without the
+  leading "Co-founder."; crew is wall-only (grid toggle removed).
 
 ## 9. Open items / decisions pending
 - ✅ ~~Duplicate stats~~ — resolved. The standalone stats section is gone; `#statsGrid` now lives
