@@ -52,7 +52,7 @@ body.gated{overflow:hidden}
 </style>
 </head>
 <body class="gated">
-<nav class="pv-nav" style="position:fixed;top:12px;left:12px;z-index:85;display:flex;gap:6px;flex-wrap:wrap;font:500 .66rem 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase"><a href="index.html" style="background:#f3f1e8;color:#131a5e;padding:.45em .8em;border-radius:999px;text-decoration:none">← Site</a><a href="preview-hero-shards.html" style="background:rgba(243,241,232,.12);color:#f3f1e8;padding:.45em .8em;border-radius:999px;text-decoration:none">1</a><a href="preview-hero-pile.html" style="background:rgba(243,241,232,.12);color:#f3f1e8;padding:.45em .8em;border-radius:999px;text-decoration:none">2</a><a href="preview-hero-signal.html" style="background:rgba(243,241,232,.12);color:#f3f1e8;padding:.45em .8em;border-radius:999px;text-decoration:none">3</a><a href="preview-hero-liquid.html" style="background:rgba(243,241,232,.12);color:#f3f1e8;padding:.45em .8em;border-radius:999px;text-decoration:none">4</a><a href="preview-hero-fluid.html" style="background:#d7ff3d;color:#131a5e;padding:.45em .8em;border-radius:999px;text-decoration:none">5</a></nav>
+<nav class="pv-nav" style="position:fixed;top:12px;left:12px;z-index:85;display:flex;gap:6px;flex-wrap:wrap;font:500 .66rem 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase"><a href="index.html" style="background:#f3f1e8;color:#131a5e;padding:.45em .8em;border-radius:999px;text-decoration:none">← Site</a><a href="preview-hero-signal.html" style="background:rgba(243,241,232,.12);color:#f3f1e8;padding:.45em .8em;border-radius:999px;text-decoration:none">3</a><a href="preview-hero-fluid.html" style="background:#d7ff3d;color:#131a5e;padding:.45em .8em;border-radius:999px;text-decoration:none">5</a></nav>
 <div class="tag">Preview 5 | Fluid + signal</div>
 <div class="ctrl" id="ctrl"><button data-m="fluid">Fluid</button><button data-m="signal" class="on">Fluid + signal</button><button id="sndBtn">Sound off</button></div>
 <div class="ring" id="ring"></div>
@@ -218,12 +218,27 @@ var KINDS=[[heart,"#ff59c4"],[play,"#d7ff3d"],[star,"#d7ff3d"],[heart,"#d7ff3d"]
 function maybePop(x,y){if(mode!=="signal"||Math.random()>.012+speed*.0016)return;var a=Math.random()*6.28,r=30+Math.random()*90,k=KINDS[(Math.random()*KINDS.length)|0];
   pops.push({x:x+Math.cos(a)*r,y:y+Math.sin(a)*r,vx:(Math.random()-.5)*.6,vy:-.6-Math.random()*.7,t:0,f:k[0],c:k[1],s:6+Math.random()*5});count++;cnt.textContent=count.toLocaleString("en-IN");audio.pop()}
 
-/* ---------- sound: liquid whoosh that follows speed + tiny pops ---------- */
-var audio={on:false,ctx:null,g:null,f:null,
-  start:function(){try{var AC=window.AudioContext||window.webkitAudioContext,c=this.ctx=new AC();var n=c.createBuffer(1,c.sampleRate*2,c.sampleRate),d=n.getChannelData(0),b=0;for(var i=0;i<d.length;i++){b=b*.97+(Math.random()*2-1)*.03;d[i]=b*3}
-    var s=c.createBufferSource();s.buffer=n;s.loop=true;this.f=c.createBiquadFilter();this.f.type="bandpass";this.f.Q.value=.8;this.f.frequency.value=400;this.g=c.createGain();this.g.gain.value=0;s.connect(this.f);this.f.connect(this.g);this.g.connect(c.destination);s.start();this.on=true}catch(e){}},
-  tick:function(){if(!this.on||!this.ctx)return;var t=this.ctx.currentTime;this.g.gain.setTargetAtTime(Math.min(.22,speed*.006),t,.08);this.f.frequency.setTargetAtTime(260+speed*22,t,.1)},
-  pop:function(){if(!this.on||!this.ctx)return;var c=this.ctx,t=c.currentTime,o=c.createOscillator(),g=c.createGain();o.type="sine";o.frequency.setValueAtTime(700+Math.random()*500,t);o.frequency.exponentialRampToValueAtTime(1400,t+.08);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.05,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+.12);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+.14)},
+/* ---------- sound: soft water swirl that follows speed + pentatonic droplet "plinks" (always in key) ---------- */
+var audio={on:false,ctx:null,g:null,f:null,m:null,rv:null,last:0,ni:0,
+  NOTES:[523.25,587.33,659.25,783.99,880,1046.5,1174.66,1318.51],
+  start:function(){try{var AC=window.AudioContext||window.webkitAudioContext,c=this.ctx=new AC();
+    this.m=c.createDynamicsCompressor();this.m.threshold.value=-18;this.m.ratio.value=4;var out=c.createGain();out.gain.value=.9;this.m.connect(out);out.connect(c.destination);
+    var L=c.sampleRate*2.2,ir=c.createBuffer(2,L,c.sampleRate);for(var ch=0;ch<2;ch++){var q=ir.getChannelData(ch);for(var i=0;i<L;i++)q[i]=(Math.random()*2-1)*Math.pow(1-i/L,3.2)}
+    this.rv=c.createConvolver();this.rv.buffer=ir;var wet=c.createGain();wet.gain.value=.35;this.rv.connect(wet);wet.connect(this.m);
+    var n=c.createBuffer(1,c.sampleRate*3,c.sampleRate),d=n.getChannelData(0),b=0;for(var k=0;k<d.length;k++){b=(b+.02*(Math.random()*2-1))/1.02;d[k]=b*3.2}
+    var src=c.createBufferSource();src.buffer=n;src.loop=true;
+    this.f=c.createBiquadFilter();this.f.type="lowpass";this.f.Q.value=3;this.f.frequency.value=220;
+    var wob=c.createOscillator(),wg=c.createGain();wob.frequency.value=5.5;wg.gain.value=60;wob.connect(wg);wg.connect(this.f.frequency);wob.start();
+    this.g=c.createGain();this.g.gain.value=0;src.connect(this.f);this.f.connect(this.g);this.g.connect(this.m);this.g.connect(this.rv);src.start();this.on=true}catch(e){}},
+  tick:function(){if(!this.on||!this.ctx)return;var t=this.ctx.currentTime,v=Math.min(speed,40);this.g.gain.setTargetAtTime(Math.min(.16,v*.005),t,.18);this.f.frequency.setTargetAtTime(220+v*28,t,.25)},
+  pop:function(){if(!this.on||!this.ctx)return;var c=this.ctx,t=c.currentTime;if(t-this.last<.07)return;this.last=t;
+    this.ni=(this.ni+1+Math.floor(Math.random()*3))%this.NOTES.length;var fr=this.NOTES[this.ni];
+    var o=c.createOscillator(),o2=c.createOscillator(),g=c.createGain();o.type="sine";o2.type="triangle";
+    o.frequency.setValueAtTime(fr*.7,t);o.frequency.exponentialRampToValueAtTime(fr,t+.025);o2.frequency.setValueAtTime(fr*2,t);
+    var g2=c.createGain();g2.gain.value=.18;o2.connect(g2);g2.connect(g);o.connect(g);
+    g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.09,t+.008);g.gain.exponentialRampToValueAtTime(.0001,t+.45);
+    var p=c.createStereoPanner?c.createStereoPanner():null;if(p){p.pan.value=Math.random()*1.2-.6;g.connect(p);p.connect(this.m);p.connect(this.rv)}else{g.connect(this.m);g.connect(this.rv)}
+    o.start(t);o2.start(t);o.stop(t+.5);o2.stop(t+.5)},
   toggle:function(){if(!this.ctx){this.start();return}this.on=!this.on;if(!this.on)this.g.gain.setTargetAtTime(0,this.ctx.currentTime,.05)}};
 var sndBtn=document.getElementById("sndBtn");function paintSnd(){sndBtn.textContent=audio.on?"Sound on":"Sound off";sndBtn.classList.toggle("on",audio.on)}
 sndBtn.addEventListener("click",function(){audio.toggle();paintSnd()});

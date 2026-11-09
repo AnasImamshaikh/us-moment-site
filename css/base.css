@@ -99,7 +99,7 @@
 @media (hover:hover){.wwd-flow:hover .wwd-card:not(.on){filter:saturate(.6)}}
 @media (max-width:1100px){.wwd-flow{grid-template-columns:repeat(2,minmax(0,1fr))}.wwd-card{min-height:460px}}
 @media (max-width:640px){
-  .wwd-flow{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;margin-right:calc(var(--gutter)*-1);padding:14px var(--gutter) 1rem 0;gap:.8rem}
+  .wwd-flow{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:calc(var(--gutter)*-1);padding:14px var(--gutter) 1rem;scroll-padding-inline:var(--gutter);gap:.8rem;scrollbar-width:none}.wwd-flow::-webkit-scrollbar{display:none}
   .wwd-card{flex:0 0 82%;min-height:440px;scroll-snap-align:start}
   .wwd-card.on{transform:none}
 }
@@ -152,7 +152,7 @@
   .bs-media{aspect-ratio:4/3}
   .bs-text{margin:.8rem 0 0}
   .bs-text h3{font-size:var(--step-2)}
-  .bs-strip{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;margin-right:calc(var(--gutter)*-1);padding:8px var(--gutter) .4rem 0}
+  .bs-strip{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:calc(var(--gutter)*-1);padding:8px var(--gutter) .4rem;scroll-padding-inline:var(--gutter)}
   .bs-thumb{flex:0 0 28%;scroll-snap-align:start}
 }
 @media (max-width:480px){.bs-head h2{font-size:var(--step-3)}.bs-thumb{flex-basis:36%}}
@@ -195,7 +195,7 @@ a.fc-card:hover .fc-cta,a.fc-card:focus-visible .fc-cta{max-height:1.4em;opacity
 @media (hover:none){.fc-cta{max-height:1.4em;opacity:1}}
 @media (max-width:1100px){.fc-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (max-width:640px){
-  .fc-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;margin-right:calc(var(--gutter)*-1);padding:0 var(--gutter) .5rem 0;scrollbar-width:none}
+  .fc-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:calc(var(--gutter)*-1);padding:0 var(--gutter) .5rem;scroll-padding-inline:var(--gutter);scrollbar-width:none}
   .fc-grid::-webkit-scrollbar{display:none}
   .fc-card{flex:0 0 62%;scroll-snap-align:start}
 }
@@ -274,9 +274,21 @@ a.viral-card{display:block;color:inherit;text-decoration:none}
 .menu-sub{display:flex;flex-wrap:wrap;gap:.4rem .9rem;margin:-.4rem 0 .8rem;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase}
 .menu-sub span{width:100%;color:var(--flash)}
 .menu-sub a{color:inherit;opacity:.8;text-decoration:underline;text-underline-offset:3px}
+/* Phone menu: keep the preview sub-links small (the big #menu-overlay a rule out-ranks .menu-sub a), make the label readable on lime, and let a tall menu scroll instead of clipping its top and bottom */
+#menu-overlay .menu-sub a{font-family:var(--f-mono);font-size:.72rem;display:inline;padding:0;border-top:0}
+#menu-overlay .menu-sub span{color:var(--ink);opacity:.55}
+#menu-overlay a.menu-link.active{color:var(--ink);font-style:italic}#menu-overlay a.menu-link.active:after{content:" \2731";font-size:.45em;vertical-align:middle;font-style:normal;color:var(--signal)}
+#menu-overlay{overflow-y:auto;overscroll-behavior:contain;justify-content:flex-start;padding-top:5rem;padding-bottom:2rem}
+#menu-overlay:before,#menu-overlay:after{content:"";margin:auto}
 /* What we do: sound toggle beside "See all services" */
 .wwd-head-r{display:flex;align-items:center;gap:.4rem 1rem;flex-wrap:wrap}
 .wwd-snd{font:500 .7rem var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink);background:none;border:1.5px solid var(--ink-a10);border-radius:999px;padding:.55em 1em;cursor:pointer;transition:background .25s,border-color .25s}
 .wwd-snd i{font-style:normal;margin-right:.2em}
 .wwd-snd:hover{border-color:var(--ink)}
 .wwd-snd[aria-pressed="false"]{opacity:.55}
+
+/* Stretchy ring cursor (js at the end of base.js). Difference blend keeps it visible on ink and paper. */
+.cur-ring{position:fixed;left:0;top:0;width:0;height:0;pointer-events:none;z-index:9998;opacity:0;transition:opacity .3s;mix-blend-mode:difference}
+.cur-ring-c{position:absolute;left:0;top:0;width:36px;height:36px;border:1px solid var(--paper);border-radius:50%;transition:background-color .3s,border-color .3s}
+.cur-ring.on .cur-ring-c{background:#f3f1e81f}
+@media (pointer:coarse){.cur-ring{display:none}}

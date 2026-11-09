@@ -307,6 +307,33 @@ Tokens live in `css/base.css` `:root`. Always reuse these instead of hard-coding
   17th / no win in 5); stamp moved to chest height; crew header "22 people" replaced by "Some of us talk back.
   Click around." (hints at the Jyoti / Zaheen eggs).
 
+- ✅ **Mobile pass (Nov 10 2026).** Phone swipe rows (home What we do `.wwd-flow` + Featured campaigns
+  `.fc-grid`, work `.wk-thumbs` + `.wk-chips`) now bleed edge to edge on both sides (`margin-inline:-gutter`,
+  gutter padding + `scroll-padding-inline`), so cards start on the gutter and flow to the screen edge. Phone menu:
+  `.menu-sub` preview links were rendered at full menu-link size (`#menu-overlay a` out-ranked them), the active
+  page link was lime on lime (invisible) and is now ink italic + ✱, overlay scrolls instead of clipping on short
+  screens, Palette demo pill hides while the menu is open. All pages checked at 320/375/414: no horizontal overflow.
+
+- ✅ **Stretchy ring cursor (Nov 10 2026, after unseen.co).** A 1px paper ring (`.cur-ring`, difference blend)
+  trails the lime `#cursor` dot, stretches up to 1.55×0.45 along its direction of travel, grows 1.8× over
+  links/buttons/cards, tightens on press. Code at the end of base.js, styles at the end of base.css; fine pointers
+  only, no lag/stretch under reduced motion. The old sparkle trail is switched off (`!1&&r(...)` in base.js).
+
+- 🧪 **Hero previews trimmed (Nov 10 2026).** Only **3 (Social signal field)** and **5 (Fluid + signal)** stay
+  linked (navbar dropdown, phone menu, preview pill bars); 1/2/4 links removed, their files still on disk. Fluid
+  sound redone: warm low-passed water swirl (wobbling filter, reverb) that follows cursor speed, and reaction pops
+  are soft pentatonic droplet plinks (always in key, panned, max ~14/s) instead of hiss + chirps.
+
+- 🧪 **Hero preview 6, particle dust (Nov 10 2026, after allerstudio.com).** `preview-hero-particles.html`:
+  three.js (three@0.160.0, jsdelivr importmap) point cloud of 16k particles (9k on phones) inside an Aller-style
+  technical frame (rails, grid lines, crosshairs, live Mumbai clock + real stats strip, client-logo marquee).
+  Toggle between a **phone** whose screen particles take their colours from a playing reel (assets/work-reels,
+  sampled to a 58x106 canvas) and the **✱ mark**; morph has a staggered burst. Right side keeps shedding dust,
+  more as you scroll; cursor repels particles and the shape turns toward it. Linked as "6" in the dropdown/menu.
+- ⏳ **Helper cat for Let's talk (proposed, awaiting go).** Original pixel cat (neko.js is GPL v3, not used):
+  follows the focused field, quips per field, validates email jokingly, types along, sleeps when idle, chases
+  cursor inside the contact section only, backflip on send. Not built yet.
+
 ## 9. Open items / decisions pending
 - ✅ ~~Duplicate stats~~ — resolved. The standalone stats section is gone; `#statsGrid` now lives
   in the hero only (verified: `class="section stats"` no longer exists in `index.html`).

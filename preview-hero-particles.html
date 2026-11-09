@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preview | Hero: particle dust</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#131a5e;--ink-deep:#0c1147;--paper:#f3f1e8;--flash:#d7ff3d;--gold:#ff59c4;--paper-a70:rgba(243,241,232,.7);--paper-a40:rgba(243,241,232,.4);--line:rgba(243,241,232,.12);
+--f-display:"Fraunces",Georgia,serif;--f-body:"Inter",system-ui,sans-serif;--f-mono:"JetBrains Mono",monospace;--gutter:clamp(1.25rem,1rem + 2vw,3.5rem);--rail:clamp(0px,4vw - 20px,64px)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--ink);color:var(--paper);font-family:var(--f-body)}
+a{color:inherit}
+.hero{position:relative;height:100svh;min-height:620px;overflow:hidden;background:radial-gradient(ellipse 70% 80% at 72% 50%,#1b2488 0%,var(--ink) 55%,var(--ink-deep) 100%)}
+#gl{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y}
+/* technical frame (after Aller): rails, grid lines, crosshairs */
+.frame{position:absolute;inset:0;pointer-events:none;z-index:2}
+.frame .v{position:absolute;top:0;bottom:0;width:1px;background:var(--line)}
+.frame .v.l{left:calc(var(--gutter) + var(--rail))}.frame .v.r{right:calc(var(--gutter) + var(--rail))}
+.frame .h{position:absolute;left:0;right:0;height:1px;background:var(--line)}
+.frame .h.t{top:92px}.frame .h.b{bottom:88px}
+.frame .x{position:absolute;width:14px;height:14px;transform:translate(-50%,-50%)}
+.frame .x:before,.frame .x:after{content:"";position:absolute;background:var(--paper-a40)}
+.frame .x:before{left:6.5px;top:0;width:1px;height:14px}.frame .x:after{top:6.5px;left:0;height:1px;width:14px}
+.rail{position:absolute;top:50%;z-index:3;font:500 .62rem var(--f-mono);letter-spacing:.24em;text-transform:uppercase;color:var(--paper-a40);white-space:nowrap;pointer-events:none}
+.rail.l{left:calc(var(--gutter) + var(--rail)/2);transform:translate(-50%,-50%) rotate(-90deg)}
+.rail.r{right:calc(var(--gutter) + var(--rail)/2);transform:translate(50%,-50%) rotate(90deg)}
+.rail b{color:var(--flash);font-weight:500}
+@media (max-width:900px){.rail{display:none}}
+/* status strip under the nav */
+.status{position:absolute;top:56px;left:calc(var(--gutter) + var(--rail));right:calc(var(--gutter) + var(--rail));z-index:4;display:flex;justify-content:space-between;gap:1rem;font:500 .64rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--paper-a70);padding:0 .9rem}
+.status .live:before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--flash);margin-right:.55em;box-shadow:0 0 0 0 #d7ff3d80;animation:ping 2s infinite}
+@keyframes ping{70%{box-shadow:0 0 0 8px #d7ff3d00}100%{box-shadow:0 0 0 0 #d7ff3d00}}
+@media (max-width:640px){.status .hide-s{display:none}}
+/* copy */
+.copy{position:absolute;z-index:5;left:calc(var(--gutter) + var(--rail) + 1rem);top:50%;transform:translateY(-50%);max-width:min(36rem,46vw)}
+.eyebrow{display:flex;align-items:center;gap:.7rem;font:500 .72rem var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--paper-a70)}
+.eyebrow:before{content:"";width:26px;height:6px;border-radius:3px;background:var(--flash)}
+h1{font-family:var(--f-display);font-weight:500;font-size:clamp(2.5rem,1.4rem + 4.2vw,5.6rem);line-height:.98;letter-spacing:-.025em;margin-top:1.1rem}
+h1 em{font-style:italic;font-weight:400;color:var(--flash)}
+.sub{margin-top:1.3rem;max-width:40ch;color:var(--paper-a70);font-size:clamp(.95rem,.9rem + .2vw,1.08rem);line-height:1.55}
+.ctas{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.8rem}
+.btn{display:inline-flex;align-items:center;gap:.6rem;font:600 .9rem var(--f-body);padding:.9em 1.4em;border-radius:999px;text-decoration:none;border:1px solid var(--line)}
+.btn.solid{background:var(--flash);color:var(--ink);border-color:var(--flash)}
+.btn:not(.solid){background:rgba(243,241,232,.06);backdrop-filter:blur(6px)}
+/* shape toggle */
+.toggle{position:absolute;z-index:6;right:calc(var(--gutter) + var(--rail) + 1rem);bottom:108px;display:flex;gap:4px;padding:4px;border-radius:999px;background:rgba(12,17,71,.7);border:1px solid var(--line);backdrop-filter:blur(8px);font:500 .68rem var(--f-mono);letter-spacing:.1em;text-transform:uppercase}
+.toggle button{font:inherit;letter-spacing:inherit;text-transform:inherit;color:var(--paper-a70);background:none;border:0;border-radius:999px;padding:.6em 1em;cursor:pointer}
+.toggle button.on{background:var(--paper);color:var(--ink)}
+.hint{position:absolute;z-index:6;left:50%;bottom:108px;transform:translateX(-50%);font:500 .62rem var(--f-mono);letter-spacing:.2em;text-transform:uppercase;color:var(--paper-a40)}
+/* logo strip */
+.logos{position:absolute;left:0;right:0;bottom:0;height:88px;z-index:4;overflow:hidden;display:flex;align-items:center;-webkit-mask:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.logos .trk{display:flex;align-items:center;gap:clamp(2.4rem,2rem + 2vw,4.5rem);animation:mq 38s linear infinite;width:max-content;padding-left:2rem}
+.logos img{height:26px;width:auto;filter:brightness(0) invert(1);opacity:.55}
+@keyframes mq{to{transform:translateX(-50%)}}
+@media (max-width:900px){
+  .copy{top:120px;transform:none;max-width:none;right:var(--gutter);left:var(--gutter)}
+  .hint{display:none}
+  .toggle{left:50%;right:auto;transform:translateX(-50%);bottom:100px}
+}
+@media (max-width:420px){.ctas .btn{padding:.8em 1.1em;font-size:.85rem}.sub{display:none}}
+@media (max-height:700px) and (max-width:900px){.sub{display:none}}
+@media (prefers-reduced-motion:reduce){.logos .trk{animation:none}.status .live:before{animation:none}}
+/* next section stub so scrolling has somewhere to go */
+.next{min-height:70vh;padding:12vh var(--gutter);background:var(--paper);color:var(--ink)}
+.next h2{font-family:var(--f-display);font-weight:500;font-size:clamp(2rem,1.4rem + 2.5vw,3.6rem);letter-spacing:-.02em}
+.next p{margin-top:1rem;max-width:52ch;color:#131a5ebb}
+</style>
+</head>
+<body>
+<nav class="pv-nav" style="position:fixed;top:12px;left:12px;z-index:60;display:flex;gap:6px;flex-wrap:wrap;max-width:calc(100vw - 24px);font:500 .66rem 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase"><a href="index.html" style="background:#f3f1e8;color:#131a5e;padding:.45em .8em;border-radius:999px;text-decoration:none">← Site</a><a href="preview-hero-signal.html" style="background:rgba(243,241,232,.12);color:#f3f1e8;padding:.45em .8em;border-radius:999px;text-decoration:none">3</a><a href="preview-hero-fluid.html" style="background:rgba(243,241,232,.12);color:#f3f1e8;padding:.45em .8em;border-radius:999px;text-decoration:none">5</a><a href="preview-hero-particles.html" style="background:#d7ff3d;color:#131a5e;padding:.45em .8em;border-radius:999px;text-decoration:none">6</a></nav>
+
+<section class="hero" id="hero">
+  <canvas id="gl" aria-hidden="true"></canvas>
+  <div class="frame" aria-hidden="true">
+    <i class="v l"></i><i class="v r"></i><i class="h t"></i><i class="h b"></i>
+    <i class="x" style="left:calc(var(--gutter) + var(--rail));top:92px"></i>
+    <i class="x" style="right:calc(var(--gutter) + var(--rail));left:auto;top:92px;transform:translate(50%,-50%)"></i>
+    <i class="x" style="left:calc(var(--gutter) + var(--rail));top:calc(100% - 88px)"></i>
+    <i class="x" style="right:calc(var(--gutter) + var(--rail));left:auto;top:calc(100% - 88px);transform:translate(50%,-50%)"></i>
+    <i class="x" style="left:52%;top:30%"></i>
+  </div>
+  <span class="rail l" aria-hidden="true">Us Moment <b>✱</b> Social-first studio <b>✱</b> Est. Mumbai</span>
+  <span class="rail r" aria-hidden="true">Strategy / Creative / Production / Growth</span>
+  <div class="status" aria-hidden="true"><span class="live">Mumbai <span id="clock">--:--</span> IST</span><span class="hide-s">75M+ people reached</span><span class="hide-s">2,000+ pieces of content</span></div>
+
+  <div class="copy">
+    <div class="eyebrow">Branding · Content · Meta ads · YouTube</div>
+    <h1>We make brands <em>unforgettable.</em></h1>
+    <p class="sub">A creative-first agency blending strategy, storytelling, branding and performance into moments people actually stop for.</p>
+    <div class="ctas"><a class="btn solid" href="index.html#contact">Start a project <span aria-hidden="true">↗</span></a><a class="btn" href="work.html">See the work <span aria-hidden="true">→</span></a></div>
+  </div>
+
+  <div class="toggle" role="group" aria-label="Particle shape"><button type="button" data-shape="phone" class="on">Phone</button><button type="button" data-shape="mark">✱ Mark</button></div>
+  <span class="hint" aria-hidden="true">Move to disturb · scroll to dissolve</span>
+
+  <div class="logos" aria-label="Some of our clients"><div class="trk" id="logoTrk"></div></div>
+</section>
+<section class="next"><h2>(Rest of the home page)</h2><p>Scroll back up and watch the dust gather again. This preview only replaces the hero; everything below it stays as it is on the live home page.</p></section>
+
+<video id="reel" muted playsinline loop crossorigin="anonymous" preload="auto" style="display:none"></video>
+
+<script>
+/* live Mumbai clock + logo strip (real client logos) */
+(function(){var c=document.getElementById("clock");function t(){c.textContent=new Date().toLocaleTimeString("en-GB",{timeZone:"Asia/Kolkata",hour:"2-digit",minute:"2-digit"})}t();setInterval(t,15000);
+var L=["netflix","amazon-prime","uber","nykaa","mubi","licious","candid","the-croffle-guys","siciliana","walters","elra","terractive","mood-banana","bold-care"],h="";
+for(var k=0;k<2;k++)L.forEach(function(n){h+='<img src="assets/clients/logos/'+n+'.png" alt="'+(k?"":n.replace(/-/g," "))+'"'+(k?' aria-hidden="true"':"")+' loading="lazy">'});document.getElementById("logoTrk").innerHTML=h})();
+</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
+<script type="module">
+import * as THREE from "three";
+const canvas=document.getElementById("gl"),hero=document.getElementById("hero");
+const calm=matchMedia("(prefers-reduced-motion: reduce)").matches,small=matchMedia("(max-width:900px)").matches;
+const renderer=new THREE.WebGLRenderer({canvas,antialias:false,alpha:true,powerPreference:"high-performance"});
+const PR=Math.min(devicePixelRatio,2);renderer.setPixelRatio(PR);
+const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(35,1,.1,100);camera.position.z=11;
+const group=new THREE.Group();scene.add(group);
+
+/* ---------- particle budget ---------- */
+const COLS=small?40:58,ROWS=small?74:106,S=COLS*ROWS,N=small?9000:16000;
+const PAPER=[.95,.94,.91],LIME=[.843,1,.24],PINK=[1,.35,.77];
+function rnd(a,b){return a+Math.random()*(b-a)}
+
+/* ---------- shape A: phone (screen grid + rounded body) ---------- */
+const W=2.3,H=4.7,D=.3,R=.36,SW=W-.2,SH=H-.34;
+function inRR(x,y,w,h,r){const ax=Math.abs(x)-(w/2-r),ay=Math.abs(y)-(h/2-r);return ax<=0||ay<=0||ax*ax+ay*ay<=r*r}
+function edgeRR(w,h,r){/* random point on rounded-rect outline */for(;;){const t=Math.random()*4;let x,y;if(t<1){x=rnd(-w/2,w/2);y=h/2}else if(t<2){x=rnd(-w/2,w/2);y=-h/2}else if(t<3){x=w/2;y=rnd(-h/2,h/2)}else{x=-w/2;y=rnd(-h/2,h/2)}
+ const ax=Math.abs(x)-(w/2-r),ay=Math.abs(y)-(h/2-r);if(ax>0&&ay>0){const a=Math.atan2(ay,ax);x=Math.sign(x)*(w/2-r+Math.cos(a)*r);y=Math.sign(y)*(h/2-r+Math.sin(a)*r)}return[x,y]}}
+function phone(){const P=new Float32Array(N*3),C=new Float32Array(N*3),UV=new Float32Array(N*2).fill(-1);let i=0;
+ for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++,i++){const u=(c+.5)/COLS,v=(r+.5)/ROWS;P[i*3]=(u-.5)*SW+rnd(-.006,.006);P[i*3+1]=(v-.5)*SH;P[i*3+2]=D/2+.02;UV[i*2]=u;UV[i*2+1]=1-v;C.set([.3,.34,.6],i*3)}
+ for(;i<N;i++){const f=Math.random();let x,y,z,b;
+  if(f<.42){[x,y]=edgeRR(W,H,R);z=rnd(-D/2,D/2);b=rnd(.55,.9)}                       /* sides */
+  else if(f<.72){do{x=rnd(-W/2,W/2);y=rnd(-H/2,H/2)}while(!inRR(x,y,W,H,R)||(Math.abs(x)<SW/2&&Math.abs(y)<SH/2));z=D/2;b=rnd(.7,1)} /* bezel */
+  else{do{x=rnd(-W/2,W/2);y=rnd(-H/2,H/2)}while(!inRR(x,y,W,H,R));z=-D/2;b=rnd(.25,.5)}  /* back */
+  const s=Math.random();const col=s<.05?LIME:s<.08?PINK:PAPER;P.set([x,y,z],i*3);C.set([col[0]*b,col[1]*b,col[2]*b],i*3)}
+ /* notch: pull a few screen-top particles into a pill */
+ return{P,C,UV}}
+
+/* ---------- shape B: the ✱ mark (6 rounded arms, extruded) ---------- */
+function mark(){const P=new Float32Array(N*3),C=new Float32Array(N*3),UV=new Float32Array(N*2).fill(-1);
+ const cv=document.createElement("canvas"),Z=220;cv.width=cv.height=Z;const g=cv.getContext("2d");g.translate(Z/2,Z/2);g.strokeStyle="#fff";g.lineCap="round";g.lineWidth=34;
+ for(let k=0;k<3;k++){g.save();g.rotate(k*Math.PI/3+Math.PI/2);g.beginPath();g.moveTo(-88,0);g.lineTo(88,0);g.stroke();g.restore()}
+ const d=g.getImageData(0,0,Z,Z).data,pts=[];for(let y=0;y<Z;y+=1)for(let x=0;x<Z;x+=1)if(d[(y*Z+x)*4]>128)pts.push(x,y);
+ const sc=4.6/Z;for(let i=0;i<N;i++){const j=(Math.random()*pts.length/2|0)*2,x=(pts[j]+Math.random()-Z/2)*sc,y=-(pts[j+1]+Math.random()-Z/2)*sc,rr=Math.hypot(x,y);
+  const z=(Math.random()<.5?1:-1)*rnd(0,.32)*(1-rr/2.6*.5);P.set([x,y,z],i*3);const s=Math.random(),b=rnd(.55,1)*(z>0?1:.6);const col=s<.08?PINK:s<.15?PAPER:LIME;C.set([col[0]*b,col[1]*b,col[2]*b],i*3)}
+ return{P,C,UV}}
+
+const SHAPES={phone:phone(),mark:mark()};
+/* ---------- buffers ---------- */
+const geo=new THREE.BufferGeometry(),pos=new Float32Array(N*3),col=new Float32Array(N*3),alp=new Float32Array(N),siz=new Float32Array(N);
+const home=new Float32Array(N*3),from=new Float32Array(N*3),to=new Float32Array(N*3),cFrom=new Float32Array(N*3),cTo=new Float32Array(N*3),off=new Float32Array(N*3),phase=new Float32Array(N),speed=new Float32Array(N),delay=new Float32Array(N),dir=new Float32Array(N*3);
+let shape="phone";home.set(SHAPES.phone.P);to.set(home);from.set(home);col.set(SHAPES.phone.C);cTo.set(col);cFrom.set(col);pos.set(home);
+for(let i=0;i<N;i++){phase[i]=Math.random();speed[i]=rnd(.05,.16);delay[i]=Math.random()*.45;siz[i]=i<S?rnd(2.1,2.5):rnd(.9,2.1)*(Math.random()<.04?1.8:1);alp[i]=1;
+ const a=rnd(-.5,.9),e=rnd(-.6,.6);dir[i*3]=Math.cos(e)*Math.cos(a);dir[i*3+1]=Math.sin(e)*.8+.25;dir[i*3+2]=Math.cos(e)*Math.sin(a)*.6}
+geo.setAttribute("position",new THREE.BufferAttribute(pos,3));geo.setAttribute("color",new THREE.BufferAttribute(col,3));geo.setAttribute("alpha",new THREE.BufferAttribute(alp,1));geo.setAttribute("size",new THREE.BufferAttribute(siz,1));
+const mat=new THREE.ShaderMaterial({transparent:true,depthWrite:false,blending:THREE.NormalBlending,uniforms:{uPR:{value:PR},uScale:{value:1}},
+ vertexShader:`attribute float alpha;attribute float size;varying vec3 vC;varying float vA;uniform float uPR;uniform float uScale;
+ void main(){vC=color;vA=alpha;vec4 mv=modelViewMatrix*vec4(position,1.);gl_PointSize=size*uPR*uScale*(24./-mv.z);gl_Position=projectionMatrix*mv;}`,
+ fragmentShader:`varying vec3 vC;varying float vA;void main(){vec2 p=gl_PointCoord-.5;float d=length(p);if(d>.5)discard;gl_FragColor=vec4(vC,vA*smoothstep(.5,.2,d));}`,vertexColors:true});
+const points=new THREE.Points(geo,mat);group.add(points);
+
+/* ---------- reel on the phone screen: sample video pixels into the screen particles ---------- */
+const REELS=["DTQDNftCP7D","DYeDiv1Mson","DaiQz4ATL69","Dbs0OH0NQHu","DUm40gWCFPH"];let ri=0;
+const vid=document.getElementById("reel"),sc=document.createElement("canvas");sc.width=COLS;sc.height=ROWS;const sx=sc.getContext("2d",{willReadFrequently:true});
+const poster=new Image();let haveFrame=false;
+function loadReel(){vid.src="assets/work-reels/"+REELS[ri]+".mp4";poster.src="assets/work-reels/"+REELS[ri]+".jpg";vid.play().catch(()=>{})}
+vid.loop=false;vid.addEventListener("ended",()=>{ri=(ri+1)%REELS.length;loadReel()});loadReel();
+let screenCol=new Float32Array(S*3);
+function sampleScreen(){try{if(vid.readyState>=2){sx.drawImage(vid,0,0,COLS,ROWS);haveFrame=true}else if(poster.complete&&poster.naturalWidth){sx.drawImage(poster,0,0,COLS,ROWS);haveFrame=true}else return;
+ const d=sx.getImageData(0,0,COLS,ROWS).data;for(let i=0;i<S;i++){const r=(i/COLS|0),c=i%COLS,k=((ROWS-1-r)*COLS+c)*4;screenCol[i*3]=d[k]/255;screenCol[i*3+1]=d[k+1]/255;screenCol[i*3+2]=d[k+2]/255}}catch(e){}}
+
+/* ---------- interaction ---------- */
+let mx=9,my=9,tx=0,ty=0,rotX=0,rotY=0,scrollP=0,morph=1,mStart=0;const mouseW=new THREE.Vector3(),ray=new THREE.Raycaster(),ndc=new THREE.Vector2(),plane=new THREE.Plane(new THREE.Vector3(0,0,1),0),hit=new THREE.Vector3();let pointerIn=false;
+function onMove(x,y){const r=canvas.getBoundingClientRect();ndc.set((x-r.left)/r.width*2-1,-((y-r.top)/r.height)*2+1);tx=ndc.x;ty=ndc.y;pointerIn=true}
+addEventListener("pointermove",e=>onMove(e.clientX,e.clientY),{passive:true});hero.addEventListener("pointerleave",()=>{pointerIn=false;tx=0;ty=0});
+addEventListener("scroll",()=>{scrollP=Math.min(1,Math.max(0,scrollY/(hero.offsetHeight*.8)))},{passive:true});
+document.querySelectorAll(".toggle button").forEach(b=>b.addEventListener("click",()=>{const s=b.dataset.shape;if(s===shape)return;
+ document.querySelectorAll(".toggle button").forEach(x=>x.classList.toggle("on",x===b));from.set(home);cFrom.set(col);to.set(SHAPES[s].P);cTo.set(SHAPES[s].C);shape=s;morph=0;mStart=performance.now()}));
+
+/* ---------- layout ---------- */
+let visW=1,visH=1;
+function resize(){const w=hero.clientWidth,h=hero.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();
+ visH=2*Math.tan(camera.fov*Math.PI/360)*camera.position.z;visW=visH*camera.aspect;
+ const px=visH/h;if(w>900){const band=h-92-88;group.scale.setScalar(Math.min(1.05,band*px/6.4));group.position.set(visW*.2,(88-92)/2*px,0)}else{const cb=document.querySelector('.ctas').getBoundingClientRect(),tg=document.querySelector('.toggle').getBoundingClientRect(),top=cb.bottom+18,bot=tg.top-14,band=Math.max(120,bot-top);group.scale.setScalar(Math.min(visW*.8/3,band*px/5.6));group.position.set(0,(h/2-(top+bot)/2)*px,0)}
+ mat.uniforms.uScale.value=h/800}
+addEventListener("resize",resize);resize();
+
+/* ---------- loop ---------- */
+let last=performance.now(),frame=0;const local=new THREE.Vector3();
+function tick(now){const dt=Math.min(.05,(now-last)/1000);last=now;const t=now/1000;frame++;
+ if(shape==="phone"&&frame%2===0)sampleScreen();
+ /* gentle turn toward the cursor */
+ rotY+=((calm?0:tx*.42+Math.sin(t*.4)*.08)-rotY)*.05;rotX+=((calm?0:-ty*.22)-rotX)*.05;group.rotation.set(rotX,rotY-.18,0);
+ /* cursor in group-local space */
+ ray.setFromCamera(ndc,camera);ray.ray.intersectPlane(plane,hit);group.updateMatrixWorld();local.copy(hit);group.worldToLocal(local);
+ if(morph<1)morph=Math.min(1,(now-mStart)/1600);
+ const diss=calm?0:.22+scrollP*1.4, R2=pointerIn&&!calm?.42:0, gs=group.scale.x;
+ for(let i=0;i<N;i++){const k=i*3;
+  /* morph with per-particle stagger and a mid-flight burst */
+  let hx,hy,hz;if(morph<1){const m=Math.min(1,Math.max(0,(morph-delay[i])/(1-.45))),e=m<.5?4*m*m*m:1-Math.pow(-2*m+2,3)/2,b=Math.sin(m*Math.PI)*1.6;
+   hx=from[k]+(to[k]-from[k])*e+dir[k]*b;hy=from[k+1]+(to[k+1]-from[k+1])*e+dir[k+1]*b;hz=from[k+2]+(to[k+2]-from[k+2])*e+dir[k+2]*b*.6;
+   col[k]=cFrom[k]+(cTo[k]-cFrom[k])*e;col[k+1]=cFrom[k+1]+(cTo[k+1]-cFrom[k+1])*e;col[k+2]=cFrom[k+2]+(cTo[k+2]-cFrom[k+2])*e;home[k]=to[k];home[k+1]=to[k+1];home[k+2]=to[k+2];
+   if(morph===1){}}else{hx=home[k];hy=home[k+1];hz=home[k+2]}
+  if(morph>=1&&shape==="phone"&&i<S&&haveFrame){const j=i*3;col[k]+=(Math.min(1,screenCol[j]*1.35+.04)-col[k])*.25;col[k+1]+=(Math.min(1,screenCol[j+1]*1.35+.04)-col[k+1])*.25;col[k+2]+=(Math.min(1,screenCol[j+2]*1.35+.06)-col[k+2])*.25}
+  /* dust: particles on the right side keep streaming away and re-forming (Aller-style), more as you scroll */
+  const edge=Math.min(1,Math.max(0,(hx/2.6+.5)*1.25-.45+(phase[i]-.5)*.5)),w=Math.min(1,edge*diss*(i<S?.6:1)+scrollP*scrollP*.9);
+  let fx=0,fy=0,fz=0,a=1;if(w>0.001){const p=(t*speed[i]+phase[i])%1,dist=p*4.2*w;fx=dir[k]*dist+Math.sin(t*.9+phase[i]*20)*.12*w;fy=dir[k+1]*dist+Math.cos(t*.7+phase[i]*17)*.1*w;fz=dir[k+2]*dist;a=1-p*w*.95}
+  /* cursor repel with spring */
+  let ox=0,oy=0;if(R2){const dx=hx+fx-local.x,dy=hy+fy-local.y,d2=dx*dx+dy*dy;if(d2<R2){const d=Math.sqrt(d2)+1e-4,f=(1-d/.65)*.55;ox=dx/d*f;oy=dy/d*f}}
+  off[k]+=(ox-off[k])*.14;off[k+1]+=(oy-off[k+1])*.14;
+  const jit=calm?0:.012;pos[k]=hx+fx+off[k]+Math.sin(t*1.3+i)*jit;pos[k+1]=hy+fy+off[k+1]+Math.cos(t*1.1+i*.7)*jit;pos[k+2]=hz+fz;alp[i]=a}
+ geo.attributes.position.needsUpdate=true;geo.attributes.color.needsUpdate=true;geo.attributes.alpha.needsUpdate=true;
+ renderer.render(scene,camera);requestAnimationFrame(tick)}
+requestAnimationFrame(tick);
+</script>
+</body>
+</html>

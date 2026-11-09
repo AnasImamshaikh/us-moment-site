@@ -30,3 +30,6 @@ html[data-palette] .wwd-card.on{box-shadow:0 0 0 4px color-mix(in srgb,var(--fla
 .pal-opt input{accent-color:#111;margin:0}
 .pal-opt small{display:block;color:#777;font-size:.7rem;margin-top:.1rem}
 @media (max-width:480px){.pal-menu{min-width:260px}}
+
+/* hide the demo pill while the phone menu is open */
+body:has(#menu-overlay.open) .pal{opacity:0;pointer-events:none}

@@ -30,7 +30,7 @@
   .wk-hero{min-height:92svh;padding-top:6rem}
   .wk-hero-in{grid-template-columns:1fr;gap:1.6rem}
   .wk-hero:after{background:linear-gradient(0deg,#07092b 0%,#07092be6 38%,#07092b66 65%,#07092b99 100%)}
-  .wk-thumbs{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;margin-right:calc(var(--gutter)*-1);padding:8px var(--gutter) .3rem 0}
+  .wk-thumbs{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:calc(var(--gutter)*-1);padding:8px var(--gutter) .3rem;scroll-padding-inline:var(--gutter)}
   .wk-thumb{flex:0 0 34%;scroll-snap-align:start}
 }
 @media (max-width:480px){.wk-thumb{flex-basis:42%}.wk-sum{font-size:.92rem}}
@@ -82,7 +82,7 @@
 .t-gold{background:var(--gold);color:var(--ink)}.t-gold .ps-logo{filter:brightness(0) saturate(100%) invert(9%) sepia(43%) saturate(5000%) hue-rotate(232deg)}
 .t-flash{background:var(--flash);color:var(--ink)}.t-flash .ps-logo{filter:brightness(0) saturate(100%) invert(9%) sepia(43%) saturate(5000%) hue-rotate(232deg)}
 @media (max-width:1000px){.wk-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:560px){.wk-grid{grid-template-columns:1fr}.wk-chips{flex-wrap:nowrap;overflow-x:auto;margin-right:calc(var(--gutter)*-1);padding-right:var(--gutter);padding-bottom:.3rem}.wk-chip{flex:none}}
+@media (max-width:560px){.wk-grid{grid-template-columns:1fr}.wk-chips{flex-wrap:nowrap;overflow-x:auto;margin-inline:calc(var(--gutter)*-1);padding-inline:var(--gutter);scroll-padding-inline:var(--gutter);padding-bottom:.3rem}.wk-chip{flex:none}}
 
 /* ===== Logo wall on the work page ===== */
 .wk-clients .logo-wall{margin:0}
@@ -136,7 +136,7 @@
 @media (max-width:640px){
   .wk-reels{grid-template-columns:repeat(2,minmax(0,1fr))}
   .wk-bar{flex-direction:column;align-items:stretch}
-  .wk-bar .wk-chips{flex-wrap:nowrap;overflow-x:auto;margin-right:calc(var(--gutter)*-1);padding:0 var(--gutter) .3rem 0}
+  .wk-bar .wk-chips{flex-wrap:nowrap;overflow-x:auto;margin-inline:calc(var(--gutter)*-1);padding:0 var(--gutter) .3rem;scroll-padding-inline:var(--gutter)}
   .wk-chip{flex:none}
   .rc-top{font-size:.72rem}.rc-cat{display:none}.rc-foot{padding:.7rem}
   .wk-btn{flex:1 1 auto;justify-content:center}
