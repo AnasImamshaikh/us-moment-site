@@ -292,3 +292,26 @@ a.viral-card{display:block;color:inherit;text-decoration:none}
 .cur-ring-c{position:absolute;left:0;top:0;width:36px;height:36px;border:1px solid var(--paper);border-radius:50%;transition:background-color .3s,border-color .3s}
 .cur-ring.on .cur-ring-c{background:#f3f1e81f}
 @media (pointer:coarse){.cur-ring{display:none}}
+
+/* Themed contact dropdown (js/select.js): real <select> hidden but kept for submit/validation */
+.usel{position:relative}
+.usel .usel-native{position:absolute;inset:0;opacity:0;pointer-events:none;width:100%;height:100%}
+.usel-btn{width:100%;display:flex;align-items:center;justify-content:space-between;gap:1rem;background:transparent;border:0;outline:none;color:var(--ink-a60);font-family:var(--f-body);font-weight:600;font-size:1rem;padding:1rem 1.1rem;cursor:pointer;text-align:left}
+.usel.has-val .usel-btn{color:var(--ink)}
+.usel-chev{flex:none;transition:transform .35s var(--ease-out)}
+.usel.open .usel-chev{transform:rotate(180deg)}
+.usel.open,.usel:focus-within{border-color:var(--ink)}
+.usel.bad{border-color:var(--gold)}
+.usel-list{position:absolute;left:-1.5px;right:-1.5px;top:calc(100% + 8px);z-index:20;list-style:none;margin:0;padding:.45rem;background:var(--ink);color:var(--paper);border-radius:var(--radius-m);box-shadow:0 24px 48px -20px #131a5ecc;max-height:min(320px,52vh);overflow-y:auto;overscroll-behavior:contain;outline:none;
+  opacity:0;visibility:hidden;transform:translateY(-6px) scale(.98);transform-origin:50% 0;transition:opacity .2s,transform .3s var(--ease-out),visibility 0s .3s;scrollbar-width:thin;scrollbar-color:#f3f1e840 transparent}
+.usel.open .usel-list{opacity:1;visibility:visible;transform:none;transition:opacity .2s,transform .3s var(--ease-out),visibility 0s}
+.usel-list li{display:flex;align-items:center;gap:.6rem;padding:.72rem .85rem;border-radius:calc(var(--radius-m) - 4px);font:500 .95rem var(--f-body);cursor:pointer;transition:background .15s,color .15s}
+.usel.open .usel-list li{animation:uselIn .32s var(--ease-out) both;animation-delay:calc(var(--i)*18ms)}
+@keyframes uselIn{from{opacity:0;transform:translateY(-4px)}}
+.usel-list li:before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.25;flex:none;transition:transform .2s,opacity .2s}
+.usel-list li.act{background:var(--flash);color:var(--ink)}
+.usel-list li.act:before{opacity:1;transform:scale(1.3)}
+.usel-list li[aria-selected=true]{color:var(--flash)}
+.usel-list li[aria-selected=true].act{color:var(--ink)}
+.usel-list li[aria-selected=true]:after{content:"✱";margin-left:auto;font-size:.85rem}
+@media (prefers-reduced-motion:reduce){.usel-list,.usel.open .usel-list li{transition:none;animation:none}}

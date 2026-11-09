@@ -330,9 +330,21 @@ Tokens live in `css/base.css` `:root`. Always reuse these instead of hard-coding
   Toggle between a **phone** whose screen particles take their colours from a playing reel (assets/work-reels,
   sampled to a 58x106 canvas) and the **✱ mark**; morph has a staggered burst. Right side keeps shedding dust,
   more as you scroll; cursor repels particles and the shape turns toward it. Linked as "6" in the dropdown/menu.
-- ⏳ **Helper cat for Let's talk (proposed, awaiting go).** Original pixel cat (neko.js is GPL v3, not used):
-  follows the focused field, quips per field, validates email jokingly, types along, sleeps when idle, chases
-  cursor inside the contact section only, backflip on send. Not built yet.
+- ✅ **Mo, the Let's talk helper cat (Nov 10 2026).** `js/cat.js` (index.html only, self-contained, CSS injected).
+  **v2:** original vector cat (inline SVG, ink fur, lime eyes, pink collar + lime ✱ tag) rigged into parts and
+  driven every frame: spring-physics movement with hop/lean/squash, breathing, tail sway, eyes track the cursor,
+  random blinks + ear twitches, purr-wiggle on hover, laptop + paw taps per keystroke. (Client asked for a
+  Toothless look; declined, protected character, Mo stays original.) Walks in when #contact is 35% visible, perches on the
+  top edge of the focused field, quips per field (copy in the `Q` object), jokingly validates email after a 900ms
+  pause, a quip per "What do you need?" option, types on a laptop while the message is typed, naps after 12s
+  idle (zzz), chases the cursor inside #contact on fine pointers, click = heart + mrrp + joke. **Form now submits
+  via fetch (Accept: application/json)**: success = backflip + confetti + reset; failure = "the internet ate it";
+  while the action still has `YOUR_FORM_ID` it does NOT submit and the cat says the mailbox isn't plugged in.
+  Native validation's `invalid` event drives "missing something 👀". Reduced motion: no walking/chasing/naps.
+
+- ✅ **Themed contact dropdown (Nov 10 2026).** `js/select.js` + `.usel*` CSS at the end of base.css: button +
+  ink listbox (lime active row, ✱ on the chosen one, keyboard + typeahead), synced to the hidden real select (still
+  required/submitted; fires change so Mo reacts).
 
 ## 9. Open items / decisions pending
 - ✅ ~~Duplicate stats~~ — resolved. The standalone stats section is gone; `#statsGrid` now lives
