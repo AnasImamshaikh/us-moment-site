@@ -51,10 +51,10 @@ const BRANDS={
   "scalpe-pro":{n:"Scalpe Pro"},
   "paulie-gees":{n:"Paulie Gee’s"}
 };
+/* One scrolling row (client request, Nov 2026): monochrome by default, click/tap a logo to reveal its
+   official colours. Order is interleaved so the big names are spread out. */
 const BRAND_ROWS=[
-  ["netflix","elra","siciliana","walters","uber","so-positive","mubi","terractive","fossae"],
-  ["amazon-prime","nykaa","tbf","antimattr","candid","mood-banana","gush","la-shield","brooklyn-bread"],
-  ["ceat-specialty","house-of-govinda","the-croffle-guys","pho-table","bold-care","gong","licious","comart"]
+  ["netflix","amazon-prime","ceat-specialty","elra","nykaa","house-of-govinda","siciliana","tbf","the-croffle-guys","walters","antimattr","pho-table","uber","candid","bold-care","so-positive","mood-banana","gong","mubi","gush","licious","terractive","la-shield","comart","fossae","brooklyn-bread"]
 ];
 (function(){
   var holders=document.querySelectorAll("[data-logo-wall]");
@@ -69,7 +69,7 @@ const BRAND_ROWS=[
     var ar=b.ar||3,h=Math.min(ar<1.2?4.4:3.8,Math.sqrt(34/ar)),w=h*ar;
     // two layers: an ink silhouette (default) and the real-colour logo (shown on hover).
     // Both are plain images, so they work even when the site is opened as a local file.
-    return'<span class="lm-item"><span class="lm-logo" style="width:'+w.toFixed(2)+'em;height:'+h.toFixed(2)+'em"><img class="lm-mono" src="assets/clients/logos/'+b.logo+'" alt="'+b.n+'" decoding="async"><img class="lm-col" src="assets/clients/logos/color/'+b.logo+'" alt="" aria-hidden="true" decoding="async"></span></span>'+star;
+    return'<span class="lm-item" data-slug="'+slug+'"><span class="lm-logo" style="width:'+w.toFixed(2)+'em;height:'+h.toFixed(2)+'em"><img class="lm-mono" src="assets/clients/logos/'+b.logo+'" alt="'+b.n+'" decoding="async"><img class="lm-col" src="assets/clients/logos/color/'+b.logo+'" alt="" aria-hidden="true" decoding="async"></span></span>'+star;
   }
   holders.forEach(function(el){
     el.innerHTML=BRAND_ROWS.map(function(row,r){
@@ -77,5 +77,10 @@ const BRAND_ROWS=[
       // the row is printed twice so the -50% loop is seamless; the copy is hidden from screen readers
       return'<div class="lm-row'+(r%2?" lm-rev":"")+'" style="--dur:'+(row.length*3.4)+'s"><div class="lm-track"><div class="lm-set">'+once+'</div><div class="lm-set" aria-hidden="true">'+once+'</div></div></div>';
     }).join("");
+    // first copy is keyboard/screen-reader reachable; clicking either copy lights both
+    el.querySelectorAll(".lm-set:first-child .lm-item[data-slug]").forEach(function(it){var nm=(it.querySelector("img")||{}).alt||"";it.tabIndex=0;it.setAttribute("role","button");it.setAttribute("aria-pressed","false");it.setAttribute("aria-label",nm+", show brand colours")});
+    function toggle(it){var slug=it.getAttribute("data-slug"),on=!it.classList.contains("lit");el.querySelectorAll('.lm-item[data-slug="'+slug+'"]').forEach(function(x){x.classList.toggle("lit",on);if(x.hasAttribute("aria-pressed"))x.setAttribute("aria-pressed",on)})}
+    el.addEventListener("click",function(e){var it=e.target.closest(".lm-item[data-slug]");if(it)toggle(it)});
+    el.addEventListener("keydown",function(e){var it=e.target.closest(".lm-item[data-slug]");if(it&&(e.key==="Enter"||e.key===" ")){e.preventDefault();toggle(it)}});
   });
 })();

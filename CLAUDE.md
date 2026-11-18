@@ -346,6 +346,33 @@ Tokens live in `css/base.css` `:root`. Always reuse these instead of hard-coding
   ink listbox (lime active row, ✱ on the chosen one, keyboard + typeahead), synced to the hidden real select (still
   required/submitted; fires change so Mo reacts).
 
+- ✅ **Nov 18 2026, quick wins from the Nov 11 founders meeting.** **Official logo:** `assets/brand/usmoment-logo.png`
+  (cut from the client's file, transparent) used as a CSS mask on `.logo-img`, so it takes currentColor; replaces the
+  text badge (nav, all 6 pages) and the preloader "US MOMENT" mark. **Brand ticker:** one row of all 26 logos
+  (`BRAND_ROWS` in brands.js), monochrome by default on light and dark; click/tap (or Enter) toggles `.lit` = official
+  colours with a pop; hint "Tap a logo for its true colours" in the home head. **About crew ("Meet the rest of us"):**
+  white background, ink text, blue (`--signal`) accents, egg bubbles ink. **Hero numbers** verified 2x2 at 320-414px.
+
+- ✅ **Loading screen v2 (Nov 18 2026, client pick: liquid fill + reel window, NO percentage).** `usmLoader()` at the end
+  of base.js (first visit per session, same sessionStorage key): canvas-drawn logo, reel posters (assets/work-reels)
+  rise inside the letters as liquid with a lime wave crest (~1.9s), wash to cream, then the logo flies into the nav
+  `.logo-badge` spot while the overlay fades, then `introAnim()`. Bar + % markup removed from all 6 pages. Reduced
+  motion: plain fade. `preview-loader.html` (options A-D) is now obsolete. **Palette demo removed** from index.html
+  (the 2 tags); `js/palette-preview.js` + `css/palette-preview.css` are unused and can be deleted.
+
+- 🧪 **Home hero: particle phone (Nov 18 2026, founders picked preview 6, reversed).** `js/hero-phone.js` (index only,
+  three@0.160.0 module via importmap). Phone sits in the right of the original hero (left 62%,
+  right 2%, top 16%, bottom 10%; below 1200px it stacks above the headline). Phone is FORMED while the cursor is near
+  it / the hero is in view and DISPERSES into reel-coloured dust when the cursor moves away or on scroll; when formed a
+  real VideoTexture plays the reel crisply on the screen (cycles assets/work-reels). Original hero background, icons
+  and orbit kept; the Aller frame/rails/texts dropped. **Three renders on a demo pill bottom-left** (v2, after the first
+  version was rejected): 1 Dust (~50k GPU points, reel as dense dot grid via vertex texture fetch), 2 Tiles (instanced
+  3D tiles carrying the reel), 3 Dissolve (glossy RoundedBox phone + video screen burning away with lime/pink edge and
+  dust). ES module with importmap (three + three/addons). `?phone=1|2|3`, localStorage `usm_phone_r`. Dispersal amount
+  is a critically damped spring on cursor distance + scroll. **Remove the pill + the two unpicked builders once chosen.** **Previews cleaned up:** only `preview-hero-fluid.html` remains (kept for later
+  use, unlinked); the Home dropdown + phone-menu preview list are gone from all pages; shards/pile/signal/liquid/
+  particles/loader previews and palette-preview files deleted.
+
 ## 9. Open items / decisions pending
 - ✅ ~~Duplicate stats~~ — resolved. The standalone stats section is gone; `#statsGrid` now lives
   in the hero only (verified: `class="section stats"` no longer exists in `index.html`).

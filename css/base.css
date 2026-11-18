@@ -315,3 +315,26 @@ a.viral-card{display:block;color:inherit;text-decoration:none}
 .usel-list li[aria-selected=true].act{color:var(--ink)}
 .usel-list li[aria-selected=true]:after{content:"✱";margin-left:auto;font-size:.85rem}
 @media (prefers-reduced-motion:reduce){.usel-list,.usel.open .usel-list li{transition:none;animation:none}}
+
+/* Official Us Moment wordmark (assets/brand/usmoment-logo.png used as a mask, so it takes currentColor) */
+.logo-img{display:inline-block;height:1em;aspect-ratio:912/129;background:currentColor;-webkit-mask:url(../assets/brand/usmoment-logo.png) center/contain no-repeat;mask:url(../assets/brand/usmoment-logo.png) center/contain no-repeat;vertical-align:middle}
+.logo-badge{font-size:1.65rem}
+.logo-badge .logo-img{height:1em}
+@media (max-width:420px){.logo-badge{font-size:1.3rem}}
+#preloader .mark .logo-img{height:1em}
+
+/* Brand ticker v2: monochrome by default (light and dark), colour only when a logo is clicked (.lit) */
+.logo-wall .lm-item .lm-mono{opacity:.7}
+.logo-wall .lm-item .lm-col{opacity:0}
+.logo-wall .lm-item:hover .lm-mono{opacity:1}
+.logo-wall .lm-item:hover .lm-col{opacity:0}
+.logo-wall .lm-item{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.logo-wall .lm-item:focus-visible{outline:2px solid var(--signal);outline-offset:-6px;border-radius:12px}
+.logo-wall .lm-item.lit .lm-mono{opacity:0}
+.logo-wall .lm-item.lit .lm-col{opacity:1;display:block}
+.logo-wall .lm-item.lit .lm-logo{animation:lmPop .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes lmPop{40%{transform:scale(1.22) rotate(-3deg)}}
+.on-dark .lm-item.lit .lm-logo{background:var(--paper);box-shadow:0 0 0 .55em var(--paper);border-radius:.4em}
+.lb-hint{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-a60);margin-right:auto;align-self:flex-end;padding-bottom:3px}
+@media (max-width:600px){.lb-hint{order:3;width:100%}}
+@media (prefers-reduced-motion:reduce){.logo-wall .lm-item.lit .lm-logo{animation:none}}

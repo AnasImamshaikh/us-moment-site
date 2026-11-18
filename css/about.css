@@ -176,3 +176,20 @@
 .ab-talk i{font-style:normal;display:inline-block;margin-right:.3em;animation:abNudge 2.4s ease-in-out infinite}
 @keyframes abNudge{0%,70%,100%{transform:none}78%{transform:rotate(-14deg)}86%{transform:rotate(10deg)}}
 @media (prefers-reduced-motion:reduce){.ab-talk i{animation:none}}
+
+/* "Meet the rest of us": white + blue scheme (client, Nov 2026); blue (--signal) is the accent */
+.ab-crew{background:#fff;color:var(--ink)}
+.ab-crew .eyebrow{color:var(--signal)}
+.ab-crew h2{color:var(--ink)}
+.ab-crew h2 em{color:var(--signal)}
+.ab-crew .ab-talk{color:var(--ink-a60)}
+.ab-crew .ab-talk b{color:var(--signal)}
+.ab-crew .ab-bigname span{-webkit-text-stroke:1.5px rgba(50,69,245,.18)}
+.ab-crew .ab-stage.has .ab-bigname span{color:transparent;-webkit-text-stroke:1.5px var(--signal);opacity:.55}
+.ab-crew .ab-bigname small{color:var(--signal)}
+.ab-crew .mc-img{background-color:#eef0ff;box-shadow:0 0 0 1px rgba(19,26,94,.08)}
+.ab-crew .ab-rows:hover .mc-img{filter:saturate(.25) brightness(1.05) opacity(.55)}
+.ab-crew .ab-rows .mc:hover .mc-img,.ab-crew .ab-rows .mc:focus-visible .mc-img,.ab-crew .mc.sel .mc-img{filter:none;box-shadow:0 0 0 2.5px var(--signal),0 26px 50px -26px rgba(50,69,245,.55)}
+.ab-crew .mc-t b{color:var(--ink)}
+.ab-crew .mc-t span{color:var(--signal)}
+.ab-crew .ab-bubble{background:var(--ink);color:var(--paper);box-shadow:0 20px 40px -18px rgba(19,26,94,.6)}
