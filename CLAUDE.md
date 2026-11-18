@@ -369,7 +369,20 @@ Tokens live in `css/base.css` `:root`. Always reuse these instead of hard-coding
   version was rejected): 1 Dust (~50k GPU points, reel as dense dot grid via vertex texture fetch), 2 Tiles (instanced
   3D tiles carrying the reel), 3 Dissolve (glossy RoundedBox phone + video screen burning away with lime/pink edge and
   dust). ES module with importmap (three + three/addons). `?phone=1|2|3`, localStorage `usm_phone_r`. Dispersal amount
-  is a critically damped spring on cursor distance + scroll. **Remove the pill + the two unpicked builders once chosen.** **Previews cleaned up:** only `preview-hero-fluid.html` remains (kept for later
+  is a critically damped spring on cursor distance + scroll. **Remove the pill + the two unpicked builders once chosen.**
+  **Render 4 "Reels" (Nov 18 2026, evening):** not three.js. `js/hero-reels.js` (classic script loaded before the module) puts a
+  DOM phone in the same `.hero-phone` box when the pill is on 4 (`?phone=4`): our top 15 reels as a looping Instagram Reels
+  feed. Drag/swipe up or down, up/down arrows beside the phone on desktop (like Instagram web), arrow keys when focused;
+  autoplays and moves on when a clip ends (9s watchdog if a clip can't play); tap = sound on/off (starts muted, "Tap for
+  sound" pill), double-tap = like with heart burst + emoji floaters, hold = pause (UI hides). Only 3 slides rotate, so
+  only 3 videos load. UI: Reels header, dynamic island, like/comment/share/more + spinning logo disc, usmoment.in + Follow
+  (links to the real Instagram profile), caption = brand · category, audio marquee, progress bar, "Swipe up" hint + nudge.
+  Desktop: phone at the right edge of the hero (clears the headline), subtle cursor tilt; <1200px it stacks above the
+  headline at min(120vw,540px). The screen uses `touch-action:none`, so on phones a swipe on the phone moves the reels, not
+  the page. **Clips:** `assets/hero-reels/<id>.mp4` + `.jpg` (576x1024, first 8s, with sound, CRF 25) cut from
+  `_media/reels` for 10 reels; Croffle Guys DL494kaJ1NF, Bar Bank DZCJdNiogkB, Siciliana DaVKgn6uMlQ, Launch film,
+  Studio session have no original on disk and fall back to `assets/work-reels/` (480px, 6s, silent). Order/labels in
+  the `REELS` array at the top of hero-reels.js. **Previews cleaned up:** only `preview-hero-fluid.html` remains (kept for later
   use, unlinked); the Home dropdown + phone-menu preview list are gone from all pages; shards/pile/signal/liquid/
   particles/loader previews and palette-preview files deleted.
 
@@ -398,6 +411,22 @@ Tokens live in `css/base.css` `:root`. Always reuse these instead of hard-coding
   posts 3→12 → followers count 1,482→22,482 (+21K = the real campaign stat, labelled), story ring, verified tick,
   notifications, graph draws. ScrollTrigger per step; dots jump to a step. ≤900px: phone sticks under the nav, steps
   scroll beneath. Pillar names on the plan sheet are example copy.
+  **v3.1 compact (same day):** no scroll story any more (too much empty space). One screen: left = the 5 steps as a
+  list (active one opens with line + chips, lime progress bar), phone right beside it; autoplays while 45% in view
+  (4.2s per step, 6.5s on the last), pauses on hover/focus, click a step or dot to jump. ≤900px: phone only + step name +
+  dots (list and subline hidden); swipe or tap the left/right of the phone.
+
+- ✅ **About crew + home founders (Nov 18 2026, evening).** About "Meet the rest of us": the big outlined background name on
+  hover/tap is **removed** (markup + JS); instead the hovered/tapped card scales to 1.1 and the name gets a lime highlighter
+  bar (crew hover v2 block at the end of about.css). Founders hint now "Tap a card to flip it. Double-tap for a surprise."
+  **Home "The people"**: the round founder avatars are replaced by the About page's flip cards (portraits, tap to flip,
+  cursor tilt + glare, no dad mode): IIFE at the end of home.js renders into `#teamGrid`, `.hf-*` CSS at the end of
+  base.css; cards get taller on phones so the bio fits down to 320px. Rest of the section unchanged.
+
+- ✅ **Nav streak fix (Nov 18 2026).** The scrolled nav's `backdrop-filter:blur(14px)` over a 70% ink background drew
+  vertical streaks in Chrome (GPU) when moving/masked content passed under it (About crew marquee). Scrolled nav is now
+  solid `var(--ink)` with no backdrop-filter (override at the end of base.css); `.nav.nav-top` at the page top stays
+  transparent.
 
 - ✅ **What we do v3 (Nov 18 2026, evening): Instagram profile feel, tighter.** Same `#wwdStories` mount; "What we do
   v3" block in home.js, CSS block "What we do v3" at the end of base.css. Left = profile (spinning-ring logo avatar,

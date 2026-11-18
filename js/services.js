@@ -55,10 +55,10 @@
     if(window.gsap&&window.ScrollTrigger&&!reduced)gsap.fromTo(items,{opacity:0,x:-30},{opacity:1,x:0,duration:.6,stagger:.05,ease:"power3.out",scrollTrigger:{trigger:list,start:"top 85%"}});
   }
 })();
-/* "How your page grows with us" (Nov 2026 v2): a scroll story. Left: the 5 steps of working with us.
-   Right: a sticky phone showing YOUR Instagram page changing at each step: the call comes in, the plan gets approved,
-   the month fills up, the grid fills with content, then the followers climb. Dots jump to a step.
-   Phones: the phone sticks under the nav and the steps scroll beneath it. DRAFT COPY: founders to confirm. */
+/* "How your page grows with us" (Nov 2026 v3, compact): one screen, no scroll-jacking. Left: the 5 steps as a list
+   (active one opens with its line + chips and a progress bar). Right: a phone showing YOUR Instagram page changing at each
+   step (call, approved plan, calendar, content, growth). Autoplays while in view, pauses on hover, click a step or a dot
+   to jump. Phones: just the phone + step name + dots; swipe or tap left/right half. DRAFT COPY: founders to confirm. */
 (function(){
   var el=document.getElementById("flow");if(!el)return;
   var reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches,mob=window.matchMedia("(max-width:900px)");
@@ -86,8 +86,8 @@
      '<span class="gj-rec">REC</span><span class="gj-toast t3">Shoot day 🎬</span>'+
      '<div class="gj-ntf"><span style="--i:0">🔥 Your reel is trending</span><span style="--i:1">❤️ New followers keep coming</span><span style="--i:2">📈 Monthly report is in</span></div>'+
      '<div class="gj-ov gj-graph"><small>Followers</small><b>Up and to the right</b><svg viewBox="0 0 200 70" preserveAspectRatio="none"><path class="a" d="M0 66 C30 64 50 62 70 56 S110 44 130 30 S170 10 200 4 L200 70 L0 70Z"/><path class="l" pathLength="1" d="M0 66 C30 64 50 62 70 56 S110 44 130 30 S170 10 200 4"/></svg><em>Real campaign: 21K+ organic followers</em></div>'+
-   '</div></div><div class="gj-dots" role="tablist" aria-label="Steps">'+S.map(function(s,i){return'<button type="button" role="tab" aria-label="'+s.t+'"></button>'}).join("")+'</div></div></div>'+
-   '<ol class="gj-steps">'+S.map(function(s,i){return'<li class="gj-step"><div class="gj-card"><span class="gj-k">Step '+(i+1)+' / '+S.length+'</span><h3>'+s.t+'</h3><p>'+s.d+'</p><ul>'+s.items.map(function(x,k){return'<li style="--d:'+(k*60+150)+'ms">'+x+'</li>'}).join("")+'</ul></div></li>'}).join("")+'</ol>';
+   '</div></div><b class="gj-cap" aria-live="polite"></b><div class="gj-dots" role="tablist" aria-label="Steps">'+S.map(function(s,i){return'<button type="button" role="tab" aria-label="'+s.t+'"></button>'}).join("")+'</div></div></div>'+
+   '<ol class="gj-steps">'+S.map(function(s,i){return'<li class="gj-step"><button type="button" class="gj-sh"><span class="gj-k">Step '+(i+1)+'</span><h3>'+s.t+'</h3></button><div class="gj-more"><div><p>'+s.d+'</p><ul>'+s.items.map(function(x,k){return'<li style="--d:'+(k*50+120)+'ms">'+x+'</li>'}).join("")+'</ul></div></div><i class="gj-bar"></i></li>'}).join("")+'</ol>';
   var phone=el.querySelector(".gj-phone"),steps=[].slice.call(el.querySelectorAll(".gj-step")),dots=[].slice.call(el.querySelectorAll(".gj-dots button")),
       fol=el.querySelector(".gj-fol"),posts=el.querySelector(".gj-posts"),cur=-1,val={f:1482,p:3},raf=0;
   function fmt(n){return Math.round(n).toLocaleString("en-US")}
@@ -101,14 +101,21 @@
     dots.forEach(function(d,k){d.classList.toggle("on",k===i);d.classList.toggle("done",k<i);d.setAttribute("aria-selected",k===i)});
     count(i>=4?22482:1482,i>=3?12:3);
   }
-  dots.forEach(function(d,i){d.addEventListener("click",function(){var r=steps[i].getBoundingClientRect(),off=mob.matches?innerHeight*.72:innerHeight*.5-r.height/2;scrollTo({top:scrollY+r.top-off,behavior:reduced?"auto":"smooth"})})});
-  function navH(){var n=document.querySelector(".nav");el.style.setProperty("--gj-top",(n?n.offsetHeight:64)+"px")}navH();addEventListener("resize",navH);
-  set(0);
-  function line(){return mob.matches?"72%":"55%"}
-  if(window.gsap&&window.ScrollTrigger){
-    steps.forEach(function(s,i){ScrollTrigger.create({trigger:s,start:function(){return"top "+line()},end:function(){return"bottom "+line()},invalidateOnRefresh:true,onToggle:function(st){if(st.isActive)set(i)}})});
-    if(!reduced)gsap.fromTo(phone,{y:60,opacity:0,rotate:-4},{y:0,opacity:1,rotate:0,duration:1.1,ease:"power3.out",scrollTrigger:{trigger:el,start:"top 80%"}});
-  }else if("IntersectionObserver" in window){
-    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)set(steps.indexOf(e.target))})},{rootMargin:"-45% 0px -45% 0px"});steps.forEach(function(s){io.observe(s)});
-  }
+  var cap=el.querySelector(".gj-cap"),DUR=[4200,4200,4200,4600,6500],t=0,last=0,live=false,hold=false;
+  var _set=set;set=function(i){_set(i);cap.textContent=S[i].t;t=0;paint()};
+  function paint(){if(steps[cur])steps[cur].style.setProperty("--prog",Math.min(1,t/DUR[cur]))}
+  function go(i){set((i+S.length)%S.length)}
+  function loop(now){var dt=last?now-last:0;last=now;if(live&&!hold&&!reduced){t+=dt;if(t>=DUR[cur])go(cur+1);else paint()}requestAnimationFrame(loop)}
+  steps.forEach(function(s,i){s.querySelector(".gj-sh").addEventListener("click",function(){go(i)})});
+  dots.forEach(function(d,i){d.addEventListener("click",function(){go(i)})});
+  el.addEventListener("mouseenter",function(){if(!mob.matches)hold=true});el.addEventListener("mouseleave",function(){hold=false});
+  el.addEventListener("focusin",function(){hold=true});el.addEventListener("focusout",function(){hold=false});
+  /* phones: tap left/right half of the phone, or swipe */
+  var sx=0,sy=0,sw=false;
+  phone.addEventListener("touchstart",function(e){sx=e.touches[0].clientX;sy=e.touches[0].clientY;sw=false},{passive:true});
+  phone.addEventListener("touchend",function(e){var dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)){sw=true;go(cur+(dx<0?1:-1))}});
+  phone.addEventListener("click",function(e){if(sw)return;var r=phone.getBoundingClientRect();go(cur+(e.clientX-r.left<r.width*.35?-1:1))});
+  set(0);requestAnimationFrame(loop);
+  if("IntersectionObserver" in window)new IntersectionObserver(function(es){es.forEach(function(e){live=e.isIntersecting})},{threshold:.45}).observe(el);else live=true;
+  if(window.gsap&&window.ScrollTrigger&&!reduced)gsap.fromTo(phone,{y:50,opacity:0,rotate:-3},{y:0,opacity:1,rotate:0,duration:1,ease:"power3.out",scrollTrigger:{trigger:el,start:"top 80%"}});
 })();

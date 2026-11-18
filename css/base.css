@@ -490,3 +490,28 @@ a.viral-card{display:block;color:inherit;text-decoration:none}
 .ws-post-lk svg{width:13px;height:13px;fill:var(--gold)}
 .ws-post.liked .ws-post-lk{opacity:1;transform:scale(1)}
 .ws-post.pop .ws-post-lk{animation:wsBeat .5s cubic-bezier(.34,1.56,.64,1)}
+/* ===== Home "The people": founder flip cards (mirrors the About page .fx3d cards) ===== */
+#peopleBrief .team-grid.hf-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(.7rem,.5rem + 1vw,1.2rem);max-width:none;perspective:1400px}
+.hf{position:relative;aspect-ratio:4/5;border:0;padding:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer;transform-style:preserve-3d;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .5s var(--ease-out);-webkit-tap-highlight-color:transparent}
+.hf:focus-visible{outline:2px solid var(--flash);outline-offset:6px;border-radius:22px}
+.hf-in{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .9s cubic-bezier(.65,0,.35,1)}
+.hf.flip .hf-in{transform:rotateY(180deg)}
+.hf-face{position:absolute;inset:0;border-radius:22px;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.hf-front{background:var(--ink-soft) center 30%/cover no-repeat}
+.hf-front:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,#0b0f3dd9)}
+.hf-glare{position:absolute;inset:0;z-index:2;background:radial-gradient(circle at var(--gx,50%) var(--gy,30%),#ffffff38,transparent 45%);opacity:0;transition:opacity .4s;pointer-events:none}
+.hf:hover .hf-glare{opacity:1}
+.hf-icon{position:absolute;top:.8rem;right:.8rem;z-index:3;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#ffffff26;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:var(--paper);transition:transform .5s var(--ease-out)}
+.hf:hover .hf-icon{transform:rotate(180deg)}
+.hf-name{position:absolute;left:1.1rem;bottom:1rem;z-index:3;font-family:var(--f-display);font-weight:500;font-size:clamp(1.6rem,1rem + 2vw,2.8rem);line-height:.95;letter-spacing:-.03em;color:var(--paper)}
+.hf-back{transform:rotateY(180deg);background:var(--paper);color:var(--ink);display:flex;flex-direction:column;gap:.7rem;padding:clamp(1rem,.8rem + 1vw,1.6rem)}
+.hf-alias{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--signal)}
+.hf-back b{font-family:var(--f-display);font-weight:500;font-size:clamp(1.5rem,1.1rem + 1.4vw,2.4rem);line-height:1;letter-spacing:-.03em}
+.hf-back p{margin:0;font-size:clamp(.82rem,.75rem + .35vw,1rem);line-height:1.5;color:#131a5ecc}
+.hf-sig{margin-top:auto;font-family:var(--f-display);font-style:italic;font-size:1.2rem;color:var(--signal)}
+@media (max-width:480px){.hf{aspect-ratio:3/4.7}.hf-sig{display:none}.hf-alias{font-size:.58rem}.hf-back b{font-size:1.35rem}.hf-back{padding:.8rem;gap:.4rem}.hf-back p{font-size:.74rem;line-height:1.4}.hf-icon{width:28px;height:28px;top:.55rem;right:.55rem}.hf-name{left:.8rem;bottom:.7rem}}
+@media (prefers-reduced-motion:reduce){.hf,.hf-in{transition:none}}
+@media (max-width:360px){.hf{aspect-ratio:3/5.3}.hf-alias{display:none}.hf-back p{font-size:.72rem}}
+/* Nav fix (Nov 18 2026): the live backdrop blur streaked in Chrome (GPU) over moving/masked content like the About crew
+   marquee. Scrolled nav is now solid ink with no backdrop-filter; .nav.nav-top (page top) stays transparent. */
+header.nav,.nav{backdrop-filter:none;-webkit-backdrop-filter:none;background:var(--ink)}

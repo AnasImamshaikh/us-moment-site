@@ -86,17 +86,17 @@ const team=[{n:"Fardeen",r:"Co-Founder",portrait:"assets/team/fardeen-portrait.j
     if(G&&ST&&!reduced)G.fromTo($$(".fx3d",fg),{opacity:0,y:60,rotate:function(i){return i?4:-4}},{opacity:1,y:0,rotate:0,duration:1.1,ease:"power3.out",stagger:.15,scrollTrigger:{trigger:fg,start:"top 82%"}});
   }
 
-  /* ---------- crew: two moving rows + big name, or a grid ---------- */
+  /* ---------- crew: two moving rows; hover/tap grows a face + highlights the name ---------- */
   var EGG={
     "Jyoti Adnani":{type:"coffee",lines:["Oh, you clicked me. Bold.","Kali coffee. No sugar. Like my feedback.","Sarcasm? Never heard of it.","Diva #1, obviously."]},
     "Zaheen":{type:"think",lines:["Hmm. Is this a leave request?","Thinking about your appraisal…","Noted. Filed. Still thinking.","Let me get back to you on that."]}
   };
   function card(c,dup){return'<button class="mc" type="button" data-n="'+esc(c.n)+'" data-r="'+esc(c.r)+'"'+(dup?' tabindex="-1" aria-hidden="true"':'')+'><span class="mc-img" style="background-image:url(\''+c.photo+'\')"></span><span class="mc-t"><b>'+esc(c.n)+'</b><span>'+esc(c.r)+'</span></span></button>'}
-  var rows=$("#abRows"),stage=$(".ab-stage"),bigN=$("#abBigName"),bigR=$("#abBigRole");
+  var rows=$("#abRows"),stage=$(".ab-stage");
   var half=Math.ceil(crew.length/2),A=crew.slice(0,half),B=crew.slice(half);
   rows.innerHTML=[A,B].map(function(set,i){return'<div class="ab-row'+(i?' rev':'')+'" style="--dur:'+(set.length*5.2)+'s"><div class="ab-row-in">'+set.map(function(c){return card(c)}).join("")+set.map(function(c){return card(c,1)}).join("")+'</div></div>'}).join("");
-  function showName(n,r){bigN.textContent=n;bigR.textContent=r;stage.classList.add("has")}
-  function clearName(){stage.classList.remove("has");bigN.textContent="Us Moment";bigR.textContent="The crew"}
+  function showName(){if(stage)stage.classList.add("has")}
+  function clearName(){if(stage)stage.classList.remove("has")}
   $$(".mc",rows).forEach(function(m){
     m.addEventListener("mouseenter",function(){showName(m.dataset.n,m.dataset.r)});
     m.addEventListener("focus",function(){showName(m.dataset.n,m.dataset.r)});

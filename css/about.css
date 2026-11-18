@@ -216,3 +216,12 @@
 .ab-join-card:hover .ab-join-go i{transform:translate(3px,-3px)}
 .ab-join-card:focus-visible{outline:2px solid var(--flash);outline-offset:3px}
 @media (max-width:900px){.ab-join-grid{grid-template-columns:1fr}}
+
+/* crew hover v2 (Nov 18 2026): no big background name; the face grows, the name gets a lime highlight */
+.ab-row{padding:30px 0 22px;margin:-30px 0 -22px}
+.mc{transform-origin:50% 55%;transition:transform .6s var(--ease-out)}
+.ab-rows .mc:hover,.ab-rows .mc:focus-visible,.mc.sel{transform:scale(1.1);z-index:2}
+.ab-rows .mc:hover .mc-img,.ab-rows .mc:focus-visible .mc-img,.mc.sel .mc-img{transform:none}
+.mc-t b{display:inline;padding:0 .1em;background:linear-gradient(var(--flash),var(--flash)) 0 88%/0% 42% no-repeat;transition:background-size .55s var(--ease-out)}
+.ab-rows .mc:hover .mc-t b,.ab-rows .mc:focus-visible .mc-t b,.mc.sel .mc-t b{background-size:100% 42%}
+@media (prefers-reduced-motion:reduce){.mc,.mc-t b{transition:none}}

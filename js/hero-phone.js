@@ -1,8 +1,9 @@
 /* Home hero: interactive reel phone (Nov 2026). The phone is formed while the cursor is near it and the hero is in
-   view; move away or scroll down and it comes apart. Three renders to compare (demo pill bottom-left, ?phone=1|2|3):
+   view; move away or scroll down and it comes apart. Four renders to compare (demo pill bottom-left, ?phone=1|2|3|4):
      1 Dust     ~50k GPU particles; the reel is painted onto the screen as a dense dot grid (vertex texture fetch)
      2 Tiles    the reel cut into instanced 3D tiles that tumble apart and lock back into a crisp video
      3 Dissolve a solid glossy phone playing the reel burns away along a glowing edge, dust blows off it
+     4 Reels    not three.js: a DOM phone with our top 15 reels as a swipeable Instagram Reels feed (js/hero-reels.js)
    ES module: index.html maps "three" + "three/addons/" (three@0.160.0, jsdelivr) in an importmap. */
 import * as THREE from "three";
 import {RoundedBoxGeometry} from "three/addons/geometries/RoundedBoxGeometry.js";
@@ -10,7 +11,7 @@ import {RoundedBoxGeometry} from "three/addons/geometries/RoundedBoxGeometry.js"
 const hero=document.getElementById("top");
 if(hero){
 const calm=matchMedia("(prefers-reduced-motion: reduce)").matches,small=matchMedia("(max-width:900px)").matches,fine=matchMedia("(hover:hover) and (pointer:fine)").matches;
-let MODE=(()=>{const q=(location.search.match(/[?&]phone=([123])/)||[])[1];if(q)return+q;try{return+(localStorage.getItem("usm_phone_r")||1)||1}catch(e){return 1}})();
+let MODE=(()=>{const q=(location.search.match(/[?&]phone=([1234])/)||[])[1];if(q)return+q;try{return+(localStorage.getItem("usm_phone_r")||1)||1}catch(e){return 1}})();
 
 /* ---------- DOM ---------- */
 const st=document.createElement("style");st.textContent=`
@@ -22,11 +23,13 @@ const st=document.createElement("style");st.textContent=`
 .pv-phone button{font:inherit;border:0;border-radius:999px;padding:.55em .9em;background:transparent;color:inherit;cursor:pointer}
 .pv-phone button[aria-pressed=true]{background:#131a5e;color:#d7ff3d}
 .pv-phone small{font-size:inherit;opacity:.6;margin-right:4px}
-body:has(#menu-overlay.open) .pv-phone{display:none}`;
+body:has(#menu-overlay.open) .pv-phone{display:none}
+.hero-phone.is-reels canvas{visibility:hidden}
+@media (max-width:1199px){.hero-phone.is-reels{height:min(120vw,540px);margin-top:-.5rem}}`;
 document.head.appendChild(st);
 const box=document.createElement("div");box.className="hero-phone";box.setAttribute("aria-hidden","true");
 const canvas=document.createElement("canvas");box.appendChild(canvas);hero.insertBefore(box,document.getElementById("heroTitle"));
-const pill=document.createElement("div");pill.className="pv-phone";pill.innerHTML='<small>Phone</small><button type="button" data-m="1">1 Dust</button><button type="button" data-m="2">2 Tiles</button><button type="button" data-m="3">3 Dissolve</button>';
+const pill=document.createElement("div");pill.className="pv-phone";pill.innerHTML='<small>Phone</small><button type="button" data-m="1">1 Dust</button><button type="button" data-m="2">2 Tiles</button><button type="button" data-m="3">3 Dissolve</button><button type="button" data-m="4">4 Reels</button>';
 document.body.appendChild(pill);
 const paint=()=>pill.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",+b.dataset.m===MODE));paint();
 
@@ -140,7 +143,10 @@ function buildDissolve(){
 
 /* ---------- mode switching ---------- */
 const builders={1:buildDust,2:buildTiles,3:buildDissolve};let cur=null;
-function setMode(m){if(cur){rig.remove(cur.grp);cur.dispose()}MODE=m;cur=builders[m]();rig.add(cur.grp);paint();try{localStorage.setItem("usm_phone_r",m)}catch(e){}}
+function setMode(m){if(cur){rig.remove(cur.grp);cur.dispose();cur=null}MODE=m;const R=window.usmHeroReels;
+ if(m===4){vid.pause();box.classList.add("is-reels");if(R)R.show(box);renderer.clear()}
+ else{box.classList.remove("is-reels");if(R)R.hide();cur=builders[m]();rig.add(cur.grp);if(vid.paused)vid.play().catch(()=>{})}
+ paint();try{localStorage.setItem("usm_phone_r",m)}catch(e){}}
 setMode(MODE);
 pill.addEventListener("click",e=>{const b=e.target.closest("button");if(b&&+b.dataset.m!==MODE)setMode(+b.dataset.m)});
 
@@ -159,7 +165,7 @@ const sm=(a,b,v)=>{const t=Math.min(1,Math.max(0,(v-a)/(b-a)));return t*t*(3-2*t
 
 /* ---------- loop: critically damped spring on the dispersal amount = smooth in both directions ---------- */
 let d=0,dv=0,rx=0,ry=0,last=performance.now();
-function tick(now){requestAnimationFrame(tick);const dt=Math.min(.05,(now-last)/1000);last=now;if(!visible)return;
+function tick(now){requestAnimationFrame(tick);const dt=Math.min(.05,(now-last)/1000);last=now;if(!visible||!cur)return;
  const r=box.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,ph=r.height*.8,pw=ph*W/H;
  let target=0;if(fine&&moved&&!calm){const q=Math.hypot((mx-cx)/(pw*.5+80),(my-cy)/(ph*.5+80));target=sm(1,2.4,q)}
  target=Math.max(target,sm(.05,.85,scrollP));if(calm)target=0;

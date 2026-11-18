@@ -241,3 +241,25 @@ function initSwAccordion(data,items){
   }).join("");
   if(window.gsap&&window.ScrollTrigger&&!reduced)gsap.fromTo(g.children,{opacity:0,y:40},{opacity:1,y:0,duration:.7,stagger:.06,ease:"power3.out",scrollTrigger:{trigger:g,start:"top 85%"}});
 })();
+
+/* ===== The people: founder flip cards (same as the About page, flip only, no dad mode). Nov 18 2026 ===== */
+(function(){
+  var grid=document.getElementById("teamGrid");if(!grid)return;
+  var reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches,fine=window.matchMedia("(pointer:fine)").matches;
+  var F=[
+    {n:"Fardeen",img:"assets/team/fardeen-portrait.jpg",alias:"Mr Masti, aka Dad-1",bio:"Cut his teeth growing Netflix India’s YouTube and shipping content for Prime Video titles like Mirzapur and Panchayat. Resident dad-joke expert."},
+    {n:"Melvin",img:"assets/team/melvin-portrait.jpg",alias:"Mr Shaant, aka Dad-2",bio:"Built the same Netflix and Prime Video track record, minus the noise, runs strategy and the studio’s calm. Permanently on iced coffee."}
+  ];
+  grid.classList.add("hf-grid");
+  grid.innerHTML=F.map(function(c){return'<button class="hf" type="button" aria-label="'+c.n+'. Flip for bio"><span class="hf-in">'+
+    '<span class="hf-face hf-front" style="background-image:url(\''+c.img+'\')"><span class="hf-glare"></span><span class="hf-icon" aria-hidden="true">↻</span><b class="hf-name">'+c.n+'</b></span>'+
+    '<span class="hf-face hf-back"><span class="hf-alias">'+c.alias+'</span><b>'+c.n+'</b><p>'+c.bio+'</p><span class="hf-sig">'+c.n+' ✱</span></span></span></button>'}).join("");
+  [].forEach.call(grid.querySelectorAll(".hf"),function(card){
+    card.addEventListener("click",function(){card.classList.toggle("flip")});
+    if(fine&&!reduced){
+      card.addEventListener("pointermove",function(e){var r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;card.style.setProperty("--ry",((x-.5)*12).toFixed(2)+"deg");card.style.setProperty("--rx",((.5-y)*10).toFixed(2)+"deg");card.style.setProperty("--gx",(x*100).toFixed(1)+"%");card.style.setProperty("--gy",(y*100).toFixed(1)+"%")});
+      card.addEventListener("pointerleave",function(){card.style.setProperty("--rx","0deg");card.style.setProperty("--ry","0deg")});
+    }
+  });
+  if(window.gsap&&window.ScrollTrigger&&!reduced)gsap.fromTo(grid.children,{opacity:0,y:50,rotate:function(i){return i?4:-4}},{opacity:1,y:0,rotate:0,duration:1,ease:"power3.out",stagger:.12,clearProps:"transform",scrollTrigger:{trigger:grid,start:"top 85%"}});
+})();
