@@ -373,6 +373,47 @@ Tokens live in `css/base.css` `:root`. Always reuse these instead of hard-coding
   use, unlinked); the Home dropdown + phone-menu preview list are gone from all pages; shards/pile/signal/liquid/
   particles/loader previews and palette-preview files deleted.
 
+- ✅ **Home tweaks (Nov 18 2026, afternoon).** **Logo ticker moved into the hero bottom** (`.hero-ticker#clients`,
+  on-dark monochrome, logos ~26px like preview 6, stars hidden, tap = colour); the separate "Our Clients" section and
+  its heading/hint are gone (section 2 in §6 no longer exists as its own block). Hero phone box now ends 130px above
+  the hero bottom. **On Instagram:** cards are plain video tiles (`div`, no brand/category labels, no Instagram links).
+  **Featured campaigns:** logo-only chip top-left (colour logo on a paper pill; brands without a logo file show the
+  name in Fraunces italic, e.g. Wamiqa Gabbi), summary text removed; every card is a link: case page if one exists,
+  else work.html; hover CTA "View case study ↗" / "See the work ↗".
+
+- ✅ **Nov 18 2026, late afternoon (autonomous batch).** **What we do v2 = Instagram Stories format** (`#wwdStories`,
+  "What we do (Nov 2026" block in home.js, `.ws-*` CSS at the end of base.css): 4 story bubbles (Strategy, Creative,
+  Production, Growth) + 9:16 viewer with segment bars, one frame per service (same 16 lines + Unsplash photos), Ken
+  Burns, auto-advance 3.6s while in view, tap left/right, arrow keys, swipe, press-and-hold or the button to pause,
+  bubble = jump; desktop lists the pillar's services beside it. Old 4-card wwd + hover sounds removed. Order kept;
+  Jyoti's client journey went to Services instead. **About: "Work with us" section** (`#work-with-us`, before the CTA
+  band): For brands (index#contact), For creators & freelancers (melvin@), Careers (`#careers`, fardeen@, "roles posted
+  as they open", no invented roles), scroll-in reveals added in about.js. **Services: pipeline now = client onboarding
+  journey** (Discovery call, Proposal, Kickoff, Create, Launch & grow; 5-column grid), heading "From first call to
+  first moment." **Step copy is DRAFT for the founders to confirm.**
+  **Services v3 (Nov 18 2026, evening): pipeline replaced by a scroll story** (client didn't like the cards). Heading "How
+  your page grows with us." Left = the same 5 steps as big text + chips; right = a sticky phone showing the visitor's own
+  IG page (`.gj-*`, "How your page grows" block in services.js/services.css): call comes in → plan sheet with pillars +
+  APPROVED stamp → month-one calendar fills, highlights get colour → grid fills with reels (assets/work-reels), REC badge,
+  posts 3→12 → followers count 1,482→22,482 (+21K = the real campaign stat, labelled), story ring, verified tick,
+  notifications, graph draws. ScrollTrigger per step; dots jump to a step. ≤900px: phone sticks under the nav, steps
+  scroll beneath. Pillar names on the plan sheet are example copy.
+
+- ✅ **What we do v3 (Nov 18 2026, evening): Instagram profile feel, tighter.** Same `#wwdStories` mount; "What we do
+  v3" block in home.js, CSS block "What we do v3" at the end of base.css. Left = profile (spinning-ring logo avatar,
+  "WHAT WE do." as the h2, @usmoment ✱ badge, stats 4 pillars / 16 services / 75M+ reached, bio, Start a project + See
+  all services buttons, pillar highlights, grid/reels tab bar, 4-up post grid of the pillar's services); right = 9:16
+  story viewer (height min(78vh,700px)) with reply bar ("Send message…" → #contact, like heart, 🔥😍👏 floating
+  reactions), double-tap heart burst, poll sticker on each pillar's first frame (vote → "Same. Let's talk ↗").
+  Photos: `IMG`/`THUMB` arrays (still Unsplash) **→ to be replaced with 1080x1920 frames from the client's BTS Drive
+  folder once Anas drops it into `_media/bts/`.** Section heading block removed from index.html (h2 now in the JS).
+  **v3.1:** stat reads 10M+ reached (client pick, not 75M+). Double-click/tap the story = like: heart burst, reply-bar heart
+  fills, and that service's grid tile gets a pink heart badge (`.ws-post-lk`); likes are remembered per frame while on the
+  page, the heart button toggles.
+  **v3.2:** photos are now the client's BTS stills: `assets/wwd/s<pillar>-<service>.jpg` (1080x1920) + `-t.jpg`
+  (480x600 thumbs), sharpest frame picked from `_media/bts/` with ffmpeg; Unsplash no longer used here. Swap a still by
+  overwriting its file.
+
 ## 9. Open items / decisions pending
 - ✅ ~~Duplicate stats~~ — resolved. The standalone stats section is gone; `#statsGrid` now lives
   in the hero only (verified: `class="section stats"` no longer exists in `index.html`).

@@ -193,3 +193,26 @@
 .ab-crew .mc-t b{color:var(--ink)}
 .ab-crew .mc-t span{color:var(--signal)}
 .ab-crew .ab-bubble{background:var(--ink);color:var(--paper);box-shadow:0 20px 40px -18px rgba(19,26,94,.6)}
+
+/* Work with us + Careers (Nov 18 2026): three tracks, scroll-in reveal (about.js) */
+.ab-join{padding:clamp(3.4rem,2.4rem + 4vw,6.5rem) var(--gutter);background:var(--ink);color:var(--paper)}
+.ab-join-head{display:flex;flex-direction:column;gap:.7rem;margin-bottom:clamp(1.8rem,1.2rem + 2vw,3rem)}
+.ab-join-head .eyebrow{color:var(--flash)}
+.ab-join-head h2{font-size:clamp(2rem,1.2rem + 3vw,4rem);margin:0;max-width:18ch;text-wrap:balance}
+.ab-join-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(.8rem,.5rem + 1vw,1.4rem)}
+.ab-join-card{position:relative;display:flex;flex-direction:column;gap:.8rem;min-width:0;padding:clamp(1.4rem,1rem + 1vw,2rem);border-radius:22px;border:1px solid var(--paper-a12);background:linear-gradient(160deg,#1c256f 0%,#131a5e 70%);color:var(--paper);overflow:hidden;isolation:isolate;transition:transform .45s var(--ease-out),border-color .3s,box-shadow .45s}
+.ab-join-card:before{content:"";position:absolute;width:220px;height:220px;right:-80px;top:-80px;border-radius:50%;background:radial-gradient(circle,#d7ff3d33,transparent 70%);z-index:-1;transition:transform .6s var(--ease-out)}
+.ab-join-card:nth-child(2):before{background:radial-gradient(circle,#ff59c433,transparent 70%)}
+.ab-join-card:nth-child(3):before{background:radial-gradient(circle,#3245f566,transparent 70%)}
+.ab-join-k{align-self:flex-start;font:500 .68rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;padding:.35em .75em;border-radius:99px;background:var(--flash);color:var(--ink)}
+.ab-join-card:nth-child(2) .ab-join-k{background:var(--gold)}
+.ab-join-card:nth-child(3) .ab-join-k{background:var(--paper)}
+.ab-join-card h3{font-family:var(--f-display);font-weight:500;font-size:clamp(1.5rem,1.1rem + 1.2vw,2.1rem);line-height:1.05;letter-spacing:-.01em;margin:.4rem 0 0}
+.ab-join-card p{margin:0;color:var(--paper-a70);line-height:1.55;max-width:36ch}
+.ab-join-go{margin-top:auto;padding-top:1rem;display:inline-flex;align-items:center;gap:.4rem;font-weight:600;font-size:.92rem;color:var(--flash);overflow-wrap:anywhere}
+.ab-join-go i{font-style:normal;transition:transform .35s var(--ease-out)}
+.ab-join-card:hover,.ab-join-card:focus-visible{transform:translateY(-6px);border-color:#d7ff3d66;box-shadow:0 30px 60px -30px #000}
+.ab-join-card:hover:before{transform:scale(1.4)}
+.ab-join-card:hover .ab-join-go i{transform:translate(3px,-3px)}
+.ab-join-card:focus-visible{outline:2px solid var(--flash);outline-offset:3px}
+@media (max-width:900px){.ab-join-grid{grid-template-columns:1fr}}

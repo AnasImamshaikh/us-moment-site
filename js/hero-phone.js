@@ -14,7 +14,7 @@ let MODE=(()=>{const q=(location.search.match(/[?&]phone=([123])/)||[])[1];if(q)
 
 /* ---------- DOM ---------- */
 const st=document.createElement("style");st.textContent=`
-.hero-phone{position:absolute;z-index:1;left:55%;right:1%;top:12%;bottom:6%;pointer-events:none}
+.hero-phone{position:absolute;z-index:1;left:55%;right:1%;top:12%;bottom:130px;pointer-events:none}
 .hero-phone canvas{width:100%;height:100%;display:block}
 #top #heroTitle,#top .hero-stats,#top .hero-sub{position:relative;z-index:2}
 @media (max-width:1199px){.hero-phone{position:relative;left:auto;right:auto;top:auto;bottom:auto;height:min(92vw,460px);margin:-1.5rem calc(var(--gutter) * -1) .5rem}}

@@ -137,3 +137,9 @@ const team=[{n:"Fardeen",r:"Co-Founder",portrait:"assets/team/fardeen-portrait.j
 
   if(ST)addEventListener("load",function(){ST.refresh()});
 })();
+
+/* scroll-in reveal for the Work with us cards and other late sections (Melvin: content appears as you scroll) */
+(function(){if(!window.gsap||!window.ScrollTrigger||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+ gsap.utils.toArray(".ab-join-head,.ab-c-head,.ab-f-head").forEach(function(h){gsap.from(h.children,{opacity:0,y:30,duration:.7,stagger:.1,ease:"power3.out",scrollTrigger:{trigger:h,start:"top 85%"}})});
+ var cards=gsap.utils.toArray(".ab-join-card");if(cards.length)gsap.from(cards,{opacity:0,y:50,rotate:1.5,duration:.8,stagger:.12,ease:"power3.out",clearProps:"transform",scrollTrigger:{trigger:".ab-join-grid",start:"top 85%"}});
+})();

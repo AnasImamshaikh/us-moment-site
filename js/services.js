@@ -55,50 +55,60 @@
     if(window.gsap&&window.ScrollTrigger&&!reduced)gsap.fromTo(items,{opacity:0,x:-30},{opacity:1,x:0,duration:.6,stagger:.05,ease:"power3.out",scrollTrigger:{trigger:list,start:"top 85%"}});
   }
 })();
-/* "How a moment gets made": a pipeline. A lime spark runs along the track from stage to stage;
-   the active stage lights up and its tasks cascade in. Autoplays once in view, pauses on hover,
-   hover/tap a stage to jump to it. Track is horizontal on desktop, vertical on phones. */
+/* "How your page grows with us" (Nov 2026 v2): a scroll story. Left: the 5 steps of working with us.
+   Right: a sticky phone showing YOUR Instagram page changing at each step: the call comes in, the plan gets approved,
+   the month fills up, the grid fills with content, then the followers climb. Dots jump to a step.
+   Phones: the phone sticks under the nav and the steps scroll beneath it. DRAFT COPY: founders to confirm. */
 (function(){
   var el=document.getElementById("flow");if(!el)return;
-  var reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches,mob=window.matchMedia("(max-width:900px)");
   var S=[
-    {t:"Strategy",d:"Know what to make, and why.",items:["Brand positioning & tone of voice","Content strategy","Monthly calendars","Platform & audience planning"],img:["assets/campaigns/nykaa.jpg","assets/switchboard/sw-creative-direction.jpg","assets/campaigns/edit.jpg"]},
-    {t:"Creative",d:"Ideas built for the feed.",items:["Original IPs & formats","Creative direction","Scripts & hooks","Creator collabs"],img:["assets/campaigns/mood-banana.jpg","assets/campaigns/elra.jpg","assets/switchboard/sw-creator-collabs.jpg"]},
-    {t:"Production",d:"Shot and edited under one roof.",items:["Casting & locations","Shoot days","Editing & motion","Product & food shoots"],img:["assets/switchboard/sw-video-production.jpg","assets/campaigns/terractive.jpg","assets/campaigns/croffle-guys.jpg"]},
-    {t:"Growth",d:"Posted, boosted and measured.",items:["Posting & community management","Meta ads","YouTube management","Reporting you can act on"],img:["assets/switchboard/sw-social-media.jpg","assets/switchboard/sw-youtube-mgmt.jpg","assets/campaigns/walters.jpg"]}
+    {t:"Discovery call",d:"We get to know you, your page and what you want from it.",items:["A call with the founders","Your goals, audience and budget","What has and hasn't worked","A quick audit of your page"]},
+    {t:"Proposal",d:"A clear plan you can say yes to.",items:["Strategy and content pillars","Scope, timelines, deliverables","Project or retainer","One clear quote"]},
+    {t:"Kickoff",d:"Your brand, our team, one calendar.",items:["Brand and tone deep-dive","Access to pages and assets","Month-one content calendar","Your team meets ours"]},
+    {t:"Create",d:"Ideas, scripts and shoots, made in-house.",items:["Concepts and scripts for sign-off","Shoot days and creators","Editing and motion","Review rounds with you"]},
+    {t:"Launch & grow",d:"Posted, boosted, measured, then again.",items:["Posting and community","Meta ads and YouTube","A monthly report you can act on","Next month planned off the numbers"]}
   ];
-  el.innerHTML='<div class="fl-track" aria-hidden="true"><i class="fl-fill"></i><i class="fl-spark"></i></div>'+S.map(function(s,i){
-    return'<article class="fl-stage" tabindex="0"><span class="fl-node" aria-hidden="true"><i></i></span><div class="fl-card">'+
-      '<div class="fl-media">'+s.img.map(function(src,k){return'<img src="'+src+'" alt="" loading="lazy" decoding="async"'+(k?'':' class="on"')+'>'}).join("")+'</div>'+
-      '<div class="fl-body"><h3>'+s.t+'</h3><p>'+s.d+'</p><ul>'+s.items.map(function(x,k){return'<li style="--d:'+(k*70+120)+'ms">'+x+'</li>'}).join("")+'</ul></div></div></article>';
-  }).join("");
-  var track=el.querySelector(".fl-track"),stages=[].slice.call(el.querySelectorAll(".fl-stage")),n=stages.length,cur=-1,timer=null,hold=false,live=false;
-  function ctr(s){var d=s.querySelector(".fl-node");return[s.offsetLeft+d.offsetLeft+d.offsetWidth/2,s.offsetTop+d.offsetTop+d.offsetHeight/2]}
-  function layout(){
-    var A=ctr(stages[0]),B=ctr(stages[n-1]),vert=Math.abs(B[0]-A[0])<Math.abs(B[1]-A[1]);el.classList.toggle("vert",vert);
-    track.style.cssText=vert?"left:"+(A[0]-1)+"px;top:"+A[1]+"px;width:2px;height:"+(B[1]-A[1])+"px":"left:"+A[0]+"px;top:"+(A[1]-1)+"px;height:2px;width:"+(B[0]-A[0])+"px";
+  var R=["DTQDNftCP7D","DUm40gWCFPH","DaiQz4ATL69","DYeDiv1Mson","Dbs0OH0NQHu","DZsDUa7CMFY","DL494kaJ1NF","DXWphGyk-aF","DYe0j0UNqGb"];
+  var cal="";for(var c=0;c<28;c++)cal+='<i style="--i:'+c+'"'+([1,3,5,8,10,12,15,17,19,22,24,26].indexOf(c)>-1?' class="on c'+(c%3)+'"':'')+'></i>';
+  el.innerHTML=
+   '<div class="gj-stage"><div class="gj-sticky"><div class="gj-phone" data-s="0" aria-hidden="true"><div class="gj-screen">'+
+     '<div class="gj-sb"><b>9:41</b><span><i></i><i></i><i></i><em></em></span></div>'+
+     '<div class="gj-top"><b>yourbrand</b><span class="gj-tick">✱</span></div>'+
+     '<div class="gj-prof"><span class="gj-av"><span class="gj-avi">YB</span></span>'+
+       '<ul class="gj-st"><li><b class="gj-posts">3</b>posts</li><li><b class="gj-fol">1,482</b>followers</li><li><b>210</b>following</li></ul></div>'+
+     '<div class="gj-bio"><b>Your Brand</b><i></i><i class="s"></i></div>'+
+     '<div class="gj-hl"><i class="h0"></i><i class="h1"></i><i class="h2"></i><i class="h3"></i></div>'+
+     '<div class="gj-grid">'+R.map(function(id,i){return'<span class="gj-t'+(i<3?' old':'')+'" style="--i:'+i+'"><img src="assets/work-reels/'+id+'.jpg" alt="" loading="lazy" decoding="async"></span>'}).join("")+'</div>'+
+     '<div class="gj-ov gj-call"><span class="gj-cav"><span class="logo-img"></span></span><b>Us Moment</b><small>Discovery call…</small><div class="gj-cb"><i class="no">✕</i><i class="yes">✆</i></div></div>'+
+     '<div class="gj-ov gj-plan"><small>Your plan</small><b>Content pillars</b><div class="gj-chips"><i>Behind the scenes</i><i>Founder stories</i><i>Trends, our way</i></div><div class="gj-row"><span>Retainer</span><em>✓</em></div><span class="gj-stamp">Approved</span></div>'+
+     '<div class="gj-ov gj-cal"><small>Month one</small><b>Content calendar</b><div class="gj-days">'+cal+'</div></div>'+
+     '<span class="gj-rec">REC</span><span class="gj-toast t3">Shoot day 🎬</span>'+
+     '<div class="gj-ntf"><span style="--i:0">🔥 Your reel is trending</span><span style="--i:1">❤️ New followers keep coming</span><span style="--i:2">📈 Monthly report is in</span></div>'+
+     '<div class="gj-ov gj-graph"><small>Followers</small><b>Up and to the right</b><svg viewBox="0 0 200 70" preserveAspectRatio="none"><path class="a" d="M0 66 C30 64 50 62 70 56 S110 44 130 30 S170 10 200 4 L200 70 L0 70Z"/><path class="l" pathLength="1" d="M0 66 C30 64 50 62 70 56 S110 44 130 30 S170 10 200 4"/></svg><em>Real campaign: 21K+ organic followers</em></div>'+
+   '</div></div><div class="gj-dots" role="tablist" aria-label="Steps">'+S.map(function(s,i){return'<button type="button" role="tab" aria-label="'+s.t+'"></button>'}).join("")+'</div></div></div>'+
+   '<ol class="gj-steps">'+S.map(function(s,i){return'<li class="gj-step"><div class="gj-card"><span class="gj-k">Step '+(i+1)+' / '+S.length+'</span><h3>'+s.t+'</h3><p>'+s.d+'</p><ul>'+s.items.map(function(x,k){return'<li style="--d:'+(k*60+150)+'ms">'+x+'</li>'}).join("")+'</ul></div></li>'}).join("")+'</ol>';
+  var phone=el.querySelector(".gj-phone"),steps=[].slice.call(el.querySelectorAll(".gj-step")),dots=[].slice.call(el.querySelectorAll(".gj-dots button")),
+      fol=el.querySelector(".gj-fol"),posts=el.querySelector(".gj-posts"),cur=-1,val={f:1482,p:3},raf=0;
+  function fmt(n){return Math.round(n).toLocaleString("en-US")}
+  function count(tf,tp){
+    cancelAnimationFrame(raf);var f0=val.f,p0=val.p,t0=performance.now(),D=reduced?1:1600;
+    (function step(t){var k=Math.min(1,(t-t0)/D),e=1-Math.pow(1-k,3);val.f=f0+(tf-f0)*e;val.p=p0+(tp-p0)*e;fol.textContent=fmt(val.f);posts.textContent=fmt(val.p);if(k<1)raf=requestAnimationFrame(step)})(t0);
   }
-  function go(i){
-    i=(i+n)%n;cur=i;el.style.setProperty("--p",n>1?i/(n-1):1);
-    stages.forEach(function(s,k){s.classList.toggle("on",k===i);s.classList.toggle("done",k<=i)});
+  function set(i){
+    if(i===cur)return;cur=i;phone.setAttribute("data-s",i);
+    steps.forEach(function(s,k){s.classList.toggle("on",k===i);s.classList.toggle("done",k<i)});
+    dots.forEach(function(d,k){d.classList.toggle("on",k===i);d.classList.toggle("done",k<i);d.setAttribute("aria-selected",k===i)});
+    count(i>=4?22482:1482,i>=3?12:3);
   }
-  function tick(){clearTimeout(timer);if(reduced||hold||!live)return;timer=setTimeout(function(){go(cur+1);tick()},cur===n-1?4200:2800)}
-  layout();addEventListener("resize",layout);if(document.fonts)document.fonts.ready.then(layout);
-  stages.forEach(function(s,i){
-    s.addEventListener("mouseenter",function(){go(i)});
-    s.addEventListener("focus",function(){go(i)});
-    s.addEventListener("click",function(){go(i);hold=true;clearTimeout(timer)});
-  });
-  el.addEventListener("mouseenter",function(){hold=true;clearTimeout(timer)});
-  el.addEventListener("mouseleave",function(){hold=false;tick()});
-  if(reduced){go(n-1);stages.forEach(function(s){s.classList.add("done")});return}
-  go(0);
-  // cycle the photo inside each card
-  [].forEach.call(el.querySelectorAll(".fl-media"),function(box,i){
-    var imgs=box.querySelectorAll("img"),k=0;
-    setTimeout(function(){setInterval(function(){imgs[k].classList.remove("on");k=(k+1)%imgs.length;imgs[k].classList.add("on")},3400)},i*700);
-  });
-  if("IntersectionObserver" in window)new IntersectionObserver(function(es){es.forEach(function(e){live=e.isIntersecting;if(live)tick();else clearTimeout(timer)})},{threshold:.35}).observe(el);
-  else{live=true;tick()}
-  if(window.gsap&&window.ScrollTrigger)gsap.fromTo(stages,{opacity:0,y:30},{opacity:1,y:0,duration:.7,stagger:.1,ease:"power3.out",scrollTrigger:{trigger:el,start:"top 85%"}});
+  dots.forEach(function(d,i){d.addEventListener("click",function(){var r=steps[i].getBoundingClientRect(),off=mob.matches?innerHeight*.72:innerHeight*.5-r.height/2;scrollTo({top:scrollY+r.top-off,behavior:reduced?"auto":"smooth"})})});
+  function navH(){var n=document.querySelector(".nav");el.style.setProperty("--gj-top",(n?n.offsetHeight:64)+"px")}navH();addEventListener("resize",navH);
+  set(0);
+  function line(){return mob.matches?"72%":"55%"}
+  if(window.gsap&&window.ScrollTrigger){
+    steps.forEach(function(s,i){ScrollTrigger.create({trigger:s,start:function(){return"top "+line()},end:function(){return"bottom "+line()},invalidateOnRefresh:true,onToggle:function(st){if(st.isActive)set(i)}})});
+    if(!reduced)gsap.fromTo(phone,{y:60,opacity:0,rotate:-4},{y:0,opacity:1,rotate:0,duration:1.1,ease:"power3.out",scrollTrigger:{trigger:el,start:"top 80%"}});
+  }else if("IntersectionObserver" in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)set(steps.indexOf(e.target))})},{rootMargin:"-45% 0px -45% 0px"});steps.forEach(function(s){io.observe(s)});
+  }
 })();
